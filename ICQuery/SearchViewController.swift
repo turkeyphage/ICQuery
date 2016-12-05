@@ -12,14 +12,21 @@ class SearchViewController: UIViewController{
 
     @IBOutlet weak var textField: UITextField!
     
-    var activeField: UITextField?
-    
-    var kbHeight: CGFloat!
+    @IBOutlet weak var loginButton: UIButton!
+
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+ 
+        // 按空白處可以縮鍵盤
+        let gestureRecognizer = UITapGestureRecognizer(target: self,action:#selector(keyboardClose))
+        gestureRecognizer.cancelsTouchesInView = false
+        gestureRecognizer.delegate = self
+        view.addGestureRecognizer(gestureRecognizer)
         
-        //textField.becomeFirstResponder()
+        textField.becomeFirstResponder()
+        
         
     }
 
@@ -48,58 +55,37 @@ class SearchViewController: UIViewController{
     }
     
     
-//    func registerForKeyboardNotifications()
-//    {
-//        
-//        //Adding notifies on keyboard appearing
-//        NotificationCenter.default.addObserver(self, selector: Selector("keyboardWillShow:"), name: .UIKeyboardWillShow, object: nil)
-//        
-//        
-//        NotificationCenter.default.addObserver(self, selector: Selector("keyboardWillBeHidden:"), name: .UIKeyboardWillHide, object: nil)
-//
-//    }
-    
 
-    
-//    func keyboardWillShow(notification:NSNotification){
-//        if let userInfo = notification.userInfo {
-//            
-//            
-//            if let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue?.cgrect.valu
-//            
-//            //if let keyboardSize =  (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-//              //  kbHeight = keyboardSize.height
-//                //self.animateTextField(true)
-//            //}
-//        }
-//    
-//    }
-//    
-    
-    
-    
-    
-    
-//    
-//    func deregisterFromKeyboardNotifications()
-//    {
-//        
-//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//        
-//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-//      
-//    }
-//    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
     }
     
     
-//    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-//
-//        
-//    }
+    
+    
+    // login 按下去，會有放大縮小的效果
+    @IBAction func loginButtonPressed(_ sender: Any) {
+    
+        UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+            
+            self.loginButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: { finished in
+            
+            UIView.animate(withDuration: 0.1, animations: {
+                self.loginButton.transform = CGAffineTransform.identity
+                print("login")
+            })
+        })
+
+    }
+
+    
+    func keyboardClose(){
+        self.textField.resignFirstResponder()
+    }
+
+    
     
 }
 
@@ -116,6 +102,17 @@ extension SearchViewController:UITextFieldDelegate{
 
 }
 
+extension SearchViewController:UIGestureRecognizerDelegate{
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldReceive touch: UITouch) -> Bool {
+        return (touch.view === self.view)
+    }
+
+}
+
+
+
 
 extension UITextField {
     
@@ -131,3 +128,7 @@ extension UITextField {
         self.layer.masksToBounds = true
     }
 }
+
+
+
+
