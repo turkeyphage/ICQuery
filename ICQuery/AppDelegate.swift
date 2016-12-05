@@ -4,7 +4,7 @@
 //
 //  Created by Roger on 2016/12/5.
 //  Copyright © 2016年 ICQuery. All rights reserved.
-//
+//  Git remote on git@github.com:turkeyphage/ICQuery.git
 
 import UIKit
 import CoreData
