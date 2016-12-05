@@ -6,13 +6,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Search View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ICQuery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="ICQuery" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -20,11 +21,59 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Power By ICQuery" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VI2-KZ-Tuk">
+                                <rect key="frame" x="109" y="545" width="102" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_152_152" translatesAutoresizingMaskIntoConstraints="NO" id="MUa-W1-uiW">
+                                <rect key="frame" x="84" y="77" width="152" height="152"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bC2-ew-sMz">
+                                <rect key="frame" x="264" y="244" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="Xvo-98-CYG"/>
+                                    <constraint firstAttribute="height" constant="40" id="smC-qC-0Ux"/>
+                                </constraints>
+                                <state key="normal" image="landing_search_01"/>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入查詢型號" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4nU-rg-wmq">
+                                <rect key="frame" x="16" y="254" width="248" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="2Hg-8X-8ES"/>
+                                </connections>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="MUa-W1-uiW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7ac-tr-qX8"/>
+                            <constraint firstItem="4nU-rg-wmq" firstAttribute="top" secondItem="MUa-W1-uiW" secondAttribute="bottom" constant="25" id="9GF-Tm-ASj"/>
+                            <constraint firstItem="4nU-rg-wmq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="D1D-kj-PuI"/>
+                            <constraint firstItem="4nU-rg-wmq" firstAttribute="bottom" secondItem="bC2-ew-sMz" secondAttribute="bottom" id="Fjb-Kq-wAd"/>
+                            <constraint firstItem="bC2-ew-sMz" firstAttribute="top" secondItem="MUa-W1-uiW" secondAttribute="bottom" constant="15" id="JTP-zm-YQ8"/>
+                            <constraint firstItem="bC2-ew-sMz" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="NLi-VD-afn"/>
+                            <constraint firstItem="bC2-ew-sMz" firstAttribute="leading" secondItem="4nU-rg-wmq" secondAttribute="trailing" id="d19-7u-bVF"/>
+                            <constraint firstItem="MUa-W1-uiW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="57" id="dwO-N6-zdT"/>
+                            <constraint firstItem="VI2-KZ-Tuk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kyN-R1-rwx"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="VI2-KZ-Tuk" secondAttribute="bottom" constant="8" id="vIe-Ym-KgM"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="textField" destination="4nU-rg-wmq" id="u1o-Rf-5tB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="33.75" y="35.91549295774648"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="landing_search_01" width="130" height="130"/>
+        <image name="logo_152_152" width="152" height="152"/>
+    </resources>
 </document>
