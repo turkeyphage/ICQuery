@@ -99,12 +99,9 @@
 		DBF896731DF4FC2C00366418 /* ICQuery */ = {
 			isa = PBXGroup;
 			children = (
-				DBF896741DF4FC2C00366418 /* AppDelegate.swift */,
-				DBF896761DF4FC2C00366418 /* ViewController.swift */,
-				DBF896781DF4FC2C00366418 /* Main.storyboard */,
-				DBF8967E1DF4FC2C00366418 /* Assets.xcassets */,
-				DBF896801DF4FC2C00366418 /* LaunchScreen.storyboard */,
-				DBF896831DF4FC2C00366418 /* Info.plist */,
+				DBF896A51DF4FCE900366418 /* Supporting Files */,
+				DBF896A61DF4FCFB00366418 /* Controllers */,
+				DBF896A71DF4FD0600366418 /* Views */,
 				DBF8967B1DF4FC2C00366418 /* ICQuery.xcdatamodeld */,
 			);
 			path = ICQuery;
@@ -126,6 +123,33 @@
 				DBF896991DF4FC2C00366418 /* Info.plist */,
 			);
 			path = ICQueryUITests;
+			sourceTree = "<group>";
+		};
+		DBF896A51DF4FCE900366418 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DBF8967E1DF4FC2C00366418 /* Assets.xcassets */,
+				DBF896831DF4FC2C00366418 /* Info.plist */,
+				DBF896741DF4FC2C00366418 /* AppDelegate.swift */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DBF896A61DF4FCFB00366418 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DBF896761DF4FC2C00366418 /* ViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		DBF896A71DF4FD0600366418 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DBF896781DF4FC2C00366418 /* Main.storyboard */,
+				DBF896801DF4FC2C00366418 /* LaunchScreen.storyboard */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
