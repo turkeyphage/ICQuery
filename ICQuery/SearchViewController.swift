@@ -19,13 +19,13 @@ class SearchViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textField.becomeFirstResponder()
+        //textField.becomeFirstResponder()
         
     }
 
     
     override func viewWillAppear(_ animated: Bool) {
-        textField.useUnderline()
+        
     }
     
     
@@ -36,6 +36,10 @@ class SearchViewController: UIViewController{
         
     }
     
+    
+    override func viewDidLayoutSubviews() {
+        textField.useUnderline()
+    }
     
     
     
@@ -87,11 +91,15 @@ class SearchViewController: UIViewController{
 //    }
 //    
     
-    
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-
-        self.textField.useUnderline()
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
     }
+    
+    
+//    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+//
+//        
+//    }
     
 }
 
