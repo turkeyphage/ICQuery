@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_0" orientation="portrait">
+    <device id="ipad12_9" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,20 +19,17 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Power By ICQuery" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VI2-KZ-Tuk">
-                                <rect key="frame" x="109" y="545" width="102" height="15"/>
+                                <rect key="frame" x="632" y="1001" width="102" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_152_152" translatesAutoresizingMaskIntoConstraints="NO" id="MUa-W1-uiW">
-                                <rect key="frame" x="84" y="77" width="152" height="152"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bC2-ew-sMz">
-                                <rect key="frame" x="264" y="244" width="40" height="40"/>
+                                <rect key="frame" x="1306" y="244" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="Xvo-98-CYG"/>
                                     <constraint firstAttribute="height" constant="40" id="smC-qC-0Ux"/>
@@ -40,7 +37,7 @@
                                 <state key="normal" image="landing_search_01"/>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入查詢型號" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4nU-rg-wmq">
-                                <rect key="frame" x="16" y="254" width="248" height="30"/>
+                                <rect key="frame" x="20" y="254" width="1286" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -49,18 +46,43 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登入狀態" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fG7-7x-Tf8">
-                                <rect key="frame" x="254" y="35" width="50" height="15"/>
+                                <rect key="frame" x="1296" y="35" width="50" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SmM-OT-2Eq">
-                                <rect key="frame" x="202" y="20" width="44" height="44"/>
+                                <rect key="frame" x="1244" y="20" width="44" height="44"/>
                                 <state key="normal" image="login_44"/>
                                 <connections>
                                     <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ybq-lG-GVJ"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_152_152" translatesAutoresizingMaskIntoConstraints="NO" id="MUa-W1-uiW">
+                                <rect key="frame" x="607" y="77" width="152" height="152"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="Gux-P2-qIw"/>
+                                    <constraint firstAttribute="width" constant="90" id="M8w-AZ-0Oq"/>
+                                    <constraint firstAttribute="height" constant="80" id="mFc-jI-Nlf"/>
+                                    <constraint firstAttribute="height" constant="90" id="rfR-at-z32"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Gux-P2-qIw"/>
+                                        <exclude reference="M8w-AZ-0Oq"/>
+                                        <exclude reference="mFc-jI-Nlf"/>
+                                        <exclude reference="rfR-at-z32"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Gux-P2-qIw"/>
+                                        <include reference="M8w-AZ-0Oq"/>
+                                        <exclude reference="mFc-jI-Nlf"/>
+                                        <include reference="rfR-at-z32"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -73,12 +95,40 @@
                             <constraint firstItem="bC2-ew-sMz" firstAttribute="top" secondItem="MUa-W1-uiW" secondAttribute="bottom" constant="15" id="JTP-zm-YQ8"/>
                             <constraint firstItem="bC2-ew-sMz" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="NLi-VD-afn"/>
                             <constraint firstItem="fG7-7x-Tf8" firstAttribute="centerY" secondItem="SmM-OT-2Eq" secondAttribute="centerY" id="P9v-qV-Naf"/>
+                            <constraint firstItem="4nU-rg-wmq" firstAttribute="top" secondItem="MUa-W1-uiW" secondAttribute="bottom" id="Qzt-Hd-r7P"/>
+                            <constraint firstItem="4nU-rg-wmq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="RPR-7k-YRU"/>
                             <constraint firstItem="bC2-ew-sMz" firstAttribute="leading" secondItem="4nU-rg-wmq" secondAttribute="trailing" id="d19-7u-bVF"/>
                             <constraint firstItem="MUa-W1-uiW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="57" id="dwO-N6-zdT"/>
                             <constraint firstItem="VI2-KZ-Tuk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kyN-R1-rwx"/>
+                            <constraint firstItem="MUa-W1-uiW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="5" id="sDO-TQ-wO2"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="VI2-KZ-Tuk" secondAttribute="bottom" constant="8" id="vIe-Ym-KgM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bC2-ew-sMz" secondAttribute="trailing" constant="85" id="vYj-m5-5Nz"/>
+                            <constraint firstItem="bC2-ew-sMz" firstAttribute="top" secondItem="MUa-W1-uiW" secondAttribute="bottom" constant="-10" id="wea-Qs-cBJ"/>
                             <constraint firstItem="fG7-7x-Tf8" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="xG8-q1-Vhm"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="sDO-TQ-wO2"/>
+                                <exclude reference="Qzt-Hd-r7P"/>
+                                <exclude reference="RPR-7k-YRU"/>
+                                <exclude reference="vYj-m5-5Nz"/>
+                                <exclude reference="wea-Qs-cBJ"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact">
+                            <mask key="constraints">
+                                <exclude reference="dwO-N6-zdT"/>
+                                <include reference="sDO-TQ-wO2"/>
+                                <exclude reference="9GF-Tm-ASj"/>
+                                <exclude reference="D1D-kj-PuI"/>
+                                <include reference="Qzt-Hd-r7P"/>
+                                <include reference="RPR-7k-YRU"/>
+                                <exclude reference="JTP-zm-YQ8"/>
+                                <exclude reference="NLi-VD-afn"/>
+                                <include reference="vYj-m5-5Nz"/>
+                                <include reference="wea-Qs-cBJ"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="loginButton" destination="SmM-OT-2Eq" id="drL-G3-58S"/>
@@ -87,7 +137,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="35.625" y="39.08450704225352"/>
+            <point key="canvasLocation" x="34.859154929577464" y="37.5"/>
         </scene>
     </scenes>
     <resources>
