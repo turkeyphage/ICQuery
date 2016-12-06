@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
+		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
 		DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF896741DF4FC2C00366418 /* AppDelegate.swift */; };
 		DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF896781DF4FC2C00366418 /* Main.storyboard */; };
 		DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBF8967B1DF4FC2C00366418 /* ICQuery.xcdatamodeld */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		DBF896711DF4FC2C00366418 /* ICQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF896741DF4FC2C00366418 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBF896791DF4FC2C00366418 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -138,6 +142,8 @@
 		DBF896A61DF4FCFB00366418 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DB89BBD01DF66310002EDDDB /* LoginViewController.swift */,
+				DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */,
 				DBF896A81DF52C5900366418 /* SearchViewController.swift */,
 			);
 			name = Controllers;
@@ -289,6 +295,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */,
+				DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */,
 				DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */,
 				DBF896A91DF52C5900366418 /* SearchViewController.swift in Sources */,
 				DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */,

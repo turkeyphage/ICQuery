@@ -74,10 +74,17 @@ class SearchViewController: UIViewController{
             
             UIView.animate(withDuration: 0.1, animations: {
                 self.loginButton.transform = CGAffineTransform.identity
-                print("login")
+                //print("login")
+                
+                //self.performSegue(withIdentifier: Segue_Identifiers.login_segue, sender: nil)
+                
             })
         })
 
+        
+        
+        
+        
     }
 
     
@@ -86,6 +93,14 @@ class SearchViewController: UIViewController{
     }
 
     
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        print("\(segue.identifier)")
+        
+        
+    }
     
 }
 
@@ -131,4 +146,10 @@ extension UITextField {
 
 
 
+
+struct Segue_Identifiers{
+    static let login_segue = "login_segue"
+    
+
+}
 
