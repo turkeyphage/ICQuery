@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 
 class LoginViewController: UIViewController {
-
+    
     
     
     @IBOutlet weak var login_popview: UIView!
@@ -22,6 +22,8 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var password_textField: UITextField!
     
+    @IBOutlet weak var original_top_constraint: NSLayoutConstraint!
+    var original_constraint_constant : CGFloat = 35.0
     
     
     override func viewDidLoad() {
@@ -39,13 +41,26 @@ class LoginViewController: UIViewController {
         
         //member_label.layer.masksToBounds = true
         //member_label.layer.cornerRadius = 10
+        
+        
+        
+        
     }
-
     
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        
-//    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
     
     
     override func didReceiveMemoryWarning() {
@@ -53,7 +68,7 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         modalPresentationStyle = .custom
@@ -61,7 +76,44 @@ class LoginViewController: UIViewController {
     }
     
     
+    
+    // *********** don't let keyboard cover textfield ***********
+    
+    func keyboardWillShow(_ notification: Notification) {
+        for whichview in self.login_popview.subviews{
+            if whichview.isFirstResponder{
+                print("whichviewTag = \(whichview.tag)")
+                if let userInfo = notification.userInfo {
+                    if let keyboardSize =  (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                        
+                        print("whichview frame origin y: \(whichview.frame.origin.y)")
+                        print("keyboard frame origin y: \(keyboardSize.origin.y)")
+                        let dist = whichview.frame.origin.y - keyboardSize.origin.y
 
+                        if dist > 0 {
+                                let newConstant = original_constraint_constant - dist - 70
+                                original_top_constraint.constant = newConstant
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func keyboardWillHide(_ notification: Notification){
+        original_top_constraint.constant = original_constraint_constant
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
@@ -77,7 +129,7 @@ extension LoginViewController: UIViewControllerTransitioningDelegate{
 
 
 extension LoginViewController: UITextFieldDelegate{
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
