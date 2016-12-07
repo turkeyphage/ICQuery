@@ -45,6 +45,7 @@ class SearchViewController: UIViewController{
     
     
     override func viewDidLayoutSubviews() {
+        view.layoutIfNeeded()
         textField.useUnderline()
     }
     
@@ -137,6 +138,11 @@ extension UITextField {
         let borderWidth = CGFloat(1.0)
         border.borderColor = UIColor.gray.cgColor
 
+//        let screenRect = UIScreen.main.bounds
+//        let screenWidth = screenRect.size.width
+//        let screenHeight = screenRect.size.height
+        
+        
         border.frame = CGRect(x: 0, y: (self.frame.size.height - borderWidth), width: self.frame.size.width, height: self.frame.size.height)
         border.borderWidth = borderWidth
         self.layer.addSublayer(border)

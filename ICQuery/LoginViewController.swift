@@ -104,16 +104,7 @@ class LoginViewController: UIViewController {
         original_top_constraint.constant = original_constraint_constant
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
 }
 
 
