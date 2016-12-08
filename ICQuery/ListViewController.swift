@@ -20,11 +20,12 @@ class ListViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
+
+
         let placeholderStr = NSAttributedString(string: "請輸入查詢資料", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
         searchTextField.attributedPlaceholder = placeholderStr
-        listTableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        //listTableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
 
         // 上面的背景顏色
         title_background_view.backgroundColor = UIColor(patternImage: UIImage(named: "background_pattern")!)
@@ -36,6 +37,18 @@ class ListViewController: UIViewController{
 //        statusBarView.backgroundColor = UIColor(patternImage: UIImage(named: "background_pattern")!)
 //
 //        self.view.addSubview(statusBarView)
+        
+        
+        
+        let cellNib = UINib(nibName: CellID.list_cell, bundle: nil)
+        
+        listTableView.register(cellNib, forCellReuseIdentifier: CellID.list_cell)
+        
+        listTableView.estimatedRowHeight = 106
+        listTableView.rowHeight = UITableViewAutomaticDimension
+        
+        
+        
     }
 
     
@@ -60,10 +73,41 @@ class ListViewController: UIViewController{
         view.layoutIfNeeded()
         searchTextField.useUnderline()
     }
-    
-    
-//    override var preferredStatusBarStyle: UIStatusBarStyle {
-//        return .lightContent
-//    }
- 
+
 }
+
+
+
+extension ListViewController:UITableViewDataSource{
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+            return 1
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell =  tableView.dequeueReusableCell(withIdentifier: CellID.list_cell, for: indexPath) as! ListTableViewCell
+        
+        cell.itemImageView.image = UIImage(named: "logo_120_120")
+        
+        cell.companyNameLabel.text = "Texas Instruments"
+        cell.modelNameLabel.text = "LM555"
+        cell.typeLabel.text = "oscillation && timer"
+        cell.detailLabel.text = "Output Can Source or Sink 200 mA, Temperature Stability Better than 0.005% per °C"
+        return cell
+        
+    }
+    
+}
+
+extension ListViewController:UITableViewDelegate{
+
+
+}
+

@@ -155,7 +155,11 @@ extension UITextField {
 
 struct Segue_Identifiers{
     static let login_segue = "login_segue"
-    
-
 }
 
+
+
+struct CellID{
+    static let list_cell = "ListCell"
+
+}

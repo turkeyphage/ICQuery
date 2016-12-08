@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5DAE0E1DF8FA4500650807 /* ListCell.xib */; };
+		DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */; };
 		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
 		DB89BBD51DF6A400002EDDDB /* ForgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD41DF6A400002EDDDB /* ForgetPasswordViewController.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB5DAE0E1DF8FA4500650807 /* ListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
+		DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		DB89BBD41DF6A400002EDDDB /* ForgetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -161,7 +165,9 @@
 		DBF896A71DF4FD0600366418 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */,
 				DBF896781DF4FC2C00366418 /* Main.storyboard */,
+				DB5DAE0E1DF8FA4500650807 /* ListCell.xib */,
 				DBF896801DF4FC2C00366418 /* LaunchScreen.storyboard */,
 			);
 			name = Views;
@@ -278,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBF896821DF4FC2C00366418 /* LaunchScreen.storyboard in Resources */,
+				DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */,
 				DBF8967F1DF4FC2C00366418 /* Assets.xcassets in Resources */,
 				DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */,
 			);
@@ -309,6 +316,7 @@
 				DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */,
 				DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */,
 				DBF896A91DF52C5900366418 /* SearchViewController.swift in Sources */,
+				DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */,
 				DB89BBD51DF6A400002EDDDB /* ForgetPasswordViewController.swift in Sources */,
 				DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */,
 				DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */,

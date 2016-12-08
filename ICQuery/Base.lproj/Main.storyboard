@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="otV-xM-jzn">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -284,28 +284,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rzt-Hz-SKf">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ho5-pq-cbc">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="otV-xM-jzn" id="DYF-o9-gil"/>
+                                    <outlet property="delegate" destination="otV-xM-jzn" id="uHi-9o-QoY"/>
+                                </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lcD-zx-YC0">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvD-5N-qEI">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvD-5N-qEI" userLabel="首頁按鈕">
                                         <rect key="frame" x="0.0" y="20" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="44" id="4FN-w5-aoA"/>
                                             <constraint firstAttribute="height" constant="44" id="oGX-pQ-kzE"/>
                                         </constraints>
-                                        <state key="normal" title="按鈕" image="logo_120_120"/>
+                                        <state key="normal" image="logo_120_120"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u98-OD-nas">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u98-OD-nas" userLabel="搜尋按鈕">
                                         <rect key="frame" x="331" y="20" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="FG0-y7-32Y"/>
                                             <constraint firstAttribute="width" constant="44" id="Z8o-G2-b7s"/>
                                         </constraints>
-                                        <state key="normal" title="按鈕" image="landing_search_01"/>
+                                        <state key="normal" image="landing_search_01"/>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入查詢型號" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fnh-mZ-2rM">
                                         <rect key="frame" x="52" y="28" width="271" height="28"/>
@@ -335,16 +339,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="lcD-zx-YC0" secondAttribute="trailing" id="8jH-hQ-WHZ"/>
-                            <constraint firstAttribute="trailing" secondItem="rzt-Hz-SKf" secondAttribute="trailing" id="DBf-NE-zdb"/>
-                            <constraint firstItem="GNw-xR-DaT" firstAttribute="top" secondItem="rzt-Hz-SKf" secondAttribute="bottom" id="Oaa-ez-N2V"/>
-                            <constraint firstItem="rzt-Hz-SKf" firstAttribute="leading" secondItem="RP4-D4-tgo" secondAttribute="leading" id="Sn6-7A-LpY"/>
+                            <constraint firstItem="ho5-pq-cbc" firstAttribute="top" secondItem="lcD-zx-YC0" secondAttribute="bottom" id="PlP-vt-5Cu"/>
                             <constraint firstItem="lcD-zx-YC0" firstAttribute="leading" secondItem="RP4-D4-tgo" secondAttribute="leading" id="gkq-gx-zw9"/>
                             <constraint firstItem="lcD-zx-YC0" firstAttribute="top" secondItem="fIq-V0-nTI" secondAttribute="bottom" constant="-20" id="gth-Z2-n8W"/>
-                            <constraint firstItem="rzt-Hz-SKf" firstAttribute="top" secondItem="RP4-D4-tgo" secondAttribute="top" id="k8J-p6-Zh4"/>
+                            <constraint firstItem="ho5-pq-cbc" firstAttribute="leading" secondItem="RP4-D4-tgo" secondAttribute="leading" id="sC1-lC-3Tl"/>
+                            <constraint firstAttribute="trailing" secondItem="ho5-pq-cbc" secondAttribute="trailing" id="tOS-vQ-o0N"/>
+                            <constraint firstItem="GNw-xR-DaT" firstAttribute="top" secondItem="ho5-pq-cbc" secondAttribute="bottom" id="zbb-EF-U2i"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="listTableView" destination="rzt-Hz-SKf" id="ukt-f4-VbF"/>
+                        <outlet property="listTableView" destination="ho5-pq-cbc" id="Dvg-Ii-v6F"/>
                         <outlet property="searchTextField" destination="fnh-mZ-2rM" id="slI-Ns-UQM"/>
                         <outlet property="title_background_view" destination="lcD-zx-YC0" id="73r-nc-Vzl"/>
                     </connections>
