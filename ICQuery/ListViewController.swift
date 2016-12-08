@@ -28,7 +28,10 @@ class ListViewController: UIViewController{
         //listTableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
 
         // 上面的背景顏色
-        title_background_view.backgroundColor = UIColor(patternImage: UIImage(named: "background_pattern")!)
+        //title_background_view.backgroundColor = UIColor(patternImage: UIImage(named: "background_pattern")!)
+        
+        
+        
         
         //status bar 背景顏色
 //        let app = UIApplication.shared

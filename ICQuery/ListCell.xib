@@ -67,7 +67,6 @@
                     <constraint firstAttribute="trailingMargin" secondItem="M6B-SH-Bcj" secondAttribute="trailing" id="Yv1-qb-OHu"/>
                     <constraint firstItem="M6B-SH-Bcj" firstAttribute="top" secondItem="9zw-tF-dL2" secondAttribute="bottom" constant="5" id="a3H-8g-czd"/>
                     <constraint firstAttribute="bottomMargin" secondItem="M6B-SH-Bcj" secondAttribute="bottom" constant="4" id="pXg-Vj-WLD"/>
-                    <constraint firstItem="yNq-vd-i4N" firstAttribute="top" secondItem="eRZ-3B-NR8" secondAttribute="topMargin" id="v70-v9-Xd1"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
