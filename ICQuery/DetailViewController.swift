@@ -21,6 +21,8 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var product_imageview: UIImageView!
     
+
+
     
     
     override func viewDidLoad() {
@@ -48,6 +50,35 @@ class DetailViewController: UIViewController {
         model_label.text =  "LM555"
         detail_label.text = "Output Can Source or Sink 200 mA, Temperature Stability Better than 0.005% per °C"
 
+        
+        //segmentControl.tintColor = UIColor.white
+       
+        
+        //add custom segment control item
+        let mySegmentedControl = UnderlinedSegmentedControl()
+        view.addSubview(mySegmentedControl)
+        
+        
+        
+        let horizonalContraints = NSLayoutConstraint(item: mySegmentedControl, attribute:
+            .leadingMargin, relatedBy: .equal, toItem: view,
+                            attribute: .leadingMargin, multiplier: 1.0,
+                            constant: 0)
+        
+        let verticalContraints = NSLayoutConstraint(item: mySegmentedControl, attribute:.trailingMargin, relatedBy: .equal, toItem: view,
+                             attribute: .trailingMargin, multiplier: 1.0, constant: 0)
+        
+        
+        let pinTop = NSLayoutConstraint(item: mySegmentedControl, attribute: .top, relatedBy: .equal, toItem: datasheetButton, attribute: .bottom, multiplier: 1.0, constant: 10)
+        
+        
+        mySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        //slider.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        NSLayoutConstraint.activate([horizonalContraints, verticalContraints,pinTop])
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

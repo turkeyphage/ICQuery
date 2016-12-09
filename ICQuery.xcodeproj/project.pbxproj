@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */; };
 		DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FB5C1DF94D670046E44D /* DetailViewController.swift */; };
 		DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5DAE0E1DF8FA4500650807 /* ListCell.xib */; };
 		DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnderlinedSegmentedControl.swift; sourceTree = "<group>"; };
 		DB18FB5C1DF94D670046E44D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DB5DAE0E1DF8FA4500650807 /* ListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
 		DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 		DBF896A71DF4FD0600366418 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */,
 				DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */,
 				DBF896781DF4FC2C00366418 /* Main.storyboard */,
 				DB5DAE0E1DF8FA4500650807 /* ListCell.xib */,
@@ -321,6 +324,7 @@
 				DBF896A91DF52C5900366418 /* SearchViewController.swift in Sources */,
 				DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */,
 				DB89BBD51DF6A400002EDDDB /* ForgetPasswordViewController.swift in Sources */,
+				DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */,
 				DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */,
 				DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */,
 				DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */,

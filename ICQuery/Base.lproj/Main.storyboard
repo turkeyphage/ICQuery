@@ -464,7 +464,7 @@
                     </view>
                     <connections>
                         <outlet property="company_label" destination="foZ-Az-TIu" id="Kqd-5W-kHi"/>
-                        <outlet property="datasheetButton" destination="lWs-6z-bpe" id="UG0-do-MMW"/>
+                        <outlet property="datasheetButton" destination="lWs-6z-bpe" id="y0G-PC-b9l"/>
                         <outlet property="detail_label" destination="hYU-XM-lu0" id="Z5n-F4-Ov3"/>
                         <outlet property="model_label" destination="1Wd-eG-rw3" id="6Dy-w2-eWq"/>
                         <outlet property="product_imageview" destination="Xxh-aK-hMW" id="MFj-3I-2zW"/>
