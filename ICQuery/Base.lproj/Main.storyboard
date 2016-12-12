@@ -440,14 +440,54 @@
                                 <color key="textColor" red="0.00069203922420000002" green="0.1068202796" blue="0.67100469559999998" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FKf-vK-U5m" userLabel="background4Segment">
+                                <rect key="frame" x="0.0" y="218" width="375" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="yBl-5R-5eY"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3D-4G-5u8" userLabel="scrollView">
+                                <rect key="frame" x="0.0" y="266" width="375" height="401"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="B80-wU-Jn1" userLabel="firstTableView">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="401"/>
+                                        <color key="backgroundColor" red="0.22999486159999999" green="0.54671285810000003" blue="0.86010362689999997" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </tableView>
+                                    <tableView clipsSubviews="YES" tag="2" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MPL-H9-IMF" userLabel="secondTableView">
+                                        <rect key="frame" x="375" y="0.0" width="375" height="401"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="B80-wU-Jn1" secondAttribute="trailing" id="8nO-rG-RqQ"/>
+                                    <constraint firstItem="B80-wU-Jn1" firstAttribute="leading" secondItem="b3D-4G-5u8" secondAttribute="leading" id="RPE-cC-4Rt"/>
+                                    <constraint firstAttribute="bottom" secondItem="B80-wU-Jn1" secondAttribute="bottom" id="WV8-2J-lpr"/>
+                                    <constraint firstItem="B80-wU-Jn1" firstAttribute="height" secondItem="b3D-4G-5u8" secondAttribute="height" id="bhN-pU-zC6"/>
+                                    <constraint firstItem="MPL-H9-IMF" firstAttribute="width" secondItem="B80-wU-Jn1" secondAttribute="width" id="bmL-nh-39T"/>
+                                    <constraint firstItem="B80-wU-Jn1" firstAttribute="top" secondItem="b3D-4G-5u8" secondAttribute="top" id="fOk-Gg-cwe"/>
+                                    <constraint firstAttribute="bottom" secondItem="MPL-H9-IMF" secondAttribute="bottom" id="gsT-eA-qfn"/>
+                                    <constraint firstItem="MPL-H9-IMF" firstAttribute="top" secondItem="b3D-4G-5u8" secondAttribute="top" id="hQB-pT-wIv"/>
+                                    <constraint firstItem="B80-wU-Jn1" firstAttribute="width" secondItem="b3D-4G-5u8" secondAttribute="width" id="lWh-Yy-XWP"/>
+                                    <constraint firstItem="MPL-H9-IMF" firstAttribute="leading" secondItem="B80-wU-Jn1" secondAttribute="trailing" id="suD-ni-hyF"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="b3D-4G-5u8" firstAttribute="top" secondItem="FKf-vK-U5m" secondAttribute="bottom" constant="8" id="1O7-sp-sNi"/>
+                            <constraint firstItem="kt9-Ym-i2Y" firstAttribute="top" secondItem="b3D-4G-5u8" secondAttribute="bottom" id="3ne-Yp-pfv"/>
                             <constraint firstItem="Xxh-aK-hMW" firstAttribute="leading" secondItem="7he-aP-uhK" secondAttribute="leading" constant="8" id="CSb-ax-cnd"/>
+                            <constraint firstItem="FKf-vK-U5m" firstAttribute="top" secondItem="lWs-6z-bpe" secondAttribute="bottom" constant="8" id="GLi-mS-aCR"/>
+                            <constraint firstAttribute="trailing" secondItem="FKf-vK-U5m" secondAttribute="trailing" id="Kla-yM-g5p"/>
                             <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="hYU-XM-lu0" secondAttribute="trailing" id="L8d-Hq-cBx"/>
+                            <constraint firstItem="FKf-vK-U5m" firstAttribute="leading" secondItem="7he-aP-uhK" secondAttribute="leading" id="LhX-JG-x5B"/>
+                            <constraint firstAttribute="trailing" secondItem="b3D-4G-5u8" secondAttribute="trailing" id="O4H-0Q-h9d"/>
                             <constraint firstItem="1Wd-eG-rw3" firstAttribute="top" secondItem="foZ-Az-TIu" secondAttribute="bottom" constant="8" id="Wid-pj-zhM"/>
                             <constraint firstItem="hYU-XM-lu0" firstAttribute="top" secondItem="1Wd-eG-rw3" secondAttribute="bottom" constant="8" id="YJA-Ot-W1g"/>
                             <constraint firstAttribute="trailing" secondItem="MHQ-EJ-G4Z" secondAttribute="trailing" id="aMD-Hx-JTG"/>
+                            <constraint firstItem="b3D-4G-5u8" firstAttribute="leading" secondItem="7he-aP-uhK" secondAttribute="leading" id="aRv-Gv-3sW"/>
                             <constraint firstItem="lWs-6z-bpe" firstAttribute="top" secondItem="Xxh-aK-hMW" secondAttribute="bottom" constant="8" id="akQ-Gv-rjF"/>
                             <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="foZ-Az-TIu" secondAttribute="trailing" id="crH-cX-UfJ"/>
                             <constraint firstItem="Xxh-aK-hMW" firstAttribute="top" secondItem="MHQ-EJ-G4Z" secondAttribute="bottom" constant="8" id="drW-1v-FZi"/>
@@ -463,12 +503,16 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backgroundView4Segment" destination="FKf-vK-U5m" id="cJp-sI-1X5"/>
                         <outlet property="company_label" destination="foZ-Az-TIu" id="Kqd-5W-kHi"/>
                         <outlet property="datasheetButton" destination="lWs-6z-bpe" id="y0G-PC-b9l"/>
                         <outlet property="detail_label" destination="hYU-XM-lu0" id="Z5n-F4-Ov3"/>
+                        <outlet property="firstTableView" destination="B80-wU-Jn1" id="idL-yy-ra5"/>
                         <outlet property="model_label" destination="1Wd-eG-rw3" id="6Dy-w2-eWq"/>
                         <outlet property="product_imageview" destination="Xxh-aK-hMW" id="MFj-3I-2zW"/>
                         <outlet property="searchTextField" destination="ZPd-JG-VU8" id="Oih-XJ-24r"/>
+                        <outlet property="secondTableView" destination="MPL-H9-IMF" id="Hep-RQ-qWE"/>
+                        <outlet property="theScrollView" destination="b3D-4G-5u8" id="7YA-e5-Csh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qfN-Wc-mgV" userLabel="First Responder" sceneMemberID="firstResponder"/>

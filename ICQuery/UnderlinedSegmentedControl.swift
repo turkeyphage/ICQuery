@@ -229,6 +229,10 @@ import UIKit
             sendActions(for: .valueChanged)
             
             
+            NotificationCenter.default.post(name: NSNotification.Name.init("SegmentWasSelected"), object: nil, userInfo: ["selected":calculatedIndex!])
+            
+            
+            
             print("selected \(calculatedIndex)")
             	//trigger any events hooked up to this segmented control
         }
@@ -240,7 +244,9 @@ import UIKit
 	func frameOfTextInLabel(label: UILabel) -> CGRect{
 		
 		let textSize = label.intrinsicContentSize
-		let xOffset = (label.frame.width - textSize.width) / 2
+        
+        // let xOffset = (label.frame.width - textSize.width) / 2
+		_ = (label.frame.width - textSize.width) / 2
 		//let	x = label.frame.minX + xOffset
 		//let	x = label.frame.minX + xOffset/2
         let x = label.frame.minX
