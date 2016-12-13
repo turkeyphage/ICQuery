@@ -11,33 +11,98 @@ import QuartzCore
 
 class LoginViewController: UIViewController {
     
+    // scrollView
+    
+    @IBOutlet weak var theScrollView: UIScrollView!
     
     
+    var offset: CGFloat = 0.0 {
+        // offset的值時，執行didSet
+        didSet {
+            UIView.animate(withDuration: 0.1, animations: { () -> Void in
+                self.theScrollView.contentOffset = CGPoint(x: self.offset, y: 0.0)
+            })
+        }
+    }
+    
+    
+    
+    //login Pop-up view
     @IBOutlet weak var login_popview: UIView!
-    
-    @IBOutlet weak var member_label: UILabel!
+    //@IBOutlet weak var member_label: UILabel!
     @IBOutlet weak var login_button: UIButton!
     
-    @IBOutlet weak var email_textField: UITextField!
+    @IBOutlet weak var login_email_textField: UITextField!
     
-    @IBOutlet weak var password_textField: UITextField!
+    @IBOutlet weak var login_password_textField: UITextField!
+    
+    
+    
+    //forget password Pop-up view
+    
+    @IBOutlet weak var forget_popview: UIView!
+    
+    @IBOutlet weak var forget_email_textField: UITextField!
+    
+    @IBOutlet weak var reset_password_button: UIButton!
+    
+    
+    //register Pop-up view
+    
+    @IBOutlet weak var register_popview: UIView!
+    @IBOutlet weak var register_email_textField: UITextField!
+    
+    @IBOutlet weak var register_password_textField: UITextField!
+    
+    @IBOutlet weak var register_reenter_password_textField: UITextField!
+    
+    
+    @IBOutlet weak var register_button: UIButton!
+    
+    
+    
+    
+    
+    
     
     @IBOutlet weak var original_top_constraint: NSLayoutConstraint!
+    
     var original_constraint_constant : CGFloat = 35.0
+    
+    
+    
+    
+    
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        login_popview.layer.cornerRadius = 10
+        //gesture
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
+        gestureRecognizer.cancelsTouchesInView = false
+        gestureRecognizer.delegate = self
+        view.addGestureRecognizer(gestureRecognizer)
+        
+        
+        //button 圓角
         login_button.layer.cornerRadius = 5
+        reset_password_button.layer.cornerRadius = 5
+        register_button.layer.cornerRadius = 5
+
+
         
-        let maskPath = UIBezierPath(roundedRect: member_label.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 9.0, height: 9.0))
         
-        let shape = CAShapeLayer()
-        shape.path = maskPath.cgPath
-        member_label.layer.mask = shape
+        
+        
+        //        login_popview.layer.cornerRadius = 10
+//        let maskPath = UIBezierPath(roundedRect: member_label.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 9.0, height: 9.0))
+//        
+//        let shape = CAShapeLayer()
+//        shape.path = maskPath.cgPath
+//        member_label.layer.mask = shape
         
         //member_label.layer.masksToBounds = true
         //member_label.layer.cornerRadius = 10
@@ -85,19 +150,67 @@ class LoginViewController: UIViewController {
                 print("whichviewTag = \(whichview.tag)")
                 if let userInfo = notification.userInfo {
                     if let keyboardSize =  (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                        
-                        print("whichview frame origin y: \(whichview.frame.origin.y)")
-                        print("keyboard frame origin y: \(keyboardSize.origin.y)")
-                        let dist = whichview.frame.origin.y - keyboardSize.origin.y
+
+                        let dist = (whichview.frame.origin.y + whichview.frame.size.height + original_constraint_constant) - keyboardSize.origin.y
 
                         if dist > 0 {
                                 let newConstant = original_constraint_constant - dist - 70
                                 original_top_constraint.constant = newConstant
+                                return
+                        } else {}
+                    }
+                }
+            }
+        }
+
+        for whichview in self.forget_popview.subviews{
+            if whichview.isFirstResponder{
+                print("whichviewTag = \(whichview.tag)")
+                if let userInfo = notification.userInfo {
+                    if let keyboardSize =  (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+
+                        
+                        print("whichview.frame.origin.y = \(whichview.frame.origin.y)")
+                        print("whichview.frame.size.height = \(whichview.frame.size.height)")
+                        print("keyboardSize.origin.y = \(keyboardSize.origin.y)")
+                        let dist = (whichview.frame.origin.y + whichview.frame.size.height+original_constraint_constant) - keyboardSize.origin.y
+                        
+                        
+                        
+                        
+                        
+                        if dist > 0 {
+                            let newConstant = original_constraint_constant - dist - 70
+                            original_top_constraint.constant = newConstant
+                            return
+                        } else {
                         }
                     }
                 }
             }
         }
+        
+        for whichview in self.register_popview.subviews{
+            if whichview.isFirstResponder{
+                print("whichviewTag = \(whichview.tag)")
+                if let userInfo = notification.userInfo {
+                    if let keyboardSize =  (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+
+                        let dist = (whichview.frame.origin.y + whichview.frame.size.height+original_constraint_constant) - keyboardSize.origin.y
+                        
+                        if dist > 0 {
+                            let newConstant = original_constraint_constant - dist - 70
+                            original_top_constraint.constant = newConstant
+                            return
+                        } else {
+                        }
+                    }
+                }
+            }
+        }
+        
+    
+    
     }
     
     func keyboardWillHide(_ notification: Notification){
@@ -105,10 +218,50 @@ class LoginViewController: UIViewController {
     }
     
  
+    // login pop-up view button_action methods
+    
+    
+    @IBAction func login(_ sender: Any) {
+        
+    }
+    
+    @IBAction func forget_password(_ sender: Any) {
+        
+            offset = -(self.theScrollView.frame.size.width)
+        
+    }
+    
+    @IBAction func sign_up_member(_ sender: Any) {
+    
+            offset = self.theScrollView.frame.size.width
+    
+    }
+    
+    
+    // forget password pop-up view button_action methods
+    
+    @IBAction func reset_password(_ sender: Any) {
+        
+        
+    }
+    
+    
+    // register pop-up view button_action methods
+    @IBAction func register_now(_ sender: Any) {
+        
+        
+    }
+    
+    
+    func close(){
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
 }
 
 
-
+// MARK:UIViewControllerTransitionDelegate Methods
 extension LoginViewController: UIViewControllerTransitioningDelegate{
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
@@ -118,6 +271,7 @@ extension LoginViewController: UIViewControllerTransitioningDelegate{
     
 }
 
+// MARK:UITextFieldDelegate Methods
 
 extension LoginViewController: UITextFieldDelegate{
     
@@ -126,3 +280,11 @@ extension LoginViewController: UITextFieldDelegate{
         return true
     }
 }
+
+extension LoginViewController: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return (touch.view === self.view)
+    }
+}
+

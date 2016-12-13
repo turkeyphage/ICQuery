@@ -13,7 +13,6 @@
 		DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */; };
 		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
-		DB89BBD51DF6A400002EDDDB /* ForgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD41DF6A400002EDDDB /* ForgetPasswordViewController.swift */; };
 		DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */; };
 		DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */; };
 		DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF896741DF4FC2C00366418 /* AppDelegate.swift */; };
@@ -50,7 +49,6 @@
 		DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
-		DB89BBD41DF6A400002EDDDB /* ForgetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewController.swift; sourceTree = "<group>"; };
 		DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		DBF896711DF4FC2C00366418 /* ICQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,7 +160,6 @@
 				DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */,
 				DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */,
 				DB18FB5C1DF94D670046E44D /* DetailViewController.swift */,
-				DB89BBD41DF6A400002EDDDB /* ForgetPasswordViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -323,7 +320,6 @@
 				DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */,
 				DBF896A91DF52C5900366418 /* SearchViewController.swift in Sources */,
 				DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */,
-				DB89BBD51DF6A400002EDDDB /* ForgetPasswordViewController.swift in Sources */,
 				DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */,
 				DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */,
 				DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */,

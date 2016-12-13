@@ -25,7 +25,7 @@ class SearchViewController: UIViewController{
         gestureRecognizer.delegate = self
         view.addGestureRecognizer(gestureRecognizer)
         
-        textField.becomeFirstResponder()
+        //textField.becomeFirstResponder()
         
         
     }
