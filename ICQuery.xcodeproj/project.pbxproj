@@ -15,6 +15,22 @@
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
 		DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */; };
 		DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */; };
+		DBD360391E0260CC00A08204 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD360381E0260CC00A08204 /* libsqlite3.tbd */; };
+		DBD360491E0260F500A08204 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD3603F1E0260F500A08204 /* FMDatabase.m */; };
+		DBD3604A1E0260F500A08204 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD3603F1E0260F500A08204 /* FMDatabase.m */; };
+		DBD3604B1E0260F500A08204 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD3603F1E0260F500A08204 /* FMDatabase.m */; };
+		DBD3604C1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360411E0260F500A08204 /* FMDatabaseAdditions.m */; };
+		DBD3604D1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360411E0260F500A08204 /* FMDatabaseAdditions.m */; };
+		DBD3604E1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360411E0260F500A08204 /* FMDatabaseAdditions.m */; };
+		DBD3604F1E0260F500A08204 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360431E0260F500A08204 /* FMDatabasePool.m */; };
+		DBD360501E0260F500A08204 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360431E0260F500A08204 /* FMDatabasePool.m */; };
+		DBD360511E0260F500A08204 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360431E0260F500A08204 /* FMDatabasePool.m */; };
+		DBD360521E0260F500A08204 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360451E0260F500A08204 /* FMDatabaseQueue.m */; };
+		DBD360531E0260F500A08204 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360451E0260F500A08204 /* FMDatabaseQueue.m */; };
+		DBD360541E0260F500A08204 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360451E0260F500A08204 /* FMDatabaseQueue.m */; };
+		DBD360551E0260F500A08204 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360481E0260F500A08204 /* FMResultSet.m */; };
+		DBD360561E0260F500A08204 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360481E0260F500A08204 /* FMResultSet.m */; };
+		DBD360571E0260F500A08204 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360481E0260F500A08204 /* FMResultSet.m */; };
 		DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF896741DF4FC2C00366418 /* AppDelegate.swift */; };
 		DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF896781DF4FC2C00366418 /* Main.storyboard */; };
 		DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBF8967B1DF4FC2C00366418 /* ICQuery.xcdatamodeld */; };
@@ -51,6 +67,21 @@
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		DBD360381E0260CC00A08204 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		DBD3603B1E0260F400A08204 /* ICQuery-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ICQuery-Bridging-Header.h"; sourceTree = "<group>"; };
+		DBD3603C1E0260F400A08204 /* ICQueryTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ICQueryTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		DBD3603D1E0260F400A08204 /* ICQueryUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ICQueryUITests-Bridging-Header.h"; sourceTree = "<group>"; };
+		DBD3603E1E0260F500A08204 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		DBD3603F1E0260F500A08204 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		DBD360401E0260F500A08204 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		DBD360411E0260F500A08204 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		DBD360421E0260F500A08204 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		DBD360431E0260F500A08204 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		DBD360441E0260F500A08204 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		DBD360451E0260F500A08204 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		DBD360461E0260F500A08204 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		DBD360471E0260F500A08204 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		DBD360481E0260F500A08204 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		DBF896711DF4FC2C00366418 /* ICQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF896741DF4FC2C00366418 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBF896791DF4FC2C00366418 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -72,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBD360391E0260CC00A08204 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +124,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DBD360371E0260CC00A08204 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DBD360381E0260CC00A08204 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DBD3603A1E0260D200A08204 /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				DBD3603E1E0260F500A08204 /* FMDatabase.h */,
+				DBD3603F1E0260F500A08204 /* FMDatabase.m */,
+				DBD360401E0260F500A08204 /* FMDatabaseAdditions.h */,
+				DBD360411E0260F500A08204 /* FMDatabaseAdditions.m */,
+				DBD360421E0260F500A08204 /* FMDatabasePool.h */,
+				DBD360431E0260F500A08204 /* FMDatabasePool.m */,
+				DBD360441E0260F500A08204 /* FMDatabaseQueue.h */,
+				DBD360451E0260F500A08204 /* FMDatabaseQueue.m */,
+				DBD360461E0260F500A08204 /* FMDB.h */,
+				DBD360471E0260F500A08204 /* FMResultSet.h */,
+				DBD360481E0260F500A08204 /* FMResultSet.m */,
+				DBD3603B1E0260F400A08204 /* ICQuery-Bridging-Header.h */,
+				DBD3603C1E0260F400A08204 /* ICQueryTests-Bridging-Header.h */,
+				DBD3603D1E0260F400A08204 /* ICQueryUITests-Bridging-Header.h */,
+			);
+			name = FMDB;
+			sourceTree = "<group>";
+		};
 		DBF896681DF4FC2B00366418 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +160,7 @@
 				DBF8968B1DF4FC2C00366418 /* ICQueryTests */,
 				DBF896961DF4FC2C00366418 /* ICQueryUITests */,
 				DBF896721DF4FC2C00366418 /* Products */,
+				DBD360371E0260CC00A08204 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,6 +177,7 @@
 		DBF896731DF4FC2C00366418 /* ICQuery */ = {
 			isa = PBXGroup;
 			children = (
+				DBD3603A1E0260D200A08204 /* FMDB */,
 				DBF896A51DF4FCE900366418 /* Supporting Files */,
 				DBF896A61DF4FCFB00366418 /* Controllers */,
 				DBF896A71DF4FD0600366418 /* Views */,
@@ -245,17 +308,20 @@
 					DBF896701DF4FC2C00366418 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = A2T7C2G543;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					DBF896871DF4FC2C00366418 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = A2T7C2G543;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = DBF896701DF4FC2C00366418;
 					};
 					DBF896921DF4FC2C00366418 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = A2T7C2G543;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = DBF896701DF4FC2C00366418;
 					};
@@ -316,14 +382,19 @@
 			files = (
 				DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */,
 				DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */,
+				DBD3604F1E0260F500A08204 /* FMDatabasePool.m in Sources */,
+				DBD360521E0260F500A08204 /* FMDatabaseQueue.m in Sources */,
 				DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */,
 				DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */,
 				DBF896A91DF52C5900366418 /* SearchViewController.swift in Sources */,
 				DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */,
 				DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */,
+				DBD360551E0260F500A08204 /* FMResultSet.m in Sources */,
 				DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */,
 				DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */,
+				DBD360491E0260F500A08204 /* FMDatabase.m in Sources */,
 				DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */,
+				DBD3604C1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,7 +402,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBD360561E0260F500A08204 /* FMResultSet.m in Sources */,
+				DBD360531E0260F500A08204 /* FMDatabaseQueue.m in Sources */,
 				DBF8968D1DF4FC2C00366418 /* ICQueryTests.swift in Sources */,
+				DBD360501E0260F500A08204 /* FMDatabasePool.m in Sources */,
+				DBD3604A1E0260F500A08204 /* FMDatabase.m in Sources */,
+				DBD3604D1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,7 +415,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBD360571E0260F500A08204 /* FMResultSet.m in Sources */,
+				DBD360541E0260F500A08204 /* FMDatabaseQueue.m in Sources */,
 				DBF896981DF4FC2C00366418 /* ICQueryUITests.swift in Sources */,
+				DBD360511E0260F500A08204 /* FMDatabasePool.m in Sources */,
+				DBD3604B1E0260F500A08204 /* FMDatabase.m in Sources */,
+				DBD3604E1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,11 +556,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = A2T7C2G543;
 				INFOPLIST_FILE = ICQuery/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.icquery.ICQuery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ICQuery/ICQuery-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -488,11 +572,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = A2T7C2G543;
 				INFOPLIST_FILE = ICQuery/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.icquery.ICQuery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ICQuery/ICQuery-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -502,11 +588,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = A2T7C2G543;
 				INFOPLIST_FILE = ICQueryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.icquery.ICQueryTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ICQuery/ICQueryTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ICQuery.app/ICQuery";
 			};
@@ -517,11 +606,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = A2T7C2G543;
 				INFOPLIST_FILE = ICQueryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.icquery.ICQueryTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ICQuery/ICQueryTests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ICQuery.app/ICQuery";
 			};
@@ -531,11 +622,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = A2T7C2G543;
 				INFOPLIST_FILE = ICQueryUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.icquery.ICQueryUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ICQuery/ICQueryUITests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ICQuery;
 			};
@@ -545,11 +639,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = A2T7C2G543;
 				INFOPLIST_FILE = ICQueryUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.icquery.ICQueryUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ICQuery/ICQueryUITests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ICQuery;
 			};
