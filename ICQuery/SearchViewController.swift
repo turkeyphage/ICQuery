@@ -26,17 +26,22 @@ class SearchViewController: UIViewController{
         view.addGestureRecognizer(gestureRecognizer)
         
         //textField.becomeFirstResponder()
-        
+
         
     }
 
     
     override func viewWillAppear(_ animated: Bool) {
         
-        print("\(DBManager.shared.get_device_name())")
-        print("\(DBManager.shared.get_system_version())")
-        print("\(DBManager.shared.get_device_uuid())")
+//        print("\(DBManager.shared.get_device_name())")
+//        print("\(DBManager.shared.get_system_version())")
+//        print("\(DBManager.shared.get_device_uuid())")
+//        
+//    
+    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        //print("\(DBManager.shared.get_device_position())")
     }
     
     

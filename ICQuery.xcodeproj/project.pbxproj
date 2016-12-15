@@ -37,7 +37,7 @@
 		DBD3605E1E02794100A08204 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3605D1E02794100A08204 /* DeviceModel.swift */; };
 		DBD3605F1E02794100A08204 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3605D1E02794100A08204 /* DeviceModel.swift */; };
 		DBD360601E02794100A08204 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3605D1E02794100A08204 /* DeviceModel.swift */; };
-		DBD360621E02834800A08204 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD360611E02834800A08204 /* MapKit.framework */; };
+		DBD360641E028A7C00A08204 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD360631E028A7C00A08204 /* CoreLocation.framework */; };
 		DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF896741DF4FC2C00366418 /* AppDelegate.swift */; };
 		DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF896781DF4FC2C00366418 /* Main.storyboard */; };
 		DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBF8967B1DF4FC2C00366418 /* ICQuery.xcdatamodeld */; };
@@ -92,6 +92,7 @@
 		DBD360591E02618D00A08204 /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		DBD3605D1E02794100A08204 /* DeviceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
 		DBD360611E02834800A08204 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		DBD360631E028A7C00A08204 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DBF896711DF4FC2C00366418 /* ICQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF896741DF4FC2C00366418 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBF896791DF4FC2C00366418 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -113,7 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBD360621E02834800A08204 /* MapKit.framework in Frameworks */,
+				DBD360641E028A7C00A08204 /* CoreLocation.framework in Frameworks */,
 				DBD360391E0260CC00A08204 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +139,7 @@
 		DBD360371E0260CC00A08204 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DBD360631E028A7C00A08204 /* CoreLocation.framework */,
 				DBD360611E02834800A08204 /* MapKit.framework */,
 				DBD360381E0260CC00A08204 /* libsqlite3.tbd */,
 			);
