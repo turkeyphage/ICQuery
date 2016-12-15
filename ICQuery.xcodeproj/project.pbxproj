@@ -31,6 +31,13 @@
 		DBD360551E0260F500A08204 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360481E0260F500A08204 /* FMResultSet.m */; };
 		DBD360561E0260F500A08204 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360481E0260F500A08204 /* FMResultSet.m */; };
 		DBD360571E0260F500A08204 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD360481E0260F500A08204 /* FMResultSet.m */; };
+		DBD3605A1E02618D00A08204 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD360591E02618D00A08204 /* DBManager.swift */; };
+		DBD3605B1E02618D00A08204 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD360591E02618D00A08204 /* DBManager.swift */; };
+		DBD3605C1E02618D00A08204 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD360591E02618D00A08204 /* DBManager.swift */; };
+		DBD3605E1E02794100A08204 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3605D1E02794100A08204 /* DeviceModel.swift */; };
+		DBD3605F1E02794100A08204 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3605D1E02794100A08204 /* DeviceModel.swift */; };
+		DBD360601E02794100A08204 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3605D1E02794100A08204 /* DeviceModel.swift */; };
+		DBD360621E02834800A08204 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD360611E02834800A08204 /* MapKit.framework */; };
 		DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF896741DF4FC2C00366418 /* AppDelegate.swift */; };
 		DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF896781DF4FC2C00366418 /* Main.storyboard */; };
 		DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBF8967B1DF4FC2C00366418 /* ICQuery.xcdatamodeld */; };
@@ -82,6 +89,9 @@
 		DBD360461E0260F500A08204 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
 		DBD360471E0260F500A08204 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		DBD360481E0260F500A08204 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		DBD360591E02618D00A08204 /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		DBD3605D1E02794100A08204 /* DeviceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
+		DBD360611E02834800A08204 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DBF896711DF4FC2C00366418 /* ICQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF896741DF4FC2C00366418 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBF896791DF4FC2C00366418 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -103,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBD360621E02834800A08204 /* MapKit.framework in Frameworks */,
 				DBD360391E0260CC00A08204 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,6 +138,7 @@
 		DBD360371E0260CC00A08204 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DBD360611E02834800A08204 /* MapKit.framework */,
 				DBD360381E0260CC00A08204 /* libsqlite3.tbd */,
 			);
 			name = Frameworks;
@@ -153,6 +165,15 @@
 			name = FMDB;
 			sourceTree = "<group>";
 		};
+		DBD360581E02617500A08204 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DBD360591E02618D00A08204 /* DBManager.swift */,
+				DBD3605D1E02794100A08204 /* DeviceModel.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		DBF896681DF4FC2B00366418 = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +198,7 @@
 		DBF896731DF4FC2C00366418 /* ICQuery */ = {
 			isa = PBXGroup;
 			children = (
+				DBD360581E02617500A08204 /* Model */,
 				DBD3603A1E0260D200A08204 /* FMDB */,
 				DBF896A51DF4FCE900366418 /* Supporting Files */,
 				DBF896A61DF4FCFB00366418 /* Controllers */,
@@ -310,6 +332,11 @@
 						DevelopmentTeam = A2T7C2G543;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 					DBF896871DF4FC2C00366418 = {
 						CreatedOnToolsVersion = 8.1;
@@ -391,6 +418,8 @@
 				DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */,
 				DBD360551E0260F500A08204 /* FMResultSet.m in Sources */,
 				DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */,
+				DBD3605A1E02618D00A08204 /* DBManager.swift in Sources */,
+				DBD3605E1E02794100A08204 /* DeviceModel.swift in Sources */,
 				DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */,
 				DBD360491E0260F500A08204 /* FMDatabase.m in Sources */,
 				DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */,
@@ -407,7 +436,9 @@
 				DBF8968D1DF4FC2C00366418 /* ICQueryTests.swift in Sources */,
 				DBD360501E0260F500A08204 /* FMDatabasePool.m in Sources */,
 				DBD3604A1E0260F500A08204 /* FMDatabase.m in Sources */,
+				DBD3605F1E02794100A08204 /* DeviceModel.swift in Sources */,
 				DBD3604D1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */,
+				DBD3605B1E02618D00A08204 /* DBManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +451,9 @@
 				DBF896981DF4FC2C00366418 /* ICQueryUITests.swift in Sources */,
 				DBD360511E0260F500A08204 /* FMDatabasePool.m in Sources */,
 				DBD3604B1E0260F500A08204 /* FMDatabase.m in Sources */,
+				DBD360601E02794100A08204 /* DeviceModel.swift in Sources */,
 				DBD3604E1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */,
+				DBD3605C1E02618D00A08204 /* DBManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

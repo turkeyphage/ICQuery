@@ -33,6 +33,10 @@ class SearchViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         
+        print("\(DBManager.shared.get_device_name())")
+        print("\(DBManager.shared.get_system_version())")
+        print("\(DBManager.shared.get_device_uuid())")
+    
     }
     
     
