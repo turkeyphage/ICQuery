@@ -12,6 +12,8 @@ class ListViewController: UIViewController{
 
 
     
+
+    
     @IBOutlet weak var searchTextField: UITextField!
     
     @IBOutlet weak var listTableView: UITableView!
@@ -76,6 +78,16 @@ class ListViewController: UIViewController{
         view.layoutIfNeeded()
         searchTextField.useUnderline()
     }
+    
+    
+    
+    @IBAction func main_icon_pressed(_ sender: Any) {
+        
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    
 
 }
 

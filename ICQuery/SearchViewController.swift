@@ -112,6 +112,24 @@ class SearchViewController: UIViewController{
         
     }
     
+    
+    @IBAction func searchButtonPressed(_ sender: Any) {
+        
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+     
+        
+        // 動畫
+        vc.modalPresentationStyle = UIModalPresentationStyle.custom
+        vc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        self.present(vc, animated: true, completion: nil)
+        
+        
+    }
+    
+    
+    
 }
 
 

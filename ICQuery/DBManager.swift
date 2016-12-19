@@ -22,7 +22,8 @@ class DBManager: NSObject {
     
 
     /***使用者資訊***/
-    let field_UserID = "UserID"
+    
+    //let field_UserID = "UserID"
     let field_UserPassword = "UserPassword"
     let field_UserEmail = "UserEmail"
     
@@ -65,7 +66,7 @@ class DBManager: NSObject {
                 if database.open(){
                     //******* create table *******//
                     // SQL syntax
-                    let createSysteminfoTableQuery = "create table systeminfo (\(field_UserID) text, \(field_UserPassword) text, \(field_UserEmail) text, \(field_DeviceProductName) text, \(field_DeviceUUID) text)"
+                    let createSysteminfoTableQuery = "create table systeminfo (\(field_UserEmail) text, \(field_UserPassword) text, \(field_DeviceProductName) text, \(field_DeviceUUID) text)"
                     do {
                         try database.executeUpdate(createSysteminfoTableQuery, values: nil)
                             //
@@ -166,7 +167,7 @@ class DBManager: NSObject {
             let uuid = self.get_device_uuid()
             
             //insert SQL syntax
-            let query = "insert into systeminfo (\(field_UserID), \(field_UserPassword), \(field_UserEmail), \(field_DeviceProductName), \(field_DeviceUUID)) values (null, null, null, '\(name)', '\(uuid)');"
+            let query = "insert into systeminfo (\(field_UserEmail), \(field_UserPassword), \(field_DeviceProductName), \(field_DeviceUUID)) values (null, '1qaz@WSX', '\(name)', '\(uuid)');"
             
             //執行insert SQL，如果執行失敗，顯示出理由
             
