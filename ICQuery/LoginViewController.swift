@@ -18,6 +18,11 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var theScrollView: UIScrollView!
     
     
+    deinit {
+        print("deinit of LoginViewController")
+    }
+    
+    
     var offset: CGFloat = 0.0 {
         // offset的值時，執行didSet
         didSet {
@@ -161,20 +166,12 @@ class LoginViewController: UIViewController {
 
         for whichview in self.forget_popview.subviews{
             if whichview.isFirstResponder{
-                print("whichviewTag = \(whichview.tag)")
+                //print("whichviewTag = \(whichview.tag)")
                 if let userInfo = notification.userInfo {
                     if let keyboardSize =  (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
 
-                        
-                        print("whichview.frame.origin.y = \(whichview.frame.origin.y)")
-                        print("whichview.frame.size.height = \(whichview.frame.size.height)")
-                        print("keyboardSize.origin.y = \(keyboardSize.origin.y)")
                         let dist = (whichview.frame.origin.y + whichview.frame.size.height+original_constraint_constant) - keyboardSize.origin.y
-                        
-                        
-                        
-                        
-                        
+        
                         if dist > 0 {
                             let newConstant = original_constraint_constant - dist - 70
                             original_top_constraint.constant = newConstant
@@ -188,7 +185,7 @@ class LoginViewController: UIViewController {
         
         for whichview in self.register_popview.subviews{
             if whichview.isFirstResponder{
-                print("whichviewTag = \(whichview.tag)")
+                //print("whichviewTag = \(whichview.tag)")
                 if let userInfo = notification.userInfo {
                     if let keyboardSize =  (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
 
@@ -224,7 +221,6 @@ class LoginViewController: UIViewController {
             }
         }
 
-
         if self.login_email_textField.text! != "", self.login_password_textField.text! != ""{
             
             //email,pwd,latitude,longtitude,name,node
@@ -242,11 +238,7 @@ class LoginViewController: UIViewController {
             let combinedStr = String(format: "%@/login?email=%@&pwd=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, password, latitude, longitude, name, node])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             //print("\(escapedStr)")
-
-            
-            connectToServer(URLString: escapedStr)
-            
-            
+            connectToServer(URLString: escapedStr, Type:"Login")
         } else {
             
             var alertMessage = ""
@@ -262,16 +254,7 @@ class LoginViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        
-        
 
-        
-        
-        
-        
-        
-
-        
     }
     //忘記密碼 pressed
     @IBAction func forget_password(_ sender: Any) {
@@ -288,6 +271,45 @@ class LoginViewController: UIViewController {
     //重設密碼 pressed
     @IBAction func reset_password(_ sender: Any) {
         
+        for whichview in self.forget_popview.subviews{
+            if whichview.isFirstResponder{
+                whichview.resignFirstResponder()
+            }
+        }
+        
+        if self.forget_email_textField.text! != ""{
+            
+            //email,pwd,latitude,longtitude,name,node
+            let email = self.forget_email_textField.text!
+            
+            
+            //"latitude", "longitude"
+            let latitude = DBManager.shared.get_device_position()["latitude"]!
+            let longitude = DBManager.shared.get_device_position()["longitude"]!
+            
+            //name=UUID node=DeviceName
+            let name = DBManager.shared.systemInfo.deviceUUID
+            let node = DBManager.shared.systemInfo.deviceName
+            
+            let combinedStr = String(format: "%@/reset?email=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, latitude, longitude, name, node])
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            print("\(escapedStr)")
+            connectToServer(URLString: escapedStr, Type:"Reset")
+        } else {
+            
+            let alertMessage = "Email尚未填入"
+            let alert = UIAlertController(title: "WOO! 資料未填寫完全", message: alertMessage,     preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        
+        
+        
+        
+        
+        
+        
         
     }
     
@@ -295,7 +317,56 @@ class LoginViewController: UIViewController {
     // register pop-up view button_action methods
     @IBAction func register_now(_ sender: Any) {
         
+        for whichview in self.register_popview.subviews{
+            if whichview.isFirstResponder{
+                whichview.resignFirstResponder()
+            }
+        }
+
+        if self.register_email_textField.text != "", self.register_password_textField.text != "", self.register_reenter_password_textField.text != "" {
+            
+            // 確認password是否相同？
+            if self.register_password_textField.text != register_reenter_password_textField.text{
+                // 密碼輸入錯誤
+                let alert = UIAlertController(title: "密碼輸入錯誤", message: "請再次確認輸入的密碼是否正確",     preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                
+            } else {
+                //email,pwd,latitude,longtitude,name,node
+                let email = self.register_email_textField.text!
+                let password = self.register_password_textField.text!
+                
+                //"latitude", "longitude"
+                let latitude = DBManager.shared.get_device_position()["latitude"]!
+                let longitude = DBManager.shared.get_device_position()["longitude"]!
+                
+                //name=UUID node=DeviceName
+                let name = DBManager.shared.systemInfo.deviceUUID
+                let node = DBManager.shared.systemInfo.deviceName
+            
+            
+                let combinedStr = String(format: "%@/signin?email=%@&pwd=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, password, latitude, longitude, name, node])
+                let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                print("\(escapedStr)")
+                connectToServer(URLString: escapedStr, Type: "Register")
+            }
+        } else {
         
+            var alertMessage = ""
+            if self.register_password_textField.text == "" || self.register_reenter_password_textField.text == "" {
+                alertMessage = "密碼尚未填入"
+            } else if self.register_email_textField.text == "" {
+                alertMessage = "Email尚未填入"
+            } else if self.register_password_textField.text == "", self.register_email_textField.text == "", self.register_reenter_password_textField.text == "" {
+                alertMessage = "所有表格都還沒填寫喔！"
+            }
+            
+            let alert = UIAlertController(title: "WOO! 資料未填寫完全", message: alertMessage,     preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+
     }
     
     
@@ -306,7 +377,7 @@ class LoginViewController: UIViewController {
 
 
     //login確認
-    func connectToServer(URLString: String) {
+    func connectToServer(URLString: String, Type: String) {
         
         let url = URL(string:URLString)!
         
@@ -315,7 +386,7 @@ class LoginViewController: UIViewController {
         
         let session = URLSession.shared
         
-        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
             
             if error != nil{
                 print(error.debugDescription)
@@ -330,11 +401,56 @@ class LoginViewController: UIViewController {
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                         self.present(alert, animated: true, completion: nil)
                     
-                    } else {
-                        //登入成功
+                    } else if serverTalkBack == "ERR: email registed" {
+                        let alert = UIAlertController(title: "該Email已註冊過", message: "請使用有效的Email", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: {
                         
-                        self.delegate?.sendValue(loginStatus: true, value: self.login_email_textField.text!)
-                        self.dismiss(animated: true, completion: nil)
+                            self.register_email_textField.text = ""
+                            self.register_password_textField.text = ""
+                            self.register_reenter_password_textField.text = ""
+                        })
+                    
+                    } else {
+                        
+                        print("\(serverTalkBack)")
+
+                        //登入成功
+                        if Type == "Login"{
+                            
+                            self.delegate?.sendValue(loginStatus: true, value: self.login_email_textField.text!)
+                            self.close()
+                            
+                        } else if Type == "Register" {
+                            self.delegate?.sendValue(loginStatus: true, value: self.register_email_textField.text!)
+                            self.close()
+                            
+                        } else {
+                            
+                            if serverTalkBack == ""{
+                                // 找不到該email
+                                
+                                let alert = UIAlertController(title: "此Email尚未註冊會員", message: "請重新輸入Email帳號", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                //self.present(alert, animated: true, completion: nil)
+                                self.present(alert, animated: true, completion: {
+                                    
+                                    self.forget_email_textField.text = ""
+                                    
+                                })
+                                
+                            } else {
+                                
+                                let alert = UIAlertController(title: "密碼已重新設定", message: "請使用新密碼重新登入", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler: { (action) in
+                                
+                                    self.close()
+                                }))
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                            
+                        }
+ 
                     }
                 }
                 

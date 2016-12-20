@@ -45,7 +45,10 @@ class DBManager: NSObject {
         super.init()
         let documentDirectory = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString ) as String
         
-        pathToDatabase = documentDirectory.appending("/\(databaseFileName)")
+        
+        
+        pathToDatabase = String(format: "%@/%@", arguments: [documentDirectory, databaseFileName])
+        //pathToDatabase = documentDirectory.appending("/\(databaseFileName)")
         print("database path = \(pathToDatabase)")
 
         locationManage = CLLocationManager()

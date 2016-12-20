@@ -28,6 +28,11 @@ class SearchViewController: UIViewController{
     
     
     
+    deinit {
+        print("deinit of SearchViewController")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,6 +105,20 @@ class SearchViewController: UIViewController{
             self.loginButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }, completion: { finished in
             
+            
+            self.loginButton.transform = CGAffineTransform.identity
+            //print("login")
+            
+            //self.performSegue(withIdentifier: Segue_Identifiers.login_segue, sender: nil)
+            
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
+            loginVC.delegate = self
+            
+            self.present(loginVC, animated: true, completion: nil)
+            
+            /*
             UIView.animate(withDuration: 0.1, animations: {
                 self.loginButton.transform = CGAffineTransform.identity
                 //print("login")
@@ -114,6 +133,7 @@ class SearchViewController: UIViewController{
                 self.present(loginVC, animated: true, completion: nil)
                 
             })
+            */
         })
         
     }
@@ -126,10 +146,10 @@ class SearchViewController: UIViewController{
     
     
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("\(segue.identifier)")
-
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        print("\(segue.identifier)")
+//
+//    }
     
     
     @IBAction func searchButtonPressed(_ sender: Any) {
