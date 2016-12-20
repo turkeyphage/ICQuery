@@ -89,7 +89,7 @@ class LoginViewController: UIViewController {
         register_button.layer.cornerRadius = 5
 
 
-        
+        print("\(API_Manager.shared.DEVICE_API_PATH)")
         
         
         
@@ -143,7 +143,7 @@ class LoginViewController: UIViewController {
     func keyboardWillShow(_ notification: Notification) {
         for whichview in self.login_popview.subviews{
             if whichview.isFirstResponder{
-                print("whichviewTag = \(whichview.tag)")
+                //print("whichviewTag = \(whichview.tag)")
                 if let userInfo = notification.userInfo {
                     if let keyboardSize =  (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
 
@@ -218,8 +218,59 @@ class LoginViewController: UIViewController {
     // 登入 pressed
     @IBAction func login(_ sender: Any) {
         
-        delegate?.sendValue(loginStatus: true)
-        dismiss(animated: true, completion: nil)
+        for whichview in self.login_popview.subviews{
+            if whichview.isFirstResponder{
+                whichview.resignFirstResponder()
+            }
+        }
+
+
+        if self.login_email_textField.text! != "", self.login_password_textField.text! != ""{
+            
+            //email,pwd,latitude,longtitude,name,node
+            let email = self.login_email_textField.text!
+            let password = self.login_password_textField.text!
+            
+            //"latitude", "longitude"
+            let latitude = DBManager.shared.get_device_position()["latitude"]!
+            let longitude = DBManager.shared.get_device_position()["longitude"]!
+            
+            //name=UUID node=DeviceName
+            let name = DBManager.shared.systemInfo.deviceUUID
+            let node = DBManager.shared.systemInfo.deviceName
+            
+            let combinedStr = String(format: "%@/login?email=%@&pwd=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, password, latitude, longitude, name, node])
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            //print("\(escapedStr)")
+
+            
+            connectToServer(URLString: escapedStr)
+            
+            
+        } else {
+            
+            var alertMessage = ""
+            if self.login_password_textField.text == ""{
+                alertMessage = "密碼尚未填入"
+            } else if self.login_email_textField.text == ""{
+                alertMessage = "Email尚未填入"
+            } else if self.login_email_textField.text == "", self.login_password_textField.text == ""{
+                alertMessage = "Email與密碼皆未填入"
+            }
+            
+            let alert = UIAlertController(title: "WOO! 資料未填寫完全", message: alertMessage,     preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        
+
+        
+        
+        
+        
+        
+
         
     }
     //忘記密碼 pressed
@@ -253,6 +304,73 @@ class LoginViewController: UIViewController {
     }
     
 
+
+    //login確認
+    func connectToServer(URLString: String) {
+        
+        let url = URL(string:URLString)!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            if error != nil{
+                print(error.debugDescription)
+                let alert = UIAlertController(title: "連線失敗", message: "伺服器連線失敗，請稍後再試", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }else{
+                if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                    if serverTalkBack == "0"{
+                        //資料有誤！
+                        let alert = UIAlertController(title: "登入失敗", message: "請再次確認填入帳號與密碼是否正確", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    
+                    } else {
+                        //登入成功
+                        
+                        self.delegate?.sendValue(loginStatus: true, value: self.login_email_textField.text!)
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+                
+                
+            }
+        }
+        
+        task.resume()
+    
+    }
+    
+    
+    
+    
+    
+//    func combineURL(based:String, added:String) -> URL{
+        
+        
+        
+//        
+//        let escapedSearchText = added.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+//
+//        let urlString = String(format: "http://122.116.142.181:5959/fm/portal?t=a&q=%@", escapedSearchText)
+////        
+////        
+////        
+////        print("\(urlString)")
+////        let url = URL(string:urlString)
+////        return url!
+//    }
+
+    
+    
+    
+    
+    
 }
 
 
@@ -262,7 +380,7 @@ class LoginViewController: UIViewController {
 
 protocol LoginViewControllerDelegate{
 
-    func sendValue(loginStatus:Bool)
+    func sendValue(loginStatus:Bool, value:String)
 
 }
 

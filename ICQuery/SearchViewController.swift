@@ -207,9 +207,9 @@ class SearchViewController: UIViewController{
 
 
 extension SearchViewController:LoginViewControllerDelegate{
-    func sendValue(loginStatus: Bool) {
+    func sendValue(loginStatus: Bool, value:String) {
         self.loginStatus = loginStatus
-        self.account = "turkeyworld64@gmail.com"
+        self.account = value
         change_login_label(login: self.loginStatus)
     }
 }

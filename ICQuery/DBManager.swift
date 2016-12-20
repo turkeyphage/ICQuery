@@ -155,7 +155,7 @@ class DBManager: NSObject {
                 return ["latitude":latitude, "longitude":longitude]
             
             } else {
-                return ["latitude":"", "longitude":""]
+                return ["latitude":"", "longtitude":""]
             }
             
         } else {
@@ -268,7 +268,6 @@ class DBManager: NSObject {
 struct SystemInfo{
     var deviceUUID:String
     var deviceName:String
-
 }
 
 

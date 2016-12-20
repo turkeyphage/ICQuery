@@ -23,14 +23,14 @@ class API_Manager: NSObject {
     
     override init() {
         super.init()
-        
+        self.API_dataRequest_post()
         
         
     }
 
     
     /******* post *******/
-    func dataRequest() {
+    func API_dataRequest_post() {
         
         let url = URL(string: self.API_retrive_path)!
 
@@ -84,8 +84,6 @@ class API_Manager: NSObject {
         for item2 in firstCleaner{
             //print("\(item2)")
             let splitByComma = item2.components(separatedBy: ",")
-            print("\(splitByComma)")
-            
             let removeKey = splitByComma.first?.replacingOccurrences(of: "\"key\":", with: "")
             let key = removeKey?.replacingOccurrences(of: "\"", with: "")
             let removeValue = splitByComma.last?.replacingOccurrences(of: "\"value\":", with: "")
@@ -101,9 +99,13 @@ class API_Manager: NSObject {
         
         //print("\(finalResult)")
     }
-
-    
-    
-    
-    
+  
 }
+
+
+
+
+
+
+
+
