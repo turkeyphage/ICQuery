@@ -15,6 +15,7 @@
 		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
 		DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */; };
+		DB9EF9141E08EE480066E8C5 /* API_Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9EF9131E08EE480066E8C5 /* API_Manager.swift */; };
 		DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */; };
 		DBD360391E0260CC00A08204 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD360381E0260CC00A08204 /* libsqlite3.tbd */; };
 		DBD360491E0260F500A08204 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD3603F1E0260F500A08204 /* FMDatabase.m */; };
@@ -75,6 +76,7 @@
 		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		DB9EF9131E08EE480066E8C5 /* API_Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API_Manager.swift; sourceTree = "<group>"; };
 		DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		DBD360381E0260CC00A08204 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		DBD3603B1E0260F400A08204 /* ICQuery-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ICQuery-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			children = (
 				DB4293601E08225800E9AA46 /* Reachability.swift */,
 				DBD360591E02618D00A08204 /* DBManager.swift */,
+				DB9EF9131E08EE480066E8C5 /* API_Manager.swift */,
 				DBD3605D1E02794100A08204 /* DeviceModel.swift */,
 			);
 			name = Model;
@@ -329,7 +332,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = ICQuery;
 				TargetAttributes = {
 					DBF896701DF4FC2C00366418 = {
@@ -415,6 +418,7 @@
 				DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */,
 				DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */,
 				DBD3604F1E0260F500A08204 /* FMDatabasePool.m in Sources */,
+				DB9EF9141E08EE480066E8C5 /* API_Manager.swift in Sources */,
 				DBD360521E0260F500A08204 /* FMDatabaseQueue.m in Sources */,
 				DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */,
 				DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */,
@@ -516,6 +520,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -566,6 +571,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

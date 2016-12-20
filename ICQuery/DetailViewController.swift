@@ -182,6 +182,10 @@ class DetailViewController: UIViewController {
 }
 
 
+
+
+// MARK:TableView delegate method:
+
 extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
 
 

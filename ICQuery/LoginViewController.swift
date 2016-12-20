@@ -11,8 +11,10 @@ import QuartzCore
 
 class LoginViewController: UIViewController {
     
-    // scrollView
+    //delegate
+    var delegate : LoginViewControllerDelegate!
     
+    // scrollView
     @IBOutlet weak var theScrollView: UIScrollView!
     
     
@@ -58,19 +60,13 @@ class LoginViewController: UIViewController {
     
     
     @IBOutlet weak var register_button: UIButton!
-    
-    
-    
-    
-    
-    
-    
+
     @IBOutlet weak var original_top_constraint: NSLayoutConstraint!
     
     var original_constraint_constant : CGFloat = 35.0
     
     
-    
+
     
     
     
@@ -219,33 +215,32 @@ class LoginViewController: UIViewController {
     
  
     // login pop-up view button_action methods
-    
-    
+    // 登入 pressed
     @IBAction func login(_ sender: Any) {
         
+        delegate?.sendValue(loginStatus: true)
+        dismiss(animated: true, completion: nil)
+        
     }
-    
+    //忘記密碼 pressed
     @IBAction func forget_password(_ sender: Any) {
-        
             offset = -(self.theScrollView.frame.size.width)
-        
     }
     
+    //加入會員 pressed
     @IBAction func sign_up_member(_ sender: Any) {
-    
             offset = self.theScrollView.frame.size.width
-    
     }
     
     
     // forget password pop-up view button_action methods
-    
+    //重設密碼 pressed
     @IBAction func reset_password(_ sender: Any) {
         
         
     }
     
-    
+    //註冊會員 pressed
     // register pop-up view button_action methods
     @IBAction func register_now(_ sender: Any) {
         
@@ -257,8 +252,24 @@ class LoginViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    
+
 }
+
+
+
+// Mark: Protocal for sending data back
+
+
+protocol LoginViewControllerDelegate{
+
+    func sendValue(loginStatus:Bool)
+
+}
+
+
+
+
+
 
 
 // MARK:UIViewControllerTransitionDelegate Methods

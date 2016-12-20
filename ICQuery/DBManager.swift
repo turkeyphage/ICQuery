@@ -21,12 +21,15 @@ class DBManager: NSObject {
     var database: FMDatabase!
     
 
+    var systemInfo :SystemInfo!
+
+
     /***使用者資訊***/
-    
     //let field_UserID = "UserID"
-    let field_UserPassword = "UserPassword"
-    let field_UserEmail = "UserEmail"
+    //let field_UserPassword = "UserPassword"
+    //let field_UserEmail = "UserEmail"
     
+    /***系統資訊***/
     let field_DeviceProductName = "DeviceProductName"
     let field_DeviceUUID = "DeviceUUID "
     //let field_DeviceLatitude = "DeviceLatitude"
@@ -47,13 +50,15 @@ class DBManager: NSObject {
 
         locationManage = CLLocationManager()
         locationManage.requestAlwaysAuthorization()
+        
+        self.systemInfo = SystemInfo(deviceUUID: self.get_device_uuid(), deviceName: self.get_device_name())
     
     }
     
     
     // for create database --> return Bool, success or not
     func createDataBase() -> Bool{
-        var created = false
+        let created = false
         
         // not exist?
         if !FileManager.default.fileExists(atPath: pathToDatabase){
@@ -66,7 +71,7 @@ class DBManager: NSObject {
                 if database.open(){
                     //******* create table *******//
                     // SQL syntax
-                    let createSysteminfoTableQuery = "create table systeminfo (\(field_UserEmail) text, \(field_UserPassword) text, \(field_DeviceProductName) text, \(field_DeviceUUID) text)"
+                    let createSysteminfoTableQuery = "create table systeminfo (\(field_DeviceProductName) text, \(field_DeviceUUID) text)"
                     do {
                         try database.executeUpdate(createSysteminfoTableQuery, values: nil)
                             //
@@ -167,7 +172,7 @@ class DBManager: NSObject {
             let uuid = self.get_device_uuid()
             
             //insert SQL syntax
-            let query = "insert into systeminfo (\(field_UserEmail), \(field_UserPassword), \(field_DeviceProductName), \(field_DeviceUUID)) values (null, '1qaz@WSX', '\(name)', '\(uuid)');"
+            let query = "insert into systeminfo (\(field_DeviceProductName), \(field_DeviceUUID)) values ('\(name)', '\(uuid)');"
             
             //執行insert SQL，如果執行失敗，顯示出理由
             
@@ -220,4 +225,50 @@ class DBManager: NSObject {
         
     }
     
+    
+    //讀取systemInfo資料
+    
+    func loadSystemInfo(completionHandler: (_ systemInfo: SystemInfo?) -> Void) {
+        var systemInfo: SystemInfo!
+        
+        if openDatabase() {
+            let query = "select * from systemInfo where \(field_DeviceUUID)=?"
+            
+            do {
+                let results = try database.executeQuery(query, values: [self.get_device_uuid()])
+                
+                if results.next() {
+                    systemInfo = SystemInfo(deviceUUID: results.string(forColumn: field_DeviceUUID), deviceName: results.string(forColumn: field_DeviceProductName))
+                }
+                else {
+                    print(database.lastError())
+                }
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+            
+            database.close()
+        }
+        
+        completionHandler(systemInfo)
+        
+    }
+
+    
+    
+    
+
 }
+
+
+
+
+
+struct SystemInfo{
+    var deviceUUID:String
+    var deviceName:String
+
+}
+
+

@@ -14,6 +14,15 @@ class SearchViewController: UIViewController{
     
     @IBOutlet weak var loginButton: UIButton!
     
+    @IBOutlet weak var loginStatusLabel: UILabel!
+    
+    var account : String!
+    
+    var loginStatus:Bool = false {
+        didSet {
+            change_login_label(login: loginStatus)
+        }
+    }
     
     let reachability = Reachability()!
     
@@ -35,12 +44,7 @@ class SearchViewController: UIViewController{
     
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        //        print("\(DBManager.shared.get_device_name())")
-        //        print("\(DBManager.shared.get_system_version())")
-        //        print("\(DBManager.shared.get_device_uuid())")
-        //
-        //
+
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: ReachabilityChangedNotification,object: reachability)
         do{
@@ -48,6 +52,9 @@ class SearchViewController: UIViewController{
         }catch{
             print("could not start reachability notifier")
         }
+        
+        change_login_label(login: loginStatus)
+        
         
     }
     
@@ -98,13 +105,16 @@ class SearchViewController: UIViewController{
                 //print("login")
                 
                 //self.performSegue(withIdentifier: Segue_Identifiers.login_segue, sender: nil)
+              
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
+                loginVC.delegate = self
+                
+                self.present(loginVC, animated: true, completion: nil)
                 
             })
         })
-        
-        
-        
-        
         
     }
     
@@ -117,10 +127,8 @@ class SearchViewController: UIViewController{
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         print("\(segue.identifier)")
-        
-        
+
     }
     
     
@@ -140,6 +148,11 @@ class SearchViewController: UIViewController{
     }
     
     
+    
+    
+    
+    //******** Network Change notification ********//
+    
     func reachabilityChanged(note: NSNotification) {
         
         let reachability = note.object as! Reachability
@@ -147,26 +160,42 @@ class SearchViewController: UIViewController{
         if reachability.isReachable {
             if reachability.isReachableViaWiFi {
                 print("Reachable via WiFi")
+                /*
                 let alert = UIAlertController(title: "網路連線方式更動", message: "目前採用WiFi連線", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-                
+                */
             } else {
                 print("Reachable via Cellular")
+                /*
                 let alert = UIAlertController(title: "網路連線方式更動", message: "目前採用行動網路連線", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-                
+                */
             }
         } else {
             print("Network not reachable")
+            /*
             let alert = UIAlertController(title: "網路連線方式更動", message: "網路目前無法連線", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-            
+            */
             
         }
     }
+    
+    
+    //******** 判斷是否登入 ********//
+    
+    func change_login_label(login:Bool){
+        if login {
+            self.loginStatusLabel.text = self.account
+        } else {
+            self.loginStatusLabel.text = "未登入"
+        }
+    }
+    
+    
     
     
     
@@ -174,6 +203,16 @@ class SearchViewController: UIViewController{
 
 
 
+// MARK: Delegate Methods
+
+
+extension SearchViewController:LoginViewControllerDelegate{
+    func sendValue(loginStatus: Bool) {
+        self.loginStatus = loginStatus
+        self.account = "turkeyworld64@gmail.com"
+        change_login_label(login: self.loginStatus)
+    }
+}
 
 
 extension SearchViewController:UITextFieldDelegate{
@@ -197,6 +236,8 @@ extension SearchViewController:UIGestureRecognizerDelegate{
 
 
 
+// MARK: UITextfield EXTENSION METHODS
+
 extension UITextField {
     
     func useUnderline() {
@@ -217,6 +258,9 @@ extension UITextField {
     }
 }
 
+
+
+// MARK: CONSTANTS
 
 
 struct Segue_Identifiers{

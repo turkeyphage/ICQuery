@@ -59,7 +59,6 @@
                                 <state key="normal" image="login_44"/>
                                 <connections>
                                     <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ybq-lG-GVJ"/>
-                                    <segue destination="JA3-UY-ksU" kind="showDetail" identifier="login_segue" id="ytt-dG-Nya"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_152_152" translatesAutoresizingMaskIntoConstraints="NO" id="MUa-W1-uiW">
@@ -137,6 +136,7 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="loginButton" destination="SmM-OT-2Eq" id="drL-G3-58S"/>
+                        <outlet property="loginStatusLabel" destination="fG7-7x-Tf8" id="5y8-N4-bY6"/>
                         <outlet property="textField" destination="4nU-rg-wmq" id="u1o-Rf-5tB"/>
                     </connections>
                 </viewController>
@@ -147,7 +147,7 @@
         <!--Login View Controller-->
         <scene sceneID="xZr-ak-v8H">
             <objects>
-                <viewController id="JA3-UY-ksU" customClass="LoginViewController" customModule="ICQuery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginVC" id="JA3-UY-ksU" customClass="LoginViewController" customModule="ICQuery" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jwQ-yl-wSG"/>
                         <viewControllerLayoutGuide type="bottom" id="wnk-4H-wMc"/>
