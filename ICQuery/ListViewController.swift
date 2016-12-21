@@ -12,6 +12,11 @@ class ListViewController: UIViewController{
 
 
     
+    
+    var searchKeyword:String!
+    var searchAPI_Address:String!
+    
+    var json_dic : [String : Any]!
 
     
     @IBOutlet weak var searchTextField: UITextField!
@@ -20,6 +25,9 @@ class ListViewController: UIViewController{
     
     @IBOutlet weak var title_background_view: UIView!
     
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,14 +35,14 @@ class ListViewController: UIViewController{
 
         let placeholderStr = NSAttributedString(string: "請輸入查詢資料", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
         searchTextField.attributedPlaceholder = placeholderStr
+        
+        print("\(self.json_dic)")
+        
         //listTableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
 
         // 上面的背景顏色
         //title_background_view.backgroundColor = UIColor(patternImage: UIImage(named: "background_pattern")!)
-        
-        
-        
-        
+
         //status bar 背景顏色
 //        let app = UIApplication.shared
 //        let statusBarHeight = app.statusBarFrame.size.height
@@ -51,9 +59,7 @@ class ListViewController: UIViewController{
         
         listTableView.estimatedRowHeight = 106
         listTableView.rowHeight = UITableViewAutomaticDimension
-        
-        
-        
+
     }
 
     
@@ -83,15 +89,37 @@ class ListViewController: UIViewController{
     
     @IBAction func main_icon_pressed(_ sender: Any) {
         
+        self.json_dic = [:]
+        
         self.dismiss(animated: true, completion: nil)
         
     }
     
     
+    
+    // paring json
+    func parse(json: String) -> [String: Any]? {
+        guard let data = json.data(using: .utf8, allowLossyConversion: false)
+            else { return nil }
+        do {
+            return try JSONSerialization.jsonObject(
+                with: data, options: []) as? [String: Any]
+        } catch {
+            print("JSON Error: \(error)")
+            return nil
+        }
+    }
+    
+    
+
+    
 
 }
 
 
+
+
+// MARK: TableViewDataSource Method
 
 extension ListViewController:UITableViewDataSource{
 
@@ -121,6 +149,9 @@ extension ListViewController:UITableViewDataSource{
     
 }
 
+
+
+// MARK: TableViewDelegate Method
 extension ListViewController:UITableViewDelegate{
 
 

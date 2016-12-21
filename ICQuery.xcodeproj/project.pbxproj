@@ -16,6 +16,7 @@
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
 		DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */; };
 		DB9EF9141E08EE480066E8C5 /* API_Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9EF9131E08EE480066E8C5 /* API_Manager.swift */; };
+		DB9FF6311E0A96EB00E1DCF0 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */; };
 		DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */; };
 		DBD360391E0260CC00A08204 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD360381E0260CC00A08204 /* libsqlite3.tbd */; };
 		DBD360491E0260F500A08204 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD3603F1E0260F500A08204 /* FMDatabase.m */; };
@@ -77,6 +78,8 @@
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		DB9EF9131E08EE480066E8C5 /* API_Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API_Manager.swift; sourceTree = "<group>"; };
+		DB9FF62F1E0A96EB00E1DCF0 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		DBD360381E0260CC00A08204 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		DBD3603B1E0260F400A08204 /* ICQuery-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ICQuery-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -260,6 +263,8 @@
 		DBF896A71DF4FD0600366418 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DB9FF62F1E0A96EB00E1DCF0 /* MBProgressHUD.h */,
+				DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */,
 				DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */,
 				DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */,
 				DBF896781DF4FC2C00366418 /* Main.storyboard */,
@@ -422,6 +427,7 @@
 				DBD360521E0260F500A08204 /* FMDatabaseQueue.m in Sources */,
 				DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */,
 				DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */,
+				DB9FF6311E0A96EB00E1DCF0 /* MBProgressHUD.m in Sources */,
 				DBF896A91DF52C5900366418 /* SearchViewController.swift in Sources */,
 				DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */,
 				DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */,

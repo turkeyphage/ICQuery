@@ -159,20 +159,84 @@ class SearchViewController: UIViewController{
     
     @IBAction func searchButtonPressed(_ sender: Any) {
         
+        if self.textField.text!.isEmpty{
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+            let alert = UIAlertController(title: "尚未輸入任何搜尋關鍵字", message:"請重新輸入搜尋字串", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         
-        
-        // 動畫
-        vc.modalPresentationStyle = UIModalPresentationStyle.custom
-        vc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        self.present(vc, animated: true, completion: nil)
-        
-        
+        } else {
+            
+            let searchAPI = API_Manager.shared.SEARCH_API_PATH
+            let searchKeyword = self.textField.text!.components(separatedBy: "\t").first
+            let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
+            
+            //組裝url-string
+            
+            let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, no_space_and_getFirstWord!])
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            print("\(escapedStr)")
+            //connectToServer(URLString: escapedStr, Type:"Login")
+
+            //放request
+            let url = URL(string: escapedStr)
+            let request = URLRequest(url: url!)
+            //request.httpMethod = "GET"
+            let session = URLSession.shared
+            
+            
+            
+            let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+                if error != nil{
+                    print(error.debugDescription)
+                    
+                    //alert -- 連線錯誤
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                        self.present(alert, animated: true, completion:nil)
+                    }
+
+                } else {
+
+                    if let data = data, let jsonDictionary = self.parse(json: data) {
+                        //print("\(jsonDictionary)")
+                        DispatchQueue.main.async {
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let lsVC = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+                            
+                            lsVC.json_dic = jsonDictionary
+                            // 動畫
+                            lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
+                            lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+                            self.present(lsVC, animated: true, completion: nil)
+                        }
+                    }
+                    
+                }
+            }   
+            task.resume()
+        }
     }
     
-    
+    func parse(json data:Data) -> [String : Any]? {
+        
+        do {
+            return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        } catch{
+            print("JSON Error:\(error)")
+            
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "JSON解析錯誤", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                self.present(alert, animated: true, completion:nil)
+            }
+            
+            
+            return nil
+        }
+        
+    }
     
     
     
