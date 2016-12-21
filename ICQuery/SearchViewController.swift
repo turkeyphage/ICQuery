@@ -42,8 +42,6 @@ class SearchViewController: UIViewController{
         gestureRecognizer.delegate = self
         view.addGestureRecognizer(gestureRecognizer)
         
-        //textField.becomeFirstResponder()
-        
         
     }
     
@@ -52,6 +50,8 @@ class SearchViewController: UIViewController{
 
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: ReachabilityChangedNotification,object: reachability)
+        
+        
         do{
             try reachability.startNotifier()
         }catch{
@@ -64,14 +64,14 @@ class SearchViewController: UIViewController{
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //print("\(DBManager.shared.get_device_position())")
+        
     }
     
     
     override func viewWillDisappear(_ animated: Bool) {
         
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: ReachabilityChangedNotification, object: nil)
         
     }
     
@@ -100,31 +100,21 @@ class SearchViewController: UIViewController{
     // login 按下去，會有放大縮小的效果
     @IBAction func loginButtonPressed(_ sender: Any) {
         
-        UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+        if loginStatus {
+            //self.loginButton.isEnabled = false
             
-            self.loginButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }, completion: { finished in
+            let alert = UIAlertController(title: "你目前已經登入囉", message:nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
             
-            
-            self.loginButton.transform = CGAffineTransform.identity
-            //print("login")
-            
-            //self.performSegue(withIdentifier: Segue_Identifiers.login_segue, sender: nil)
-            
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
-            loginVC.delegate = self
-            
-            self.present(loginVC, animated: true, completion: nil)
-            
-            /*
-            UIView.animate(withDuration: 0.1, animations: {
-                self.loginButton.transform = CGAffineTransform.identity
-                //print("login")
+            //return
+        } else {
+            UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
                 
-                //self.performSegue(withIdentifier: Segue_Identifiers.login_segue, sender: nil)
-              
+                self.loginButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            }, completion: { finished in
+                
+                self.loginButton.transform = CGAffineTransform.identity
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
@@ -132,9 +122,24 @@ class SearchViewController: UIViewController{
                 
                 self.present(loginVC, animated: true, completion: nil)
                 
+                /*
+                 UIView.animate(withDuration: 0.1, animations: {
+                 self.loginButton.transform = CGAffineTransform.identity
+                 //print("login")
+                 
+                 //self.performSegue(withIdentifier: Segue_Identifiers.login_segue, sender: nil)
+                 
+                 
+                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                 let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
+                 loginVC.delegate = self
+                 
+                 self.present(loginVC, animated: true, completion: nil)
+                 
+                 })
+                 */
             })
-            */
-        })
+        }
         
     }
     

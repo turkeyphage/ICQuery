@@ -70,17 +70,10 @@ class LoginViewController: UIViewController {
     
     var original_constraint_constant : CGFloat = 35.0
     
-    
 
-    
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+ 
         //gesture
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
         gestureRecognizer.cancelsTouchesInView = false
@@ -94,22 +87,7 @@ class LoginViewController: UIViewController {
         register_button.layer.cornerRadius = 5
 
 
-        print("\(API_Manager.shared.DEVICE_API_PATH)")
-        
-        
-        
-        //        login_popview.layer.cornerRadius = 10
-//        let maskPath = UIBezierPath(roundedRect: member_label.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 9.0, height: 9.0))
-//        
-//        let shape = CAShapeLayer()
-//        shape.path = maskPath.cgPath
-//        member_label.layer.mask = shape
-        
-        //member_label.layer.masksToBounds = true
-        //member_label.layer.cornerRadius = 10
-        
-        
-        
+        //print("\(API_Manager.shared.DEVICE_API_PATH)")
         
     }
     
@@ -125,7 +103,8 @@ class LoginViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
     
     
@@ -302,16 +281,10 @@ class LoginViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
+ 
     }
+  
+    
     
     //註冊會員 pressed
     // register pop-up view button_action methods
@@ -390,26 +363,38 @@ class LoginViewController: UIViewController {
             
             if error != nil{
                 print(error.debugDescription)
+                
                 let alert = UIAlertController(title: "連線失敗", message: "伺服器連線失敗，請稍後再試", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
+                
             }else{
                 if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
                     if serverTalkBack == "0"{
                         //資料有誤！
-                        let alert = UIAlertController(title: "登入失敗", message: "請再次確認填入帳號與密碼是否正確", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    
-                    } else if serverTalkBack == "ERR: email registed" {
-                        let alert = UIAlertController(title: "該Email已註冊過", message: "請使用有效的Email", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true, completion: {
                         
-                            self.register_email_textField.text = ""
-                            self.register_password_textField.text = ""
-                            self.register_reenter_password_textField.text = ""
-                        })
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "登入失敗", message: "請再次確認填入帳號與密碼是否正確", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true, completion: {
+                                self.login_email_textField.text = ""
+                                self.login_password_textField.text = ""
+                            
+                            })
+                        }
+                        
+                    } else if serverTalkBack == "ERR: email registed" {
+                        
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "該Email已註冊過", message: "請使用有效的Email", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true, completion: {
+                                
+                                self.register_email_textField.text = ""
+                                self.register_password_textField.text = ""
+                                self.register_reenter_password_textField.text = ""
+                            })
+                        }
                     
                     } else {
                         
@@ -430,31 +415,31 @@ class LoginViewController: UIViewController {
                             if serverTalkBack == ""{
                                 // 找不到該email
                                 
-                                let alert = UIAlertController(title: "此Email尚未註冊會員", message: "請重新輸入Email帳號", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-                                //self.present(alert, animated: true, completion: nil)
-                                self.present(alert, animated: true, completion: {
-                                    
-                                    self.forget_email_textField.text = ""
-                                    
-                                })
-                                
+                                DispatchQueue.main.async {
+                                    let alert = UIAlertController(title: "此Email尚未註冊會員", message: "請重新輸入Email帳號", preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                    //self.present(alert, animated: true, completion: nil)
+                                    self.present(alert, animated: true, completion: {
+                                        
+                                        self.forget_email_textField.text = ""
+                                    })
+                                }
+                              
                             } else {
-                                
-                                let alert = UIAlertController(title: "密碼已重新設定", message: "請使用新密碼重新登入", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler: { (action) in
-                                
-                                    self.close()
-                                }))
-                                self.present(alert, animated: true, completion: nil)
+                                DispatchQueue.main.async {
+                                    let alert = UIAlertController(title: "密碼已重新設定", message: "請使用新密碼重新登入", preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler: { (action) in
+                                        
+                                        self.close()
+                                    }))
+                                    self.present(alert, animated: true, completion: nil)
+                                }
                             }
                             
                         }
  
                     }
                 }
-                
-                
             }
         }
         
