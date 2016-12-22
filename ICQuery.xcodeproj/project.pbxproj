@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */; };
 		DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FB5C1DF94D670046E44D /* DetailViewController.swift */; };
+		DB2E6FF21E0B87CA00F9B8F4 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2E6FF11E0B87CA00F9B8F4 /* ProductDetail.swift */; };
 		DB4293611E08225800E9AA46 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4293601E08225800E9AA46 /* Reachability.swift */; };
 		DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5DAE0E1DF8FA4500650807 /* ListCell.xib */; };
 		DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */; };
@@ -71,6 +72,7 @@
 /* Begin PBXFileReference section */
 		DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnderlinedSegmentedControl.swift; sourceTree = "<group>"; };
 		DB18FB5C1DF94D670046E44D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		DB2E6FF11E0B87CA00F9B8F4 /* ProductDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		DB4293601E08225800E9AA46 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		DB5DAE0E1DF8FA4500650807 /* ListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
 		DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				DB4293601E08225800E9AA46 /* Reachability.swift */,
+				DB2E6FF11E0B87CA00F9B8F4 /* ProductDetail.swift */,
 				DBD360591E02618D00A08204 /* DBManager.swift */,
 				DB9EF9131E08EE480066E8C5 /* API_Manager.swift */,
 				DBD3605D1E02794100A08204 /* DeviceModel.swift */,
@@ -437,6 +440,7 @@
 				DBD3605E1E02794100A08204 /* DeviceModel.swift in Sources */,
 				DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */,
 				DB4293611E08225800E9AA46 /* Reachability.swift in Sources */,
+				DB2E6FF21E0B87CA00F9B8F4 /* ProductDetail.swift in Sources */,
 				DBD360491E0260F500A08204 /* FMDatabase.m in Sources */,
 				DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */,
 				DBD3604C1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */,

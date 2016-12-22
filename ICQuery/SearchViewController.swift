@@ -201,24 +201,43 @@ class SearchViewController: UIViewController{
 
                     if let data = data, let jsonDictionary = self.parse(json: data) {
                         //print("\(jsonDictionary)")
-                        DispatchQueue.main.async {
-                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                            let lsVC = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+                        
+                        //確定page總數：
+                        
+                        if self.get_total(dictionary: jsonDictionary) <= 0{
+                            DispatchQueue.main.async {
+                                let alert = UIAlertController(title: "查無資料", message: "請嘗試其他關鍵字", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                self.present(alert, animated: true, completion:{
+                                    self.textField.text = ""
+                                })
+                            }
                             
-                            lsVC.json_dic = jsonDictionary
-                            // 動畫
-                            lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
-                            lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-                            self.present(lsVC, animated: true, completion: nil)
+                        } else {
+                            DispatchQueue.main.async {
+                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                let lsVC = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+                                
+                                lsVC.currentPage = 1
+                                lsVC.totalPins = self.get_total(dictionary: jsonDictionary)
+                                lsVC.json_dic = jsonDictionary
+                                lsVC.searchKeyword =  no_space_and_getFirstWord!
+                                lsVC.searchAPI_Address = API_Manager.shared.SEARCH_API_PATH
+                                
+                                // 動畫
+                                lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
+                                lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+                                self.present(lsVC, animated: true, completion: nil)
+                            }
                         }
                     }
-                    
                 }
             }   
             task.resume()
         }
     }
     
+    //****** Parsing ******//
     func parse(json data:Data) -> [String : Any]? {
         
         do {
@@ -237,6 +256,16 @@ class SearchViewController: UIViewController{
         }
         
     }
+    
+    
+    func get_total(dictionary:[String:Any]) -> Int{
+        guard let total = dictionary["total"] as? String else {
+            return 0
+        }
+        
+        return Int(total)!
+    }
+    //**********************//
     
     
     
