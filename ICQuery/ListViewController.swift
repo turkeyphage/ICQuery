@@ -170,7 +170,7 @@ class ListViewController: UIViewController{
                 //print("\(resultDict)")
                 //resultDict代表每一個item，都是dictionary，也代表每一個cell
                 if let resultDict = resultDict as? [String: Any] {
-                    let searchResult =  ProductDetail()
+                    var searchResult =  ProductDetail()
                     searchResult.pn = resultDict["pn"] as! String
                     //拆到mfslist裡
                     if let mfslist = resultDict["mfslist"] as? [Any]{

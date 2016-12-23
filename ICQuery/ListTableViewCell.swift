@@ -71,9 +71,11 @@ class ListTableViewCell: UITableViewCell {
         
         itemImageView.image = UIImage(named: "logo_120_120")
     
+        
         if let smallURL = URL(string: productDetail.picurl) {
             downloadTask = itemImageView.loadImage(url: smallURL)
         }
+        
     }
 
     

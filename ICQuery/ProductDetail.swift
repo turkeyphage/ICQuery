@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProductDetail: NSObject {
+struct ProductDetail {
 
     var pn : String = ""
     var mfs : String = ""
