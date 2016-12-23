@@ -16,23 +16,23 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="106"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MIO-1C-LrH" id="eRZ-3B-NR8">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="105.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="106"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BCB-9Y-XwX" userLabel="model label">
-                        <rect key="frame" x="106" y="33" width="44.5" height="21"/>
+                        <rect key="frame" x="106" y="33" width="45" height="21"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" red="0.00069203922420000002" green="0.1068202796" blue="0.67100469559999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9zw-tF-dL2" userLabel="type label">
-                        <rect key="frame" x="106" y="59" width="31" height="14.5"/>
+                        <rect key="frame" x="106" y="59" width="31" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6B-SH-Bcj" userLabel="detail label">
-                        <rect key="frame" x="106" y="78.5" width="31" height="14.5"/>
+                        <rect key="frame" x="106" y="79" width="31" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -43,19 +43,18 @@
                         <color key="textColor" red="0.22999486159999999" green="0.54671285810000003" blue="0.86010362689999997" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kMg-aC-3P6">
-                        <rect key="frame" x="8" y="7" width="90" height="90"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kMg-aC-3P6">
+                        <rect key="frame" x="8" y="8" width="90" height="89"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="90" id="LxE-PA-IkZ"/>
                             <constraint firstAttribute="width" constant="90" id="isG-3w-z6G"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="BCB-9Y-XwX" firstAttribute="top" secondItem="yNq-vd-i4N" secondAttribute="bottom" constant="8" id="1aE-GP-NpN"/>
+                    <constraint firstItem="kMg-aC-3P6" firstAttribute="top" secondItem="eRZ-3B-NR8" secondAttribute="top" constant="8" id="1kx-xF-Mfu"/>
                     <constraint firstItem="kMg-aC-3P6" firstAttribute="leading" secondItem="eRZ-3B-NR8" secondAttribute="leading" constant="8" id="4ye-AP-4ii"/>
                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="BCB-9Y-XwX" secondAttribute="trailing" id="7aH-A3-oGb"/>
-                    <constraint firstAttribute="topMargin" secondItem="yNq-vd-i4N" secondAttribute="top" id="9SA-dT-Oj7"/>
                     <constraint firstItem="BCB-9Y-XwX" firstAttribute="leading" secondItem="yNq-vd-i4N" secondAttribute="leading" id="A3s-rY-qKL"/>
                     <constraint firstItem="9zw-tF-dL2" firstAttribute="top" secondItem="BCB-9Y-XwX" secondAttribute="bottom" constant="5" id="Air-jF-rC9"/>
                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="9zw-tF-dL2" secondAttribute="trailing" id="DXH-f9-lZ1"/>
@@ -66,7 +65,8 @@
                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="M6B-SH-Bcj" secondAttribute="trailing" id="Yv1-qb-OHu"/>
                     <constraint firstItem="M6B-SH-Bcj" firstAttribute="top" secondItem="9zw-tF-dL2" secondAttribute="bottom" constant="5" id="a3H-8g-czd"/>
                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="yNq-vd-i4N" secondAttribute="trailing" id="gzK-vk-7Oj"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="M6B-SH-Bcj" secondAttribute="bottom" constant="4" id="pXg-Vj-WLD"/>
+                    <constraint firstAttribute="bottom" secondItem="kMg-aC-3P6" secondAttribute="bottom" constant="8" id="nC2-2R-Wq2"/>
+                    <constraint firstItem="yNq-vd-i4N" firstAttribute="top" secondItem="kMg-aC-3P6" secondAttribute="top" id="vC7-EG-aYe"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

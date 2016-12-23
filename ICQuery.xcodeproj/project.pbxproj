@@ -10,6 +10,7 @@
 		DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */; };
 		DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FB5C1DF94D670046E44D /* DetailViewController.swift */; };
 		DB2E6FF21E0B87CA00F9B8F4 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2E6FF11E0B87CA00F9B8F4 /* ProductDetail.swift */; };
+		DB2E70141E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2E70131E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift */; };
 		DB4293611E08225800E9AA46 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4293601E08225800E9AA46 /* Reachability.swift */; };
 		DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5DAE0E1DF8FA4500650807 /* ListCell.xib */; };
 		DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */; };
@@ -73,6 +74,7 @@
 		DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnderlinedSegmentedControl.swift; sourceTree = "<group>"; };
 		DB18FB5C1DF94D670046E44D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DB2E6FF11E0B87CA00F9B8F4 /* ProductDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
+		DB2E70131E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+DownloadImage.swift"; sourceTree = "<group>"; };
 		DB4293601E08225800E9AA46 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		DB5DAE0E1DF8FA4500650807 /* ListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
 		DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				DB9FF62F1E0A96EB00E1DCF0 /* MBProgressHUD.h */,
+				DB2E70131E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift */,
 				DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */,
 				DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */,
 				DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */,
@@ -433,6 +436,7 @@
 				DB9FF6311E0A96EB00E1DCF0 /* MBProgressHUD.m in Sources */,
 				DBF896A91DF52C5900366418 /* SearchViewController.swift in Sources */,
 				DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */,
+				DB2E70141E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift in Sources */,
 				DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */,
 				DBD360551E0260F500A08204 /* FMResultSet.m in Sources */,
 				DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */,

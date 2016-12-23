@@ -177,7 +177,9 @@ class ListViewController: UIViewController{
                             }
                             if let picurl = detailDic["picurl"] as? String{
                                 searchResult.picurl = picurl
+                                print("\(picurl)")
                             }
+                            
                             if let desc = detailDic["desc"] as? String{
                                 searchResult.desc = desc
                             }
