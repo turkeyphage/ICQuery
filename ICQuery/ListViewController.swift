@@ -56,6 +56,9 @@ class ListViewController: UIViewController{
     
     
     
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let placeholderStr = NSAttributedString(string: "請輸入查詢資料", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
@@ -247,16 +250,16 @@ extension ListViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell =  tableView.dequeueReusableCell(withIdentifier: CellID.list_cell, for: indexPath) as! ListTableViewCell
+        let searchResult = allItems[indexPath.row]
+        cell.configure(for: searchResult)
         
-        cell.itemImageView.image = UIImage(named: "logo_120_120")
-        
-        cell.companyNameLabel.text = allItems[indexPath.row].mfs
-        cell.modelNameLabel.text = allItems[indexPath.row].pn
-        cell.typeLabel.text = allItems[indexPath.row].catagory
-        cell.detailLabel.text = allItems[indexPath.row].desc
         return cell
         
     }
+    
+    
+    
+    
     
 }
 
@@ -264,7 +267,11 @@ extension ListViewController:UITableViewDataSource{
 
 // MARK: TableViewDelegate Method
 extension ListViewController:UITableViewDelegate{
-    
+
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
 }
 

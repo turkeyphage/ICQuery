@@ -21,6 +21,8 @@ extension UIImageView {
                         strongSelf.image = image
                     }
                 }
+            } else {
+                print("Error: \(error)")
             }
         })
         
