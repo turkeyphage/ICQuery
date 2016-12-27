@@ -159,6 +159,10 @@ class SearchViewController: UIViewController{
     
     @IBAction func searchButtonPressed(_ sender: Any) {
         
+        
+        self.textField.resignFirstResponder()
+
+        
         if self.textField.text!.isEmpty{
         
             let alert = UIAlertController(title: "尚未輸入任何搜尋關鍵字", message:"請重新輸入搜尋字串", preferredStyle: .alert)

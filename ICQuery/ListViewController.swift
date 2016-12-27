@@ -54,15 +54,13 @@ class ListViewController: UIViewController{
     
     var allItems : [ProductDetail]!
     
-    
-    
-    
-    
+    var isLoadingMore = false // flag
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let placeholderStr = NSAttributedString(string: "請輸入查詢資料", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
         searchTextField.attributedPlaceholder = placeholderStr
+        searchTextField.delegate = self
         
         //print("keyword: \(self.searchKeyword)")
         //print("searchAPI = \(self.searchAPI_Address)")
@@ -70,7 +68,7 @@ class ListViewController: UIViewController{
         //print("currentPage = \(self.currentPage)")
         
         
-
+        
         //print("\(self.json_dic)")
         
         //listTableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
@@ -101,10 +99,6 @@ class ListViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        //self.parse(dictionary: self.json_dic)
-        //print("\(self.get_total_pages(dictionary: self.json_dic))")
-        
         self.allItems = self.parse(dictionary: json_dic)
         
     }
@@ -204,25 +198,148 @@ class ListViewController: UIViewController{
     }
     
     
-    /*******************/
     
-    // paring json
-    func parse(json: String) -> [String: Any]? {
-        guard let data = json.data(using: .utf8, allowLossyConversion: false)
-            else { return nil }
+    func parse(json data:Data) -> [String : Any]? {
+        
         do {
-            return try JSONSerialization.jsonObject(
-                with: data, options: []) as? [String: Any]
-        } catch {
-            print("JSON Error: \(error)")
+            return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        } catch{
+            print("JSON Error:\(error)")
+            
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "JSON解析錯誤", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                self.present(alert, animated: true, completion:nil)
+            }
+            
+            
             return nil
         }
+        
+    }
+    
+    func get_total(dictionary:[String:Any]) -> Int{
+        guard let total = dictionary["total"] as? String else {
+            return 0
+        }
+        
+        return Int(total)!
     }
     
     
     
+    /*******************/
+    
+    // paring json
+    //    func parse(json: String) -> [String: Any]? {
+    //        guard let data = json.data(using: .utf8, allowLossyConversion: false)
+    //            else { return nil }
+    //        do {
+    //            return try JSONSerialization.jsonObject(
+    //                with: data, options: []) as? [String: Any]
+    //        } catch {
+    //            print("JSON Error: \(error)")
+    //            return nil
+    //        }
+    //    }
+    
     
     //check if there is next page
+    
+    
+    
+    
+    //search button pressed
+    
+    @IBAction func searchButtonPressed(_ sender: Any) {
+        print("get another search")
+        searchTextField.resignFirstResponder()
+        
+        
+        self.allItems = []
+        self.listTableView.reloadData()
+        
+        
+        if searchTextField.text!.isEmpty{
+            
+            let alert = UIAlertController(title: "尚未輸入任何搜尋關鍵字", message:"請重新輸入搜尋字串", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            
+            
+            let searchAPI = API_Manager.shared.SEARCH_API_PATH
+            let searchKeyword = self.searchTextField.text!.components(separatedBy: "\t").first
+            let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
+            
+            //組裝url-string
+            
+            let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, no_space_and_getFirstWord!])
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            print("\(escapedStr)")
+            
+            
+            //放request
+            let url = URL(string: escapedStr)
+            let request = URLRequest(url: url!)
+            //request.httpMethod = "GET"
+            let session = URLSession.shared
+            
+            
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                if error != nil{
+                    print(error.debugDescription)
+                    
+                    //alert -- 連線錯誤
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                        self.present(alert, animated: true, completion:nil)
+                    }
+                    
+                } else {
+                    
+                    if let data = data, let jsonDictionary = self.parse(json: data) {
+                        //print("\(jsonDictionary)")
+                        
+                        //確定總共有幾筆：
+                        if self.get_total(dictionary: jsonDictionary) <= 0{
+                            DispatchQueue.main.async {
+                                let alert = UIAlertController(title: "查無資料", message: "請嘗試其他關鍵字", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                self.present(alert, animated: true, completion:{
+                                    self.searchTextField.text = ""
+                                })
+                            }
+                            
+                        } else {
+                            
+                            DispatchQueue.main.async {
+                                
+                                //設定筆數：
+                                self.totalPins = self.get_total(dictionary: jsonDictionary)
+                                
+                                // 爬資料：
+                                // 存資料到json_dic
+                                self.json_dic = jsonDictionary
+                                
+                                //更新資料
+       
+                                self.allItems = self.parse(dictionary: self.json_dic)
+                                self.listTableView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    
+    // network connect:
+    
     
     
     
@@ -267,10 +384,43 @@ extension ListViewController:UITableViewDataSource{
 
 // MARK: TableViewDelegate Method
 extension ListViewController:UITableViewDelegate{
-
+    
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffset = Double(scrollView.contentOffset.y)
+        let maximumOffset = Double(scrollView.contentSize.height - scrollView.frame.size.height)
+        
+        if !isLoadingMore && (maximumOffset - contentOffset == 0) {
+            // Get more data - API call
+            self.isLoadingMore = true
+            
+            print("is LoadingMore")
+            print("*************************")
+            DispatchQueue.main.async {
+                self.isLoadingMore = false
+            }
+            
+            //            // Update UI
+            //            dispatch_async(dispatch_get_main_queue()) {
+            //                tableView.reloadData()
+            //                self.isLoadingMore = false
+            //            }
+        }
+    }
+    
+}
+
+
+// Mark: TextfieldDelegate Method
+extension ListViewController:UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 }

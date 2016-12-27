@@ -507,6 +507,9 @@
                                             <constraint firstAttribute="width" constant="44" id="Z8o-G2-b7s"/>
                                         </constraints>
                                         <state key="normal" image="landing_search_01"/>
+                                        <connections>
+                                            <action selector="searchButtonPressed:" destination="otV-xM-jzn" eventType="touchUpInside" id="xTF-Wp-rbN"/>
+                                        </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入查詢型號" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fnh-mZ-2rM">
                                         <rect key="frame" x="52" y="28" width="271" height="28"/>
