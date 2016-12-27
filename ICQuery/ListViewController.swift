@@ -20,6 +20,8 @@ class ListViewController: UIViewController{
     
     var totalPins : Int!
     var currentPage : Int!
+    var isLoading : Bool = false
+    
     
     var totalPages: Int{
         get {
@@ -174,7 +176,7 @@ class ListViewController: UIViewController{
                             }
                             if let picurl = detailDic["picurl"] as? String{
                                 searchResult.picurl = picurl
-                                print("\(picurl)")
+                                //print("\(picurl)")
                             }
                             
                             if let desc = detailDic["desc"] as? String{
@@ -289,7 +291,7 @@ class ListViewController: UIViewController{
             
             let task = session.dataTask(with: request as URLRequest) { data, response, error in
                 if error != nil{
-                    print(error.debugDescription)
+                    //print(error.debugDescription)
                     
                     //alert -- 連線錯誤
                     DispatchQueue.main.async {
@@ -312,20 +314,18 @@ class ListViewController: UIViewController{
                                     self.searchTextField.text = ""
                                 })
                             }
-                            
                         } else {
-                            
                             DispatchQueue.main.async {
-                                
                                 //設定筆數：
                                 self.totalPins = self.get_total(dictionary: jsonDictionary)
-                                
+                                //設定目前頁數：
+                                self.currentPage = 1
+                                self.searchKeyword = self.searchTextField.text
                                 // 爬資料：
                                 // 存資料到json_dic
                                 self.json_dic = jsonDictionary
                                 
                                 //更新資料
-       
                                 self.allItems = self.parse(dictionary: self.json_dic)
                                 self.listTableView.reloadData()
                             }
@@ -338,9 +338,82 @@ class ListViewController: UIViewController{
     }
     
     
-    // network connect:
-    
-    
+    //load more data:
+    func loadMore(){
+        //check page
+        
+        if isNextPageExist, !isLoading{
+            //往下一頁
+            isLoading = true
+            self.currentPage! += 1
+            
+            
+            let searchAPI = self.searchAPI_Address
+            let searchKeyword = self.searchKeyword.components(separatedBy: "\t").first
+            let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
+            
+            //組裝url-string
+            
+            let combinedStr = String(format: "%@?t=f&p=%@&q=%@", arguments: [searchAPI!, "\(self.currentPage!)",no_space_and_getFirstWord!])
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            print("\(escapedStr)")
+            
+            
+            // 放request
+            let url = URL(string: escapedStr)
+            let request = URLRequest(url: url!)
+            //request.httpMethod = "GET"
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                if error != nil{
+                    print(error.debugDescription)
+                    
+                    //alert -- 連線錯誤
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "資料更新異常", message: "請稍後再試", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                        self.present(alert, animated: true, completion:{
+                            self.currentPage! -= 1
+                            self.isLoading = false
+                        })
+                    }
+                    
+                } else {
+                    
+                    if let data = data, let jsonDictionary = self.parse(json: data) {
+                        //print("\(jsonDictionary)")
+
+
+                        // 爬資料：
+                        // 存資料到json_dic
+                        self.json_dic = jsonDictionary
+                        
+                        //更新資料
+                        self.allItems! += self.parse(dictionary: self.json_dic)
+                        
+                        DispatchQueue.main.async {
+                            self.listTableView.reloadData()
+                            self.isLoading = false
+                        }
+                        
+                    } else {
+                    
+                        print("json parsing error")
+                        self.isLoading = false
+                    }
+                }
+            }
+            task.resume()
+            
+        } else {
+            print("已經到達最後一頁")
+            self.isLoading = false
+        }
+        
+        
+        
+    }
     
     
     
@@ -370,13 +443,17 @@ extension ListViewController:UITableViewDataSource{
         let searchResult = allItems[indexPath.row]
         cell.configure(for: searchResult)
         
+        
+        if indexPath.row == self.allItems.count-1 {
+            print("current page:\(self.currentPage!), final row")
+            self.loadMore()
+        }
+        
+        
+        
         return cell
         
     }
-    
-    
-    
-    
     
 }
 
@@ -390,27 +467,30 @@ extension ListViewController:UITableViewDelegate{
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let contentOffset = Double(scrollView.contentOffset.y)
-        let maximumOffset = Double(scrollView.contentSize.height - scrollView.frame.size.height)
-        
-        if !isLoadingMore && (maximumOffset - contentOffset == 0) {
-            // Get more data - API call
-            self.isLoadingMore = true
-            
-            print("is LoadingMore")
-            print("*************************")
-            DispatchQueue.main.async {
-                self.isLoadingMore = false
-            }
-            
-            //            // Update UI
-            //            dispatch_async(dispatch_get_main_queue()) {
-            //                tableView.reloadData()
-            //                self.isLoadingMore = false
-            //            }
-        }
-    }
+    /*
+     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+     let contentOffset = Double(scrollView.contentOffset.y)
+     let maximumOffset = Double(scrollView.contentSize.height - scrollView.frame.size.height)
+     
+     if !isLoadingMore && (maximumOffset - contentOffset == 0) {
+     // Get more data - API call
+     self.isLoadingMore = true
+     
+     print("is LoadingMore")
+     print("*************************")
+     DispatchQueue.main.async {
+     self.isLoadingMore = false
+     }
+     
+     //            // Update UI
+     //            dispatch_async(dispatch_get_main_queue()) {
+     //                tableView.reloadData()
+     //                self.isLoadingMore = false
+     //            }
+     }
+     }
+     
+     */
     
 }
 
