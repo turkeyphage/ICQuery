@@ -464,8 +464,39 @@ extension ListViewController:UITableViewDelegate{
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
+       
         tableView.deselectRow(at: indexPath, animated: true)
+        // 轉到DetailViewController
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        
+        detailVC.selectedProduct = allItems[indexPath.row]
+        //detailVC.totalPins = self.get_total(dictionary: jsonDictionary)
+        //detailVC.json_dic = jsonDictionary
+        //detailVC.searchKeyword =  no_space_and_getFirstWord!
+        //detailVC.searchAPI_Address = API_Manager.shared.SEARCH_API_PATH
+        
+        // 動畫
+        detailVC.modalPresentationStyle = UIModalPresentationStyle.custom
+        detailVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        self.present(detailVC, animated: true, completion: nil)
+        
+        
+        
     }
+    
+    
+    //  make sure you can only select rows with actual search results
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        
+        if self.isLoading || self.allItems.count == 0 {
+            return nil
+        } else {
+            return indexPath
+        }
+    }
+    
+    
     
     /*
      func scrollViewDidScroll(_ scrollView: UIScrollView) {

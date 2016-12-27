@@ -10,6 +10,8 @@
 
 
 import UIKit
+import SafariServices
+
 
 class DetailViewController: UIViewController {
 
@@ -32,11 +34,15 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var firstTableView: UITableView!
     
     @IBOutlet weak var secondTableView: UITableView!
-
+    
+    var selectedProduct : ProductDetail!
+    var datasheetURLStr : String!
+    
     
     
     let mySegmentedControl = UnderlinedSegmentedControl()
     
+    var downloadTask: URLSessionDownloadTask?
     
     var offset: CGFloat = 0.0 {
         // offset的值時，執行didSet
@@ -47,6 +53,7 @@ class DetailViewController: UIViewController {
         }
     }
     
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,14 +77,21 @@ class DetailViewController: UIViewController {
         
         datasheetButton.layer.borderColor = UIColor.lightGray.cgColor
         
+        check_datasheet_available()
         
-
-        //fake data
+        
+        //顯示內容
         product_imageview.image = UIImage(named: "logo_120_120")
-        company_label.text = "Texas Instruments"
-        model_label.text =  "LM555"
-        detail_label.text = "Output Can Source or Sink 200 mA, Temperature Stability Better than 0.005% per °C"
-
+        
+        if let smallURL = URL(string: selectedProduct.picurl) {
+            downloadTask = product_imageview.loadImage(url: smallURL)
+        }
+        
+        
+        company_label.text = selectedProduct.mfs
+        model_label.text =  selectedProduct.pn
+        detail_label.text = selectedProduct.desc
+        
 
        
         
@@ -177,6 +191,53 @@ class DetailViewController: UIViewController {
         let nc = NotificationCenter.default
         nc.removeObserver(self)
     }
+    
+    
+    //返回ListViewController
+    
+    @IBAction func backButtonPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func datasheetButtonPressed(_ sender: Any) {
+        
+        // get datasheet url string
+        print("\(self.datasheetURLStr)")
+        
+        let svc = SFSafariViewController(url: URL(string: self.datasheetURLStr)!)
+        self.present(svc, animated: true, completion: nil)
+        
+        
+        
+    }
+    
+
+    
+    func check_datasheet_available(){
+
+        if let firstItem = selectedProduct.list.first{
+        
+            //print("\(firstItem)")
+            if let docurl = firstItem["docurl"] as! String?{
+            
+                print("\(docurl)")
+                if docurl != "null" , docurl != "NULL" , docurl != "Null"{
+                    self.datasheetURLStr = docurl
+                    self.datasheetButton.isEnabled = true
+                } else {
+                    self.datasheetButton.isEnabled = false
+                }
+                
+                
+            } else {
+                self.datasheetButton.isEnabled = false
+            }
+        } else {
+                self.datasheetButton.isEnabled = false
+        }
+    }
+    
     
     
 }
