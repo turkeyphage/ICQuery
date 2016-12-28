@@ -47,6 +47,7 @@
 		DBD3605F1E02794100A08204 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3605D1E02794100A08204 /* DeviceModel.swift */; };
 		DBD360601E02794100A08204 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD3605D1E02794100A08204 /* DeviceModel.swift */; };
 		DBD360641E028A7C00A08204 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD360631E028A7C00A08204 /* CoreLocation.framework */; };
+		DBE739831E141C040079FC81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBE739821E141C040079FC81 /* LaunchScreen.storyboard */; };
 		DBF896751DF4FC2C00366418 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF896741DF4FC2C00366418 /* AppDelegate.swift */; };
 		DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF896781DF4FC2C00366418 /* Main.storyboard */; };
 		DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBF8967B1DF4FC2C00366418 /* ICQuery.xcdatamodeld */; };
@@ -112,6 +113,7 @@
 		DBD3605D1E02794100A08204 /* DeviceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
 		DBD360611E02834800A08204 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DBD360631E028A7C00A08204 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		DBE739821E141C040079FC81 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DBF896711DF4FC2C00366418 /* ICQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF896741DF4FC2C00366418 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBF896791DF4FC2C00366418 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				DBF8967E1DF4FC2C00366418 /* Assets.xcassets */,
 				DBF896831DF4FC2C00366418 /* Info.plist */,
 				DBF896741DF4FC2C00366418 /* AppDelegate.swift */,
+				DBE739821E141C040079FC81 /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */,
 				DB989DAB1E13684F0055F61B /* ManufacturerCell.xib in Resources */,
 				DBF8967F1DF4FC2C00366418 /* Assets.xcassets in Resources */,
+				DBE739831E141C040079FC81 /* LaunchScreen.storyboard in Resources */,
 				DB5E1ED11E139BA400658702 /* SpecCell.xib in Resources */,
 				DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */,
 			);
