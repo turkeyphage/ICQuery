@@ -37,6 +37,8 @@ class DetailViewController: UIViewController {
     
     var selectedProduct : ProductDetail!
     var datasheetURLStr : String!
+    var spec : [[String:String]] = []
+    
     
     
     
@@ -58,6 +60,10 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        get_spec_detail()
+        
+        
         //set notification observer
         let nc = NotificationCenter.default
         nc.addObserver(forName: NSNotification.Name.init(rawValue: "SegmentWasSelected"), object: nil, queue: nil, using: catchingNotification)
@@ -149,6 +155,10 @@ class DetailViewController: UIViewController {
         let speccellNib = UINib(nibName: CellID.spec_cell, bundle: nil)
         
         secondTableView.register(speccellNib, forCellReuseIdentifier: CellID.spec_cell)
+        
+        secondTableView.estimatedRowHeight = 50
+        secondTableView.rowHeight = UITableViewAutomaticDimension
+        
         
         
         
@@ -270,11 +280,13 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         if tableView == self.firstTableView {
             return self.selectedProduct.list.count
         } else {
-            return 10
+            
+            if self.spec.isEmpty {
+                return 1
+            } else {
+                return self.spec.count
+            }
         }
-        
-        
-        
         
     }
     
@@ -365,20 +377,30 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             
             
             
-            
-            
-            
-            
-            
-            
-            
+            if self.spec.isEmpty{
+                spec_cell.keyLabel.text = "該物件"
+                spec_cell.valueLabel.text = "目前尚無提供規格參考資料"
+            } else {
+                spec_cell.keyLabel.text = self.spec[indexPath.row].keys.first
+                spec_cell.valueLabel.text = self.spec[indexPath.row].values.first
+            }
+
             return spec_cell
         }
         
         
     }
     
-
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    
+    
+    
+    
     
     func swipe(_ gesture: UISwipeGestureRecognizer) {
         
@@ -393,6 +415,47 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         }
     }
 
+    
+    func get_spec_detail(){
+    
+        if let firstItem = self.selectedProduct.list.first{
+        
+            if let specData = firstItem["spec"] as? String{
+                
+                if !specData.isEmpty{
+                    //print("\(specData)")
+                    //開始paring
+                    //去掉{}
+                    let noLeft = specData.replacingOccurrences(of: "{", with: "")
+                    let noRight = noLeft.replacingOccurrences(of: "}", with: "")
+                    
+                    //以, 區隔
+                    let separateByComma = noRight.components(separatedBy: ",")
+                    
+                    for eachItem in separateByComma{
+                        
+                        var separateByQuotation = eachItem.components(separatedBy: "'")
+                        
+                        if separateByQuotation.count == 5{
+                            //去掉最前頭的""
+                            separateByQuotation.removeFirst()
+                            //去掉最後頭的""
+                            separateByQuotation.removeLast()
+                            
+                            if separateByQuotation.count == 3{
+                                self.spec.append([separateByQuotation.first!:separateByQuotation.last!])
+                            }
+                            
+                        }
+                    }
+
+                }
+            }
+
+        }
+    
+    }
+    
     
     
     
