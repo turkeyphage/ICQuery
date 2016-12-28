@@ -22,7 +22,7 @@ extension UIImageView {
                     }
                 }
             } else {
-                print("Error: \(error)")
+                //print("Error: \(error)")
             }
         })
         

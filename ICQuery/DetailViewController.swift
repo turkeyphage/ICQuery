@@ -152,7 +152,6 @@ class DetailViewController: UIViewController {
         
         
         
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -229,10 +228,10 @@ class DetailViewController: UIViewController {
 
         if let firstItem = selectedProduct.list.first{
         
-            //print("\(firstItem)")
+
             if let docurl = firstItem["docurl"] as! String?{
             
-                print("\(docurl)")
+
                 if docurl != "null" , docurl != "NULL" , docurl != "Null"{
                     self.datasheetURLStr = docurl
                     self.datasheetButton.isEnabled = true
@@ -269,7 +268,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         
         
         if tableView == self.firstTableView {
-            return 5
+            return self.selectedProduct.list.count
         } else {
             return 10
         }
@@ -287,12 +286,91 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             tableView.backgroundColor = UIColor.white
             let manuCell:ManufacturerCell = tableView.dequeueReusableCell(withIdentifier: "ManufacturerCell", for: indexPath) as! ManufacturerCell
             
+            manuCell.keyLabel.text = self.selectedProduct.list[indexPath.row]["sup"] as! String?
+            
+            
+            // 獲得價錢單位：
+            var oneprice = ""
+            var currance = ""
+            if let cur = self.selectedProduct.list[indexPath.row]["cur"] as! String?{
+                
+                currance = cur
+                
+                // 取得價錢：
+                if let price = self.selectedProduct.list[indexPath.row]["price"] as! String?{
+                    //print("price =\(price)")
+                    
+                    let removeSpacePrice = price.replacingOccurrences(of: " ", with: "")
+                    
+                    if let getOne = removeSpacePrice.components(separatedBy: ";").first{
+                        if let getPureValue = getOne.components(separatedBy: ":").last{
+                            if getPureValue != ""{
+                                
+                                if let pureValue_in_float = Float(getPureValue){
+                                
+                                    let value = String(format: "%.2f", pureValue_in_float)
+                                    oneprice = "\(currance) \(value)"
+                                }
+                            }
+                        }
+                    }
+                
+                } else {
+                   
+                }
+                
+            } else {
+                // 取得價錢：
+                if let price = self.selectedProduct.list[indexPath.row]["price"] as! String?{
+                    //print("price =\(price)")
+                    let removeSpacePrice = price.replacingOccurrences(of: " ", with: "")
+                    
+                    if let getOne = removeSpacePrice.components(separatedBy: ";").first{
+                        if let getPureValue = getOne.components(separatedBy: ":").last{
+                            if getPureValue != ""{
+                                
+                                if let pureValue_in_float = Float(getPureValue){
+                                    
+                                    let value = String(format: "%.2f", pureValue_in_float)
+                                    oneprice = "\(value)"
+                                }
+                            }
+                        }
+                    }
+
+                } else {
+                    //print("no price")
+                }
+
+            }
+            
+            if oneprice != ""{
+                manuCell.valueLabel.text = oneprice
+            } else {
+                manuCell.valueLabel.textColor = UIColor.lightGray
+                manuCell.valueLabel.text = "N/A"
+            }
+
+            
+            
+            
+            
             return manuCell
         
         } else {
             
             tableView.backgroundColor = UIColor.white
             let spec_cell:SpecCell = tableView.dequeueReusableCell(withIdentifier: "SpecCell", for: indexPath) as! SpecCell
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             return spec_cell
         }
@@ -315,8 +393,6 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         }
     }
 
-    
-    
     
     
     
