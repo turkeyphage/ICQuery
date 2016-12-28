@@ -140,6 +140,17 @@ class DetailViewController: UIViewController {
         theScrollView.addGestureRecognizer(swipeRight)
         
         
+        // cell
+        let manucellNib = UINib(nibName: CellID.manufacturer_cell, bundle: nil)
+        
+        firstTableView.register(manucellNib, forCellReuseIdentifier: CellID.manufacturer_cell)
+
+        
+        let speccellNib = UINib(nibName: CellID.spec_cell, bundle: nil)
+        
+        secondTableView.register(speccellNib, forCellReuseIdentifier: CellID.spec_cell)
+        
+        
         
         
     }
@@ -255,22 +266,36 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        
+        
+        if tableView == self.firstTableView {
+            return 5
+        } else {
+            return 10
+        }
+        
+        
+        
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell:UITableViewCell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         
-        if tableView.tag == 1{
-            cell.backgroundColor = UIColor.yellow
+        if tableView == self.firstTableView{
+            
+            tableView.backgroundColor = UIColor.white
+            let manuCell:ManufacturerCell = tableView.dequeueReusableCell(withIdentifier: "ManufacturerCell", for: indexPath) as! ManufacturerCell
+            
+            return manuCell
+        
         } else {
-            cell.backgroundColor = UIColor.blue
+            
+            tableView.backgroundColor = UIColor.white
+            let spec_cell:SpecCell = tableView.dequeueReusableCell(withIdentifier: "SpecCell", for: indexPath) as! SpecCell
+            
+            return spec_cell
         }
-        
-        
-        return cell
-        
         
         
     }

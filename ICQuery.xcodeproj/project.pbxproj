@@ -14,9 +14,13 @@
 		DB4293611E08225800E9AA46 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4293601E08225800E9AA46 /* Reachability.swift */; };
 		DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5DAE0E1DF8FA4500650807 /* ListCell.xib */; };
 		DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */; };
+		DB5E1ED11E139BA400658702 /* SpecCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5E1ED01E139BA400658702 /* SpecCell.xib */; };
+		DB5E1ED31E139D8000658702 /* SpecCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E1ED21E139D8000658702 /* SpecCell.swift */; };
 		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
 		DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */; };
+		DB989DAB1E13684F0055F61B /* ManufacturerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB989DAA1E13684F0055F61B /* ManufacturerCell.xib */; };
+		DB989DAD1E13691D0055F61B /* ManufacturerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB989DAC1E13691D0055F61B /* ManufacturerCell.swift */; };
 		DB9EF9141E08EE480066E8C5 /* API_Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9EF9131E08EE480066E8C5 /* API_Manager.swift */; };
 		DB9FF6311E0A96EB00E1DCF0 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */; };
 		DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */; };
@@ -78,9 +82,13 @@
 		DB4293601E08225800E9AA46 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		DB5DAE0E1DF8FA4500650807 /* ListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
 		DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		DB5E1ED01E139BA400658702 /* SpecCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpecCell.xib; sourceTree = "<group>"; };
+		DB5E1ED21E139D8000658702 /* SpecCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecCell.swift; sourceTree = "<group>"; };
 		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		DB989DAA1E13684F0055F61B /* ManufacturerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ManufacturerCell.xib; sourceTree = "<group>"; };
+		DB989DAC1E13691D0055F61B /* ManufacturerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManufacturerCell.swift; sourceTree = "<group>"; };
 		DB9EF9131E08EE480066E8C5 /* API_Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API_Manager.swift; sourceTree = "<group>"; };
 		DB9FF62F1E0A96EB00E1DCF0 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -273,8 +281,12 @@
 				DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */,
 				DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */,
 				DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */,
+				DB989DAC1E13691D0055F61B /* ManufacturerCell.swift */,
+				DB5E1ED21E139D8000658702 /* SpecCell.swift */,
 				DBF896781DF4FC2C00366418 /* Main.storyboard */,
 				DB5DAE0E1DF8FA4500650807 /* ListCell.xib */,
+				DB5E1ED01E139BA400658702 /* SpecCell.xib */,
+				DB989DAA1E13684F0055F61B /* ManufacturerCell.xib */,
 				DBF896801DF4FC2C00366418 /* LaunchScreen.storyboard */,
 			);
 			name = Views;
@@ -400,7 +412,9 @@
 			files = (
 				DBF896821DF4FC2C00366418 /* LaunchScreen.storyboard in Resources */,
 				DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */,
+				DB989DAB1E13684F0055F61B /* ManufacturerCell.xib in Resources */,
 				DBF8967F1DF4FC2C00366418 /* Assets.xcassets in Resources */,
+				DB5E1ED11E139BA400658702 /* SpecCell.xib in Resources */,
 				DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,6 +442,7 @@
 			files = (
 				DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */,
 				DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */,
+				DB989DAD1E13691D0055F61B /* ManufacturerCell.swift in Sources */,
 				DBD3604F1E0260F500A08204 /* FMDatabasePool.m in Sources */,
 				DB9EF9141E08EE480066E8C5 /* API_Manager.swift in Sources */,
 				DBD360521E0260F500A08204 /* FMDatabaseQueue.m in Sources */,
@@ -437,6 +452,7 @@
 				DBF896A91DF52C5900366418 /* SearchViewController.swift in Sources */,
 				DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */,
 				DB2E70141E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift in Sources */,
+				DB5E1ED31E139D8000658702 /* SpecCell.swift in Sources */,
 				DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */,
 				DBD360551E0260F500A08204 /* FMResultSet.m in Sources */,
 				DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */,

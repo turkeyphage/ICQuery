@@ -393,5 +393,7 @@ struct Segue_Identifiers{
 
 struct CellID{
     static let list_cell = "ListCell"
+    static let manufacturer_cell = "ManufacturerCell"
+    static let spec_cell = "SpecCell"
     
 }

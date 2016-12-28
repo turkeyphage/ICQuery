@@ -233,7 +233,7 @@ import UIKit
             
             
             
-            print("selected \(calculatedIndex)")
+            //print("selected \(calculatedIndex)")
             	//trigger any events hooked up to this segmented control
         }
         return false
