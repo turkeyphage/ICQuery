@@ -15,6 +15,10 @@ import SafariServices
 
 class DetailViewController: UIViewController {
 
+    //delegate
+    var delegate : DetailViewControllerDelegate!
+    
+    
     @IBOutlet weak var datasheetButton: UIButton!
     @IBOutlet weak var searchTextField: UITextField!
     
@@ -60,6 +64,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        searchTextField.delegate = self
         
         get_spec_detail()
         
@@ -213,8 +218,30 @@ class DetailViewController: UIViewController {
     }
     
     
-    //返回ListViewController
+    //進行新搜尋
     
+    @IBAction func searchButtonPressed(_ sender: Any) {
+        
+        searchTextField.resignFirstResponder()
+        
+        if searchTextField.text!.isEmpty{
+        
+            let alert = UIAlertController(title: "尚未輸入任何搜尋關鍵字", message:"請重新輸入搜尋字串", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+
+        } else {
+        
+            self.delegate.newSearchBegin(searchKey: self.searchTextField.text!)
+            self.dismiss(animated: true, completion: nil)
+        }
+
+    }
+    
+    
+    
+    
+    //返回ListViewController
     @IBAction func backButtonPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -241,10 +268,18 @@ class DetailViewController: UIViewController {
 
             if let docurl = firstItem["docurl"] as! String?{
             
-
-                if docurl != "null" , docurl != "NULL" , docurl != "Null"{
-                    self.datasheetURLStr = docurl
-                    self.datasheetButton.isEnabled = true
+                print("docurl = \(docurl)")
+                if docurl != "null" , docurl != "NULL" , docurl != "Null", !docurl.isEmpty{
+                    
+                    
+                    //檢查是否有多個url
+                    if let firstURL = docurl.components(separatedBy: ",").first{
+                        self.datasheetURLStr = firstURL
+                        self.datasheetButton.isEnabled = true
+                    } else {
+                        self.datasheetButton.isEnabled = false
+                    }
+                    
                 } else {
                     self.datasheetButton.isEnabled = false
                 }
@@ -462,3 +497,22 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
 }
 
 
+// MARK: UITextFieldDelegate Method
+extension DetailViewController:UITextFieldDelegate{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+}
+
+
+
+// MARK: Protocal for sending data back
+
+
+protocol DetailViewControllerDelegate{
+    
+    func newSearchBegin(searchKey:String)
+    
+}

@@ -476,7 +476,7 @@ class LoginViewController: UIViewController {
 
 
 
-// Mark: Protocal for sending data back
+// MARK: Protocal for sending data back
 
 
 protocol LoginViewControllerDelegate{

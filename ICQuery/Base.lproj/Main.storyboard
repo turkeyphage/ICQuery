@@ -590,13 +590,16 @@
                                             <constraint firstAttribute="width" constant="44" id="h3q-P8-y6n"/>
                                         </constraints>
                                         <state key="normal" image="landing_search_01"/>
+                                        <connections>
+                                            <action selector="searchButtonPressed:" destination="7H2-FN-a1C" eventType="touchUpInside" id="shp-Bk-haZ"/>
+                                        </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入查詢型號" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZPd-JG-VU8">
                                         <rect key="frame" x="52" y="28" width="271" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="Z4J-k2-J1Z"/>
                                         </constraints>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>

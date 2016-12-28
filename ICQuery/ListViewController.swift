@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController{
+class ListViewController: UIViewController, DetailViewControllerDelegate{
     
     
     
@@ -383,8 +383,8 @@ class ListViewController: UIViewController{
                     
                     if let data = data, let jsonDictionary = self.parse(json: data) {
                         //print("\(jsonDictionary)")
-
-
+                        
+                        
                         // 爬資料：
                         // 存資料到json_dic
                         self.json_dic = jsonDictionary
@@ -398,7 +398,7 @@ class ListViewController: UIViewController{
                         }
                         
                     } else {
-                    
+                        
                         print("json parsing error")
                         self.isLoading = false
                     }
@@ -464,21 +464,19 @@ extension ListViewController:UITableViewDelegate{
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-       
+        
         tableView.deselectRow(at: indexPath, animated: true)
         // 轉到DetailViewController
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
         detailVC.selectedProduct = allItems[indexPath.row]
-        //detailVC.totalPins = self.get_total(dictionary: jsonDictionary)
-        //detailVC.json_dic = jsonDictionary
-        //detailVC.searchKeyword =  no_space_and_getFirstWord!
-        //detailVC.searchAPI_Address = API_Manager.shared.SEARCH_API_PATH
+        
         
         // 動畫
         detailVC.modalPresentationStyle = UIModalPresentationStyle.custom
         detailVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        detailVC.delegate = self
         self.present(detailVC, animated: true, completion: nil)
         
         
@@ -526,7 +524,7 @@ extension ListViewController:UITableViewDelegate{
 }
 
 
-// Mark: TextfieldDelegate Method
+//MARK: TextfieldDelegate Method
 extension ListViewController:UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -536,3 +534,80 @@ extension ListViewController:UITextFieldDelegate{
     
 }
 
+
+//MARK: DetailViewControllerDelegate Method
+extension ListViewController{
+    
+    func newSearchBegin(searchKey:String){
+        
+        
+        self.allItems = []
+        self.listTableView.reloadData()
+
+        self.searchTextField.text = searchKey
+        
+        let searchAPI = API_Manager.shared.SEARCH_API_PATH
+        let searchKeyword = searchKey.components(separatedBy: "\t").first
+        let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
+        
+        //組裝url-string
+        
+        let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, no_space_and_getFirstWord!])
+        let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        print("\(escapedStr)")
+        
+        //放request
+        let url = URL(string: escapedStr)
+        let request = URLRequest(url: url!)
+        //request.httpMethod = "GET"
+        
+        let session = URLSession.shared
+
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil{
+                //print(error.debugDescription)
+                
+                //alert -- 連線錯誤
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                    self.present(alert, animated: true, completion:nil)
+                }
+                
+            } else {
+                
+                if let data = data, let jsonDictionary = self.parse(json: data) {
+                    //print("\(jsonDictionary)")
+                    
+                    //確定總共有幾筆：
+                    if self.get_total(dictionary: jsonDictionary) <= 0{
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "查無資料", message: "請嘗試其他關鍵字", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                            self.present(alert, animated: true, completion:{
+                                self.searchTextField.text = ""
+                            })
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            //設定筆數：
+                            self.totalPins = self.get_total(dictionary: jsonDictionary)
+                            //設定目前頁數：
+                            self.currentPage = 1
+                            self.searchKeyword = self.searchTextField.text
+                            // 爬資料：
+                            // 存資料到json_dic
+                            self.json_dic = jsonDictionary
+                            
+                            //更新資料
+                            self.allItems = self.parse(dictionary: self.json_dic)
+                            self.listTableView.reloadData()
+                        }
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+ 
+}
