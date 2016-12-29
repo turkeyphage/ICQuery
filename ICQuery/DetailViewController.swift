@@ -136,6 +136,10 @@ class DetailViewController: UIViewController {
         firstTableView.dataSource = self
         secondTableView.dataSource = self
         
+        firstTableView.allowsSelection = true
+        secondTableView.allowsSelection = false
+        
+        
         
         //為scrollview加上手勢辨識
         
@@ -299,8 +303,7 @@ class DetailViewController: UIViewController {
 
 
 
-
-// MARK:TableView delegate method:
+// MARK:UITableViewDatasource and UITableViewDelegate methods:
 
 extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
 
@@ -429,7 +432,17 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
+        let cell = tableView.cellForRow(at: indexPath) as! ManufacturerCell
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let priceChartVC = storyboard.instantiateViewController(withIdentifier: "PriceChartViewController") as! PriceChartViewController
+        
+        priceChartVC.supplierName = cell.keyLabel.text!
+        
+        self.present(priceChartVC, animated: true) { 
+                tableView.deselectRow(at: indexPath, animated: true)
+        }
+        
     }
     
     

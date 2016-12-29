@@ -280,7 +280,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
             
             //組裝url-string
             
-            let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, self.type, no_space_and_getFirstWord!])
+            let combinedStr = String(format: "%@?t=%@&p=1&q=%@", arguments: [searchAPI!, self.type, no_space_and_getFirstWord!])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             print("\(escapedStr)")
             
