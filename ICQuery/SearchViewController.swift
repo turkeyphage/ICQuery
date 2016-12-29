@@ -43,6 +43,10 @@ class SearchViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        
+        
         // 按空白處可以縮鍵盤
         let gestureRecognizer = UITapGestureRecognizer(target: self,action:#selector(keyboardClose))
         gestureRecognizer.cancelsTouchesInView = false
@@ -54,7 +58,7 @@ class SearchViewController: UIViewController{
     
     
     override func viewWillAppear(_ animated: Bool) {
-
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: ReachabilityChangedNotification,object: reachability)
         
@@ -98,7 +102,7 @@ class SearchViewController: UIViewController{
     
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-
+        
         collectionView.reloadData()
     }
     
@@ -159,24 +163,24 @@ class SearchViewController: UIViewController{
     
     
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        print("\(segue.identifier)")
-//
-//    }
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        print("\(segue.identifier)")
+    //
+    //    }
     
     
     @IBAction func searchButtonPressed(_ sender: Any) {
         
         
         self.textField.resignFirstResponder()
-
+        
         
         if self.textField.text!.isEmpty{
-        
+            
             let alert = UIAlertController(title: "尚未輸入任何搜尋關鍵字", message:"請重新輸入搜尋字串", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-        
+            
         } else {
             
             let searchAPI = API_Manager.shared.SEARCH_API_PATH
@@ -189,7 +193,7 @@ class SearchViewController: UIViewController{
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             print("\(escapedStr)")
             //connectToServer(URLString: escapedStr, Type:"Login")
-
+            
             //放request
             let url = URL(string: escapedStr)
             let request = URLRequest(url: url!)
@@ -208,9 +212,9 @@ class SearchViewController: UIViewController{
                         alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
                         self.present(alert, animated: true, completion:nil)
                     }
-
+                    
                 } else {
-
+                    
                     if let data = data, let jsonDictionary = self.parse(json: data) {
                         //print("\(jsonDictionary)")
                         
@@ -244,7 +248,7 @@ class SearchViewController: UIViewController{
                         }
                     }
                 }
-            }   
+            }
             task.resume()
         }
     }
@@ -291,25 +295,25 @@ class SearchViewController: UIViewController{
             if reachability.isReachableViaWiFi {
                 print("Reachable via WiFi")
                 /*
-                let alert = UIAlertController(title: "網路連線方式更動", message: "目前採用WiFi連線", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-                */
+                 let alert = UIAlertController(title: "網路連線方式更動", message: "目前採用WiFi連線", preferredStyle: .alert)
+                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                 self.present(alert, animated: true, completion: nil)
+                 */
             } else {
                 print("Reachable via Cellular")
                 /*
-                let alert = UIAlertController(title: "網路連線方式更動", message: "目前採用行動網路連線", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-                */
+                 let alert = UIAlertController(title: "網路連線方式更動", message: "目前採用行動網路連線", preferredStyle: .alert)
+                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                 self.present(alert, animated: true, completion: nil)
+                 */
             }
         } else {
             print("Network not reachable")
             /*
-            let alert = UIAlertController(title: "網路連線方式更動", message: "網路目前無法連線", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            */
+             let alert = UIAlertController(title: "網路連線方式更動", message: "網路目前無法連線", preferredStyle: .alert)
+             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+             self.present(alert, animated: true, completion: nil)
+             */
             
         }
     }
@@ -367,15 +371,69 @@ extension SearchViewController:UIGestureRecognizerDelegate{
 //MARK: UICollectionViewDelegate Method
 
 extension SearchViewController:UICollectionViewDelegate{
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionCell
 
+        print("cell selected: \(cell.tag)")
+        
+        // 呼叫API
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
 
+    }
+    
+    
+    
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        
+        let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionCell
+        
+        cell.backgroundColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 0.5)
+        //cell.layer.borderWidth = 2.0
+        //cell.layer.borderColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 0.5).cgColor
+        
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        
+        
+        let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionCell
+        cell.backgroundColor = UIColor.white
+        //cell.layer.borderWidth = 0
+        //cell.layer.borderColor = UIColor.white.cgColor
+        
+    }
+    
+    
 }
 
 
 
 //MARK: UICollectionViewDatasource Method
 extension SearchViewController:UICollectionViewDataSource{
-
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -390,7 +448,12 @@ extension SearchViewController:UICollectionViewDataSource{
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionCell", for: indexPath) as! SearchCollectionCell
         
-        cell.searchTypeButton.setTitle(searchTypes[indexPath.row], for: UIControlState.normal)
+        cell.tag = indexPath.row
+        
+        
+        
+        cell.searchTypeLabel.text = searchTypes[indexPath.row]
+        
         return cell
     }
     
@@ -400,13 +463,13 @@ extension SearchViewController:UICollectionViewDataSource{
 
 //MARK: UICollectionViewDelegateFlowLayout Method
 extension SearchViewController:UICollectionViewDelegateFlowLayout{
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: self.collectionView.frame.size.width, height: 44)
-    
+        
     }
-
+    
 }
 
 

@@ -11,7 +11,8 @@ import UIKit
 class SearchCollectionCell: UICollectionViewCell {
     
    
-    @IBOutlet weak var searchTypeButton: UIButton!
+    @IBOutlet weak var searchTypeLabel: UILabel!
+
     
     
     

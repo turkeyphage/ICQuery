@@ -105,23 +105,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4sx-mx-PLA">
-                                                    <rect key="frame" x="8" y="8" width="359" height="58"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FEi-Kg-abg">
+                                                    <rect key="frame" x="163" y="25" width="49" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <state key="normal" title="Button">
-                                                        <color key="titleColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.23529411764705882" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                </button>
+                                                    <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="4sx-mx-PLA" firstAttribute="leading" secondItem="Wn8-vm-mWd" secondAttribute="leadingMargin" id="20y-oE-32U"/>
-                                            <constraint firstItem="4sx-mx-PLA" firstAttribute="top" secondItem="Wn8-vm-mWd" secondAttribute="topMargin" id="5Ui-x1-XHI"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="4sx-mx-PLA" secondAttribute="trailing" id="cuj-YZ-adx"/>
-                                            <constraint firstItem="4sx-mx-PLA" firstAttribute="bottom" secondItem="Wn8-vm-mWd" secondAttribute="bottomMargin" id="n2Z-p5-1BP"/>
+                                            <constraint firstItem="FEi-Kg-abg" firstAttribute="centerX" secondItem="Wn8-vm-mWd" secondAttribute="centerX" id="Ipx-YT-XQg"/>
+                                            <constraint firstItem="FEi-Kg-abg" firstAttribute="centerY" secondItem="Wn8-vm-mWd" secondAttribute="centerY" id="bDJ-Z3-Kza"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="searchTypeButton" destination="4sx-mx-PLA" id="x1A-Q3-Dcb"/>
+                                            <outlet property="searchTypeLabel" destination="FEi-Kg-abg" id="lBz-CU-Zzz"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
