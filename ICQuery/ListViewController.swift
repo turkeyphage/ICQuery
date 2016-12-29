@@ -22,6 +22,8 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
     var currentPage : Int!
     var isLoading : Bool = false
     
+    //搜尋的方式
+    var type : String!
     
     var totalPages: Int{
         get {
@@ -267,16 +269,18 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
             let alert = UIAlertController(title: "尚未輸入任何搜尋關鍵字", message:"請重新輸入搜尋字串", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+            
         } else {
             
             
             let searchAPI = API_Manager.shared.SEARCH_API_PATH
             let searchKeyword = self.searchTextField.text!.components(separatedBy: "\t").first
             let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
+            self.type = "f"
             
             //組裝url-string
             
-            let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, no_space_and_getFirstWord!])
+            let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, self.type, no_space_and_getFirstWord!])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             print("\(escapedStr)")
             
@@ -354,7 +358,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
             
             //組裝url-string
             
-            let combinedStr = String(format: "%@?t=f&p=%@&q=%@", arguments: [searchAPI!, "\(self.currentPage!)",no_space_and_getFirstWord!])
+            let combinedStr = String(format: "%@?t=%@&p=%@&q=%@", arguments: [searchAPI!, self.type,"\(self.currentPage!)",no_space_and_getFirstWord!])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             print("\(escapedStr)")
             
@@ -545,14 +549,14 @@ extension ListViewController{
         self.listTableView.reloadData()
 
         self.searchTextField.text = searchKey
-        
+        self.type = "f"
         let searchAPI = API_Manager.shared.SEARCH_API_PATH
         let searchKeyword = searchKey.components(separatedBy: "\t").first
         let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
         
         //組裝url-string
         
-        let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, no_space_and_getFirstWord!])
+        let combinedStr = String(format: "%@?t=%@&p=1&q=%@", arguments: [searchAPI!, self.type,no_space_and_getFirstWord!])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         print("\(escapedStr)")
         

@@ -19,7 +19,7 @@ class SearchViewController: UIViewController{
     @IBOutlet weak var collectionView: UICollectionView!
     
     
-    var searchTypes:[String] = ["半導體產品","開源元件","連接器","光電元件","電線電纜","測試設備","電源產品與電池","外殼和緊固件","電路保護和開發","辦公設備和配件","工具和用品","工業控制和量表"]
+    var searchTypes:[String] = ["半導體產品","無源元件","連接器","測試設備","電線電纜","光電元件","電源產品與電池","工業控制和量表","電路保護和開關","辦公設備和配件","工具和用品","外殼和緊固件"]
     
     
     
@@ -233,7 +233,7 @@ class SearchViewController: UIViewController{
                             DispatchQueue.main.async {
                                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                                 let lsVC = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
-                                
+                                lsVC.type = "f"
                                 lsVC.currentPage = 1
                                 lsVC.totalPins = self.get_total(dictionary: jsonDictionary)
                                 lsVC.json_dic = jsonDictionary
@@ -380,19 +380,77 @@ extension SearchViewController:UICollectionViewDelegate{
         
         // 呼叫API
         
+        let searchAPI = API_Manager.shared.SEARCH_API_PATH
+        let combinedStr = String(format: "%@?t=g&p=1&q=%@", arguments: [searchAPI!, String(cell.tag+1)])
+        let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        print("\(escapedStr)")
+        
+        //放request
+        let url = URL(string: escapedStr)
+        let request = URLRequest(url: url!)
+        //request.httpMethod = "GET"
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil{
+                print(error.debugDescription)
+                
+                //alert -- 連線錯誤
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                    self.present(alert, animated: true, completion:{
+                        self.collectionView.deselectItem(at: indexPath, animated: true)
+                    })
+                }
+                
+            } else {
+                
+                if let data = data, let jsonDictionary = self.parse(json: data) {
+                    //print("\(jsonDictionary)")
+                    
+                    //確定page總數：
+                    
+                    if self.get_total(dictionary: jsonDictionary) <= 0{
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "查無相關資料", message: "請嘗試其他類別", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                            self.present(alert, animated: true, completion:{
+                                //self.textField.text = ""
+                                self.collectionView.deselectItem(at: indexPath, animated: true)
+                            })
+                        }
+                        
+                    } else {
+                        DispatchQueue.main.async {
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let lsVC = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+                            
+                            lsVC.type = "g"
+                            lsVC.currentPage = 1
+                            lsVC.totalPins = self.get_total(dictionary: jsonDictionary)
+                            lsVC.json_dic = jsonDictionary
+                            lsVC.searchKeyword =  String(cell.tag+1)
+                            lsVC.searchAPI_Address = API_Manager.shared.SEARCH_API_PATH
+                            
+                            // 動畫
+                            lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
+                            lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+                            self.present(lsVC, animated: true, completion: {
+                                self.collectionView.deselectItem(at: indexPath, animated: true)
+                            })
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+        task.resume()
         
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        collectionView.deselectItem(at: indexPath, animated: true)
         
     }
     
