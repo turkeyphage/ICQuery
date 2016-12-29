@@ -16,6 +16,13 @@ class SearchViewController: UIViewController{
     
     @IBOutlet weak var loginStatusLabel: UILabel!
     
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    
+    var searchTypes:[String] = ["半導體產品","開源元件","連接器","光電元件","電線電纜","測試設備","電源產品與電池","外殼和緊固件","電路保護和開發","辦公設備和配件","工具和用品","工業控制和量表"]
+    
+    
+    
     var account : String!
     
     var loginStatus:Bool = false {
@@ -91,7 +98,8 @@ class SearchViewController: UIViewController{
     
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
+
+        collectionView.reloadData()
     }
     
     
@@ -354,6 +362,54 @@ extension SearchViewController:UIGestureRecognizerDelegate{
     }
     
 }
+
+
+//MARK: UICollectionViewDelegate Method
+
+extension SearchViewController:UICollectionViewDelegate{
+
+
+}
+
+
+
+//MARK: UICollectionViewDatasource Method
+extension SearchViewController:UICollectionViewDataSource{
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return searchTypes.count
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionCell", for: indexPath) as! SearchCollectionCell
+        
+        cell.searchTypeButton.setTitle(searchTypes[indexPath.row], for: UIControlState.normal)
+        return cell
+    }
+    
+    
+}
+
+
+//MARK: UICollectionViewDelegateFlowLayout Method
+extension SearchViewController:UICollectionViewDelegateFlowLayout{
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: self.collectionView.frame.size.width, height: 44)
+    
+    }
+
+}
+
+
 
 
 

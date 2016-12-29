@@ -16,6 +16,7 @@
 		DB5DAE111DF903AD00650807 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */; };
 		DB5E1ED11E139BA400658702 /* SpecCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5E1ED01E139BA400658702 /* SpecCell.xib */; };
 		DB5E1ED31E139D8000658702 /* SpecCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E1ED21E139D8000658702 /* SpecCell.swift */; };
+		DB5E582A1E14992100BD157D /* SearchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E58291E14992100BD157D /* SearchCollectionCell.swift */; };
 		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
 		DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */; };
@@ -85,6 +86,7 @@
 		DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		DB5E1ED01E139BA400658702 /* SpecCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpecCell.xib; sourceTree = "<group>"; };
 		DB5E1ED21E139D8000658702 /* SpecCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecCell.swift; sourceTree = "<group>"; };
+		DB5E58291E14992100BD157D /* SearchCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionCell.swift; sourceTree = "<group>"; };
 		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				DB9FF62F1E0A96EB00E1DCF0 /* MBProgressHUD.h */,
+				DB5E58291E14992100BD157D /* SearchCollectionCell.swift */,
 				DB2E70131E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift */,
 				DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */,
 				DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */,
@@ -448,6 +451,7 @@
 				DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */,
 				DB989DAD1E13691D0055F61B /* ManufacturerCell.swift in Sources */,
 				DBD3604F1E0260F500A08204 /* FMDatabasePool.m in Sources */,
+				DB5E582A1E14992100BD157D /* SearchCollectionCell.swift in Sources */,
 				DB9EF9141E08EE480066E8C5 /* API_Manager.swift in Sources */,
 				DBD360521E0260F500A08204 /* FMDatabaseQueue.m in Sources */,
 				DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */,
