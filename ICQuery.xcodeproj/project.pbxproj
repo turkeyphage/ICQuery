@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */; };
 		DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FB5C1DF94D670046E44D /* DetailViewController.swift */; };
+		DB2A10D11E167F780085868F /* PriceValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB2A10D01E167F780085868F /* PriceValueCell.xib */; };
+		DB2A10D31E167FDE0085868F /* ValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2A10D21E167FDE0085868F /* ValueTableViewCell.swift */; };
 		DB2E6FF21E0B87CA00F9B8F4 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2E6FF11E0B87CA00F9B8F4 /* ProductDetail.swift */; };
 		DB2E70141E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2E70131E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift */; };
 		DB4293611E08225800E9AA46 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4293601E08225800E9AA46 /* Reachability.swift */; };
@@ -18,6 +20,8 @@
 		DB5E1ED11E139BA400658702 /* SpecCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5E1ED01E139BA400658702 /* SpecCell.xib */; };
 		DB5E1ED31E139D8000658702 /* SpecCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E1ED21E139D8000658702 /* SpecCell.swift */; };
 		DB5E582A1E14992100BD157D /* SearchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E58291E14992100BD157D /* SearchCollectionCell.swift */; };
+		DB6409A81E1677400071C322 /* PriceTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB6409A71E1677400071C322 /* PriceTitleCell.xib */; };
+		DB6409AA1E167A9C0071C322 /* PriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6409A91E167A9C0071C322 /* PriceTableViewCell.swift */; };
 		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
 		DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */; };
@@ -79,6 +83,8 @@
 /* Begin PBXFileReference section */
 		DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnderlinedSegmentedControl.swift; sourceTree = "<group>"; };
 		DB18FB5C1DF94D670046E44D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		DB2A10D01E167F780085868F /* PriceValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PriceValueCell.xib; sourceTree = "<group>"; };
+		DB2A10D21E167FDE0085868F /* ValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTableViewCell.swift; sourceTree = "<group>"; };
 		DB2E6FF11E0B87CA00F9B8F4 /* ProductDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		DB2E70131E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+DownloadImage.swift"; sourceTree = "<group>"; };
 		DB4293601E08225800E9AA46 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -88,6 +94,8 @@
 		DB5E1ED01E139BA400658702 /* SpecCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpecCell.xib; sourceTree = "<group>"; };
 		DB5E1ED21E139D8000658702 /* SpecCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecCell.swift; sourceTree = "<group>"; };
 		DB5E58291E14992100BD157D /* SearchCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionCell.swift; sourceTree = "<group>"; };
+		DB6409A71E1677400071C322 /* PriceTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PriceTitleCell.xib; sourceTree = "<group>"; };
+		DB6409A91E167A9C0071C322 /* PriceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceTableViewCell.swift; sourceTree = "<group>"; };
 		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -286,11 +294,15 @@
 				DB5E58291E14992100BD157D /* SearchCollectionCell.swift */,
 				DB2E70131E0C383A00F9B8F4 /* UIImageView+DownloadImage.swift */,
 				DB9FF6301E0A96EB00E1DCF0 /* MBProgressHUD.m */,
+				DB6409A91E167A9C0071C322 /* PriceTableViewCell.swift */,
+				DB2A10D21E167FDE0085868F /* ValueTableViewCell.swift */,
 				DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */,
 				DB5DAE101DF903AD00650807 /* ListTableViewCell.swift */,
 				DB989DAC1E13691D0055F61B /* ManufacturerCell.swift */,
 				DB5E1ED21E139D8000658702 /* SpecCell.swift */,
 				DBF896781DF4FC2C00366418 /* Main.storyboard */,
+				DB6409A71E1677400071C322 /* PriceTitleCell.xib */,
+				DB2A10D01E167F780085868F /* PriceValueCell.xib */,
 				DB5DAE0E1DF8FA4500650807 /* ListCell.xib */,
 				DB5E1ED01E139BA400658702 /* SpecCell.xib */,
 				DB989DAA1E13684F0055F61B /* ManufacturerCell.xib */,
@@ -419,7 +431,9 @@
 				DB5DAE0F1DF8FA4500650807 /* ListCell.xib in Resources */,
 				DB989DAB1E13684F0055F61B /* ManufacturerCell.xib in Resources */,
 				DBF8967F1DF4FC2C00366418 /* Assets.xcassets in Resources */,
+				DB2A10D11E167F780085868F /* PriceValueCell.xib in Resources */,
 				DBE739831E141C040079FC81 /* LaunchScreen.storyboard in Resources */,
+				DB6409A81E1677400071C322 /* PriceTitleCell.xib in Resources */,
 				DB5E1ED11E139BA400658702 /* SpecCell.xib in Resources */,
 				DBF8967A1DF4FC2C00366418 /* Main.storyboard in Resources */,
 			);
@@ -466,12 +480,14 @@
 				DBD3605A1E02618D00A08204 /* DBManager.swift in Sources */,
 				DBD3605E1E02794100A08204 /* DeviceModel.swift in Sources */,
 				DBA25B3B1DF7B84C00FA9817 /* ListViewController.swift in Sources */,
+				DB6409AA1E167A9C0071C322 /* PriceTableViewCell.swift in Sources */,
 				DB4293611E08225800E9AA46 /* Reachability.swift in Sources */,
 				DB570BBF1E14FA63006CBB95 /* PriceChartViewController.swift in Sources */,
 				DB2E6FF21E0B87CA00F9B8F4 /* ProductDetail.swift in Sources */,
 				DBD360491E0260F500A08204 /* FMDatabase.m in Sources */,
 				DBF8967D1DF4FC2C00366418 /* ICQuery.xcdatamodeld in Sources */,
 				DBD3604C1E0260F500A08204 /* FMDatabaseAdditions.m in Sources */,
+				DB2A10D31E167FDE0085868F /* ValueTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

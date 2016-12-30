@@ -572,5 +572,7 @@ struct CellID{
     static let list_cell = "ListCell"
     static let manufacturer_cell = "ManufacturerCell"
     static let spec_cell = "SpecCell"
+    static let price_cell = "PriceTitleCell"
+    static let value_cell = "PriceValueCell"
     
 }

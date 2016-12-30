@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PriceValueCell" id="uBH-Qd-GE3" userLabel="PriceValueCell" customClass="ValueTableViewCell" customModule="ICQuery" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uBH-Qd-GE3" id="Tah-Gu-S4H">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ezr-iK-eS9">
+                        <rect key="frame" x="47" y="19" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHN-ka-Lym">
+                        <rect key="frame" x="139" y="19" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPX-Gs-4QQ">
+                        <rect key="frame" x="231" y="19" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="sPX-Gs-4QQ" firstAttribute="leading" secondItem="AHN-ka-Lym" secondAttribute="trailing" constant="50" id="G53-eU-ZZ6"/>
+                    <constraint firstItem="AHN-ka-Lym" firstAttribute="leading" secondItem="Ezr-iK-eS9" secondAttribute="trailing" constant="50" id="TWn-c0-rxK"/>
+                    <constraint firstItem="sPX-Gs-4QQ" firstAttribute="centerY" secondItem="Ezr-iK-eS9" secondAttribute="centerY" id="UzM-5l-Pst"/>
+                    <constraint firstItem="AHN-ka-Lym" firstAttribute="centerX" secondItem="Tah-Gu-S4H" secondAttribute="centerX" id="Zg0-PG-hr5"/>
+                    <constraint firstItem="AHN-ka-Lym" firstAttribute="centerY" secondItem="Ezr-iK-eS9" secondAttribute="centerY" id="iUt-9v-GY8"/>
+                    <constraint firstItem="AHN-ka-Lym" firstAttribute="centerY" secondItem="Tah-Gu-S4H" secondAttribute="centerY" id="pbE-H7-spx"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="center_label" destination="AHN-ka-Lym" id="HDU-nX-XwR"/>
+                <outlet property="left_label" destination="Ezr-iK-eS9" id="a7I-M8-fyc"/>
+                <outlet property="right_label" destination="sPX-Gs-4QQ" id="A54-pV-ofu"/>
+            </connections>
+            <point key="canvasLocation" x="10" y="-91"/>
+        </tableViewCell>
+    </objects>
+</document>
