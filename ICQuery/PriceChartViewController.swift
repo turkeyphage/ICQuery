@@ -17,14 +17,19 @@ class PriceChartViewController: UIViewController {
     @IBOutlet weak var priceTitle_tableview: UITableView!
     
     
-    
-    var supplierName :String!
+    var supplier : SupplierDetail!
+    //var supplierName :String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        supplier_label.text = supplierName
-        // Do any additional setup after loading the view.
+        supplier_label.text = supplier.sup
+
+        
+        
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

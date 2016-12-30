@@ -43,7 +43,7 @@ class DetailViewController: UIViewController {
     var datasheetURLStr : String!
     var spec : [[String:String]] = []
     
-    
+    var allitems : [SupplierDetail] = []
     
     
     let mySegmentedControl = UnderlinedSegmentedControl()
@@ -65,10 +65,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
 
         searchTextField.delegate = self
-        
-        get_spec_detail()
-        
-        
+
         //set notification observer
         let nc = NotificationCenter.default
         nc.addObserver(forName: NSNotification.Name.init(rawValue: "SegmentWasSelected"), object: nil, queue: nil, using: catchingNotification)
@@ -102,12 +99,8 @@ class DetailViewController: UIViewController {
         company_label.text = selectedProduct.mfs
         model_label.text =  selectedProduct.pn
         detail_label.text = selectedProduct.desc
-        
 
-       
-        
         //add custom segment control item
-        
         backgroundView4Segment.addSubview(mySegmentedControl)
         
         
@@ -142,7 +135,6 @@ class DetailViewController: UIViewController {
         
         
         //為scrollview加上手勢辨識
-        
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(DetailViewController.swipe(_:)))
         swipeLeft.direction = .left
         swipeLeft.numberOfTouchesRequired = 1
@@ -159,7 +151,9 @@ class DetailViewController: UIViewController {
         let manucellNib = UINib(nibName: CellID.manufacturer_cell, bundle: nil)
         
         firstTableView.register(manucellNib, forCellReuseIdentifier: CellID.manufacturer_cell)
-
+        firstTableView.estimatedRowHeight = 50
+        firstTableView.rowHeight = UITableViewAutomaticDimension
+        
         
         let speccellNib = UINib(nibName: CellID.spec_cell, bundle: nil)
         
@@ -167,8 +161,11 @@ class DetailViewController: UIViewController {
         
         secondTableView.estimatedRowHeight = 50
         secondTableView.rowHeight = UITableViewAutomaticDimension
+
         
         
+        get_item_in_list(wholeList: selectedProduct.list)
+        get_spec_detail()
         
         
     }
@@ -247,6 +244,8 @@ class DetailViewController: UIViewController {
     
     //返回ListViewController
     @IBAction func backButtonPressed(_ sender: Any) {
+        
+        self.delegate.reloadTable()
         dismiss(animated: true, completion: nil)
     }
     
@@ -258,9 +257,6 @@ class DetailViewController: UIViewController {
         
         let svc = SFSafariViewController(url: URL(string: self.datasheetURLStr)!)
         self.present(svc, animated: true, completion: nil)
-        
-        
-        
     }
     
 
@@ -314,16 +310,24 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        
         if tableView == self.firstTableView {
-            return self.selectedProduct.list.count
+            return self.allitems.count
         } else {
+            
+            /*
+            if let spec = self.allitems.first?.spec{
+                return spec.keys.count
+            } else {
+                return 1
+            }
+            */
             
             if self.spec.isEmpty {
                 return 1
             } else {
                 return self.spec.count
             }
+            
         }
         
     }
@@ -336,12 +340,32 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             tableView.backgroundColor = UIColor.white
             let manuCell:ManufacturerCell = tableView.dequeueReusableCell(withIdentifier: "ManufacturerCell", for: indexPath) as! ManufacturerCell
             
-            manuCell.keyLabel.text = self.selectedProduct.list[indexPath.row]["sup"] as! String?
+            manuCell.keyLabel.text = self.allitems[indexPath.row].sup
+            
+
+            
+            //過濾price的第一個
+            if let firstprice = self.allitems[indexPath.row].price.keys.sorted().first{
+                manuCell.valueLabel.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
+                manuCell.valueLabel.text = self.allitems[indexPath.row].price[firstprice]
+                manuCell.curLabel.text = self.allitems[indexPath.row].cur
+            } else {
+                manuCell.valueLabel.textColor = UIColor.lightGray
+                manuCell.valueLabel.text = "N/A"
+                manuCell.curLabel.text = ""
+            }
+
+            
+            //manuCell.valueLabel.text = self.allitems[indexPath.row].price
+            //manuCell.keyLabel.text = self.selectedProduct.list[indexPath.row]["sup"] as! String?
             
             
+            /*
             // 獲得價錢單位：
             var oneprice = ""
             var currance = ""
+            
+            
             if let cur = self.selectedProduct.list[indexPath.row]["cur"] as! String?{
                 
                 currance = cur
@@ -402,7 +426,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             }
 
             
-            
+            */
             
             
             return manuCell
@@ -412,9 +436,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             tableView.backgroundColor = UIColor.white
             let spec_cell:SpecCell = tableView.dequeueReusableCell(withIdentifier: "SpecCell", for: indexPath) as! SpecCell
             
-            
-            
-            
+
             if self.spec.isEmpty{
                 spec_cell.keyLabel.text = "該物件"
                 spec_cell.valueLabel.text = "目前尚無提供規格參考資料"
@@ -437,7 +459,8 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let priceChartVC = storyboard.instantiateViewController(withIdentifier: "PriceChartViewController") as! PriceChartViewController
         
-        priceChartVC.supplierName = cell.keyLabel.text!
+        
+        priceChartVC.supplier = allitems[indexPath.row]
         
         self.present(priceChartVC, animated: true) { 
                 tableView.deselectRow(at: indexPath, animated: true)
@@ -505,6 +528,117 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
     }
     
     
+    func get_item_in_list(wholeList:[[String:Any]]){
+    
+        for item in wholeList{
+            var supplierDetail = SupplierDetail()
+            if let id = item["id"] as? String{
+                supplierDetail.id = id.replacingOccurrences(of: " ", with: "")
+            }
+            
+            if let pn = item["pn"] as? String{
+                supplierDetail.pn = pn.replacingOccurrences(of: " ", with: "")
+            }
+            
+            if let sku = item["sku"] as? String{
+                supplierDetail.sku = sku.replacingOccurrences(of: " ", with: "")
+            }
+
+            if let mfs = item["mfs"] as? String{
+                supplierDetail.mfs = mfs.replacingOccurrences(of: " ", with: "")
+            }
+
+            if let sup = item["sup"] as? String{
+                supplierDetail.sup = sup.replacingOccurrences(of: " ", with: "")
+            }
+
+            if let url = item["url"] as? String{
+                supplierDetail.url = url.replacingOccurrences(of: " ", with: "")
+            }
+
+            if let amount = item["amount"] as? Int{
+                supplierDetail.amount = amount
+            }
+
+            if let cur = item["cur"] as? String{
+                supplierDetail.cur = cur.replacingOccurrences(of: " ", with: "")
+            }
+
+            if let picurl = item["picurl"] as? String{
+                supplierDetail.picurl = picurl.replacingOccurrences(of: " ", with: "")
+            }
+            
+            if let docurl = item["docurl"] as? String{
+                supplierDetail.docurl = docurl.replacingOccurrences(of: " ", with: "")
+            }
+            
+            //spec
+            if let spec = item["spec"] as? String{
+                if !spec.isEmpty{
+                    //print("\(specData)")
+                    //開始paring
+                    //去掉{}
+                    let noLeft = spec.replacingOccurrences(of: "{", with: "")
+                    let noRight = noLeft.replacingOccurrences(of: "}", with: "")
+                    
+                    //以, 區隔
+                    let separateByComma = noRight.components(separatedBy: ",")
+                    for eachItem in separateByComma{
+                        var separateByQuotation = eachItem.components(separatedBy: "'")
+                        if separateByQuotation.count == 5{
+                            //去掉最前頭的""
+                            separateByQuotation.removeFirst()
+                            //去掉最後頭的""
+                            separateByQuotation.removeLast()
+                            
+                            if separateByQuotation.count == 3{
+                                
+                                supplierDetail.spec[separateByQuotation.first!] = separateByQuotation.last!
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+            if let desc = item["desc"] as? String{
+                supplierDetail.desc = desc
+            }
+            if let catagory = item["catagory"] as? String{
+                supplierDetail.catagory = catagory
+            }
+            
+            //price
+            if let price = item["price"] as? String{
+                //去除有的沒的空白
+                let removeSpacePrice = price.replacingOccurrences(of: " ", with: "")
+                //判別是否為空字串
+                if !removeSpacePrice.isEmpty{
+                    
+                    //以;分開
+                    let noSemicolon = removeSpacePrice.components(separatedBy: ";")
+                    let filterEmpty1 = noSemicolon.filter{$0 != ""}
+                    
+                    for item1 in filterEmpty1{
+                        let noColon = item1.components(separatedBy: ":")
+                        let filterEmpty2 = noColon.filter{$0 != ""}
+                        if filterEmpty2.count == 2{
+                            
+                            if let pureValue = Float(filterEmpty2.last!){
+                                supplierDetail.price[filterEmpty2.first!] = String(pureValue)
+                            }
+
+                        }
+                    }
+                }
+            }
+            //print("supplierDetail = \(supplierDetail)")
+            //print("-----------------")
+        
+            allitems.append(supplierDetail)
+        }
+    }
+    
     
     
 }
@@ -527,5 +661,6 @@ extension DetailViewController:UITextFieldDelegate{
 protocol DetailViewControllerDelegate{
     
     func newSearchBegin(searchKey:String)
+    func reloadTable()
     
 }

@@ -541,6 +541,11 @@ extension ListViewController:UITextFieldDelegate{
 
 //MARK: DetailViewControllerDelegate Method
 extension ListViewController{
+    func reloadTable(){
+        self.listTableView.reloadData()
+    }
+    
+    
     
     func newSearchBegin(searchKey:String){
         

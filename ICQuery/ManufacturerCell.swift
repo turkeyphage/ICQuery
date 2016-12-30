@@ -15,6 +15,7 @@ class ManufacturerCell: UITableViewCell {
     
     @IBOutlet weak var valueLabel: UILabel!
     
+    @IBOutlet weak var curLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

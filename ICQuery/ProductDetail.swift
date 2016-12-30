@@ -22,3 +22,22 @@ struct ProductDetail {
     
     
 }
+
+
+struct SupplierDetail{
+    
+    var id : String = ""
+    var pn : String = ""
+    var sku : String = ""
+    var mfs : String = ""
+    var sup : String = ""
+    var url : String = ""
+    var amount : Int = 0
+    var cur : String = ""
+    var picurl : String = ""
+    var docurl : String = ""
+    var spec : [String:String] = [String:String]()
+    var desc:String = ""
+    var catagory = ""
+    var price : [String:String] = [String:String]()
+}
