@@ -454,7 +454,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         
-        let cell = tableView.cellForRow(at: indexPath) as! ManufacturerCell
+        //let cell = tableView.cellForRow(at: indexPath) as! ManufacturerCell
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let priceChartVC = storyboard.instantiateViewController(withIdentifier: "PriceChartViewController") as! PriceChartViewController

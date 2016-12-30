@@ -7,32 +7,37 @@
 //
 
 import UIKit
+//import ScrollableGraphView
+
 
 class PriceChartViewController: UIViewController {
-
+    
     
     
     @IBOutlet weak var supplier_label: UILabel!
-
+    
     @IBOutlet weak var titleTable: UITableView!
     
     @IBOutlet weak var priceTable: UITableView!
     var supplier : SupplierDetail!
-    //var supplierName :String!
+    
+    
+    @IBOutlet weak var price_trend_background: UIView!
+    @IBOutlet weak var quantity_trend_background: UIView!
     
     
     var units = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
         supplier_label.text = supplier.sup
         print("\(supplier)")
-
+        
         titleTable.dataSource = self
         priceTable.dataSource = self
-
+        
         titleTable.allowsSelection = false
         priceTable.allowsSelection = false
         
@@ -49,27 +54,57 @@ class PriceChartViewController: UIViewController {
             units = supplier.price.keys.sorted()
         }
         
+        // test add graphView
+        let graphView = ScrollableGraphView(frame: self.price_trend_background.frame)
+        let data: [Double] = [4, 8, 15, 16, 23, 42]
+        let labels = ["one", "two", "three", "four", "five", "six"]
+        graphView.set(data: data, withLabels: labels)
+        
+        price_trend_background.addSubview(graphView)
+        
+        let horizonalContraints = NSLayoutConstraint(item: graphView, attribute:
+            .leadingMargin, relatedBy: .equal, toItem: price_trend_background,
+                            attribute: .leading, multiplier: 1.0,
+                            constant: 0)
+        
+        let verticalContraints = NSLayoutConstraint(item: graphView, attribute:.trailingMargin, relatedBy: .equal, toItem: price_trend_background,
+                                                    attribute: .trailing, multiplier: 1.0, constant: 0)
+        
+        
+        let pinTop = NSLayoutConstraint(item: graphView, attribute: .top, relatedBy: .equal, toItem: price_trend_background, attribute: .top, multiplier: 1.0, constant: 0)
+        
+        let pinBottom = NSLayoutConstraint(item: graphView, attribute: .bottom, relatedBy: .equal, toItem: price_trend_background, attribute: .bottom, multiplier: 1.0, constant: 0)
+        
+        
+        graphView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([horizonalContraints, verticalContraints,pinTop,pinBottom])
+        
+        
+        
+        
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     @IBAction func backButtonPressed(_ sender: Any) {
         
         dismiss(animated: true, completion: nil)
-
+        
     }
-
+    
 }
 
 
 
 
 extension PriceChartViewController:UITableViewDelegate,UITableViewDataSource{
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -86,7 +121,7 @@ extension PriceChartViewController:UITableViewDelegate,UITableViewDataSource{
             }
         }
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
@@ -119,19 +154,26 @@ extension PriceChartViewController:UITableViewDelegate,UITableViewDataSource{
                 cell.left_label.text = "N/A"
                 cell.right_label.textColor = UIColor.darkGray
                 cell.right_label.text = "N/A"
-            
+                
             } else {
                 cell.left_label.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
                 cell.left_label.text = units[indexPath.row]
                 cell.right_label.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
                 cell.right_label.text = supplier.price[units[indexPath.row]]
-            
+                
             }
             
             return cell
         }
     }
-
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 

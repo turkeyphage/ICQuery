@@ -888,7 +888,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qa6-gM-bKK">
                                         <rect key="frame" x="16" y="417" width="344" height="150"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="8Oj-WN-2hb"/>
                                         </constraints>
@@ -930,6 +930,8 @@
                     </view>
                     <connections>
                         <outlet property="priceTable" destination="hRM-HX-siy" id="aXS-hC-PaM"/>
+                        <outlet property="price_trend_background" destination="aMp-0Q-dTZ" id="xpc-gV-fHD"/>
+                        <outlet property="quantity_trend_background" destination="Qa6-gM-bKK" id="jee-A4-3y1"/>
                         <outlet property="supplier_label" destination="ule-s3-y9s" id="Z1t-FV-tFb"/>
                         <outlet property="titleTable" destination="qu1-NM-Pyw" id="AdU-bI-xM3"/>
                     </connections>
