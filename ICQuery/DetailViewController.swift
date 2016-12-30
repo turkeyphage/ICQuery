@@ -268,7 +268,7 @@ class DetailViewController: UIViewController {
 
             if let docurl = firstItem["docurl"] as! String?{
             
-                print("docurl = \(docurl)")
+                //print("docurl = \(docurl)")
                 if docurl != "null" , docurl != "NULL" , docurl != "Null", !docurl.isEmpty{
                     
                     

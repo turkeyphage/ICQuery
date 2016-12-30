@@ -823,7 +823,7 @@
                                 <rect key="frame" x="0.0" y="63" width="375" height="604"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="價目表" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXj-qb-AtS">
-                                        <rect key="frame" x="8" y="8" width="52" height="21"/>
+                                        <rect key="frame" x="8" y="20" width="52" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="52" id="2Mk-Mv-i20"/>
                                             <constraint firstAttribute="height" constant="21" id="5yV-NF-Z4A"/>
@@ -833,7 +833,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Isn-9m-6vN" userLabel="價目View">
-                                        <rect key="frame" x="16" y="37" width="344" height="140"/>
+                                        <rect key="frame" x="16" y="49" width="344" height="200"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qu1-NM-Pyw" userLabel="price_title">
                                                 <rect key="frame" x="0.0" y="0.0" width="344" height="40"/>
@@ -843,7 +843,7 @@
                                                 </constraints>
                                             </tableView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hRM-HX-siy" userLabel="price_content_table">
-                                                <rect key="frame" x="0.0" y="40" width="344" height="100"/>
+                                                <rect key="frame" x="0.0" y="40" width="344" height="160"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableView>
                                         </subviews>
@@ -852,7 +852,7 @@
                                             <constraint firstItem="hRM-HX-siy" firstAttribute="leading" secondItem="Isn-9m-6vN" secondAttribute="leading" id="2Sh-YM-NQJ"/>
                                             <constraint firstItem="hRM-HX-siy" firstAttribute="top" secondItem="qu1-NM-Pyw" secondAttribute="bottom" id="5ba-YN-m1K"/>
                                             <constraint firstAttribute="trailing" secondItem="hRM-HX-siy" secondAttribute="trailing" id="TqP-RN-XRT"/>
-                                            <constraint firstAttribute="height" constant="140" id="Znt-sP-Kre"/>
+                                            <constraint firstAttribute="height" constant="200" id="Znt-sP-Kre"/>
                                             <constraint firstItem="qu1-NM-Pyw" firstAttribute="top" secondItem="Isn-9m-6vN" secondAttribute="top" id="cgz-qz-zTC"/>
                                             <constraint firstItem="qu1-NM-Pyw" firstAttribute="leading" secondItem="Isn-9m-6vN" secondAttribute="leading" id="dgP-eo-xW1"/>
                                             <constraint firstAttribute="trailing" secondItem="qu1-NM-Pyw" secondAttribute="trailing" id="knC-d2-ScA"/>
@@ -860,7 +860,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="價格趨勢表" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cWi-SL-9p6">
-                                        <rect key="frame" x="8" y="193" width="87" height="21"/>
+                                        <rect key="frame" x="8" y="274" width="87" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="87" id="pem-Na-6Xm"/>
                                             <constraint firstAttribute="height" constant="21" id="tEc-Ib-bUf"/>
@@ -870,14 +870,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMp-0Q-dTZ" userLabel="價格趨勢View">
-                                        <rect key="frame" x="16" y="222" width="344" height="150"/>
+                                        <rect key="frame" x="16" y="303" width="344" height="180"/>
                                         <color key="backgroundColor" red="0.34307583180000001" green="0.61975439160000001" blue="0.86010362689999997" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="150" id="OMY-pa-NsV"/>
+                                            <constraint firstAttribute="height" constant="180" id="OMY-pa-NsV"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="數量趨勢表" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8LW-BV-mm7">
-                                        <rect key="frame" x="8" y="388" width="87" height="21"/>
+                                        <rect key="frame" x="8" y="508" width="87" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="74N-7D-AsX"/>
                                             <constraint firstAttribute="width" constant="87" id="JpW-a9-s97"/>
@@ -887,10 +887,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qa6-gM-bKK">
-                                        <rect key="frame" x="16" y="417" width="344" height="150"/>
+                                        <rect key="frame" x="16" y="537" width="344" height="180"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="150" id="8Oj-WN-2hb"/>
+                                            <constraint firstAttribute="height" constant="180" id="8Oj-WN-2hb"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -901,19 +901,19 @@
                                     <constraint firstAttribute="trailing" secondItem="Qa6-gM-bKK" secondAttribute="trailing" constant="16" id="7Fm-dj-Zjt"/>
                                     <constraint firstItem="cWi-SL-9p6" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="8" id="7XV-df-rMi"/>
                                     <constraint firstItem="Qa6-gM-bKK" firstAttribute="centerX" secondItem="AiG-zq-Tjl" secondAttribute="centerX" id="8F5-DP-qho"/>
-                                    <constraint firstItem="cWi-SL-9p6" firstAttribute="top" secondItem="Isn-9m-6vN" secondAttribute="bottom" constant="16" id="CP9-gd-thN"/>
+                                    <constraint firstItem="cWi-SL-9p6" firstAttribute="top" secondItem="Isn-9m-6vN" secondAttribute="bottom" constant="25" id="CP9-gd-thN"/>
                                     <constraint firstItem="Isn-9m-6vN" firstAttribute="top" secondItem="ZXj-qb-AtS" secondAttribute="bottom" constant="8" id="EaI-qZ-2tF"/>
                                     <constraint firstItem="Qa6-gM-bKK" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="16" id="IGE-tg-5Vu"/>
                                     <constraint firstItem="Isn-9m-6vN" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="16" id="MQP-qh-fqr"/>
                                     <constraint firstAttribute="bottom" secondItem="Qa6-gM-bKK" secondAttribute="bottom" constant="10" id="P6J-7T-drr"/>
                                     <constraint firstItem="aMp-0Q-dTZ" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="16" id="Rlg-IC-Vsk"/>
                                     <constraint firstItem="Isn-9m-6vN" firstAttribute="centerX" secondItem="AiG-zq-Tjl" secondAttribute="centerX" id="SF2-L5-NeT"/>
-                                    <constraint firstItem="ZXj-qb-AtS" firstAttribute="top" secondItem="AiG-zq-Tjl" secondAttribute="top" constant="8" id="Tw5-PJ-LaZ"/>
+                                    <constraint firstItem="ZXj-qb-AtS" firstAttribute="top" secondItem="AiG-zq-Tjl" secondAttribute="top" constant="20" id="Tw5-PJ-LaZ"/>
                                     <constraint firstItem="ZXj-qb-AtS" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="8" id="YFh-Hh-8G4"/>
                                     <constraint firstItem="aMp-0Q-dTZ" firstAttribute="top" secondItem="cWi-SL-9p6" secondAttribute="bottom" constant="8" id="bSo-y2-WWS"/>
                                     <constraint firstItem="aMp-0Q-dTZ" firstAttribute="centerX" secondItem="AiG-zq-Tjl" secondAttribute="centerX" id="fKc-nw-a0N"/>
                                     <constraint firstItem="Qa6-gM-bKK" firstAttribute="top" secondItem="8LW-BV-mm7" secondAttribute="bottom" constant="8" id="gRQ-fu-QLF"/>
-                                    <constraint firstItem="8LW-BV-mm7" firstAttribute="top" secondItem="aMp-0Q-dTZ" secondAttribute="bottom" constant="16" id="yq2-L3-SOc"/>
+                                    <constraint firstItem="8LW-BV-mm7" firstAttribute="top" secondItem="aMp-0Q-dTZ" secondAttribute="bottom" constant="25" id="yq2-L3-SOc"/>
                                 </constraints>
                             </scrollView>
                         </subviews>

@@ -32,8 +32,9 @@ class PriceChartViewController: UIViewController {
         super.viewDidLoad()
         
         
-        supplier_label.text = supplier.sup
+        supplier_label.text = "\(supplier.pn) (\(supplier.sup))"
         print("\(supplier)")
+        print("id = \(supplier.id)")
         
         titleTable.dataSource = self
         priceTable.dataSource = self
@@ -50,8 +51,16 @@ class PriceChartViewController: UIViewController {
         
         
         // 將價格排序：
-        if !supplier.price.keys.isEmpty{
-            units = supplier.price.keys.sorted()
+        if !supplier.price.keys.isEmpty{   
+            var quanityArray = [Int]()
+            for quanity in supplier.price.keys{
+                quanityArray.append(Int(quanity)!)
+            }
+            
+            let quanityArraySorted = quanityArray.sorted()
+            for each in quanityArraySorted{
+                units.append(String(each))
+            }
         }
         
         // test add graphView
@@ -97,6 +106,11 @@ class PriceChartViewController: UIViewController {
         dismiss(animated: true, completion: nil)
         
     }
+    
+    
+    //MARK: 
+    
+    
     
 }
 
