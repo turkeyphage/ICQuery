@@ -654,10 +654,7 @@ extension DetailViewController:UITextFieldDelegate{
 }
 
 
-
 // MARK: Protocal for sending data back
-
-
 protocol DetailViewControllerDelegate{
     
     func newSearchBegin(searchKey:String)

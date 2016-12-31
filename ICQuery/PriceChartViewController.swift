@@ -11,9 +11,7 @@ import UIKit
 
 
 class PriceChartViewController: UIViewController {
-    
-    
-    
+
     @IBOutlet weak var supplier_label: UILabel!
     
     @IBOutlet weak var titleTable: UITableView!
@@ -28,12 +26,19 @@ class PriceChartViewController: UIViewController {
     
     var units = [String]()
     
+    var priceView :ScrollableGraphView!
+    var quantityView : ScrollableGraphView!
+    
+    var priceDots:[Double] = []
+    var datesDots:[String] = []
+    var quantityDots:[Double] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         supplier_label.text = "\(supplier.pn) (\(supplier.sup))"
-        print("\(supplier)")
+        //print("\(supplier)")
         print("id = \(supplier.id)")
         
         titleTable.dataSource = self
@@ -51,7 +56,7 @@ class PriceChartViewController: UIViewController {
         
         
         // 將價格排序：
-        if !supplier.price.keys.isEmpty{   
+        if !supplier.price.keys.isEmpty{
             var quanityArray = [Int]()
             for quanity in supplier.price.keys{
                 quanityArray.append(Int(quanity)!)
@@ -63,36 +68,8 @@ class PriceChartViewController: UIViewController {
             }
         }
         
-        // test add graphView
-        let graphView = ScrollableGraphView(frame: self.price_trend_background.frame)
-        let data: [Double] = [4, 8, 15, 16, 23, 42]
-        let labels = ["one", "two", "three", "four", "five", "six"]
-        graphView.set(data: data, withLabels: labels)
-        
-        price_trend_background.addSubview(graphView)
-        
-        let horizonalContraints = NSLayoutConstraint(item: graphView, attribute:
-            .leadingMargin, relatedBy: .equal, toItem: price_trend_background,
-                            attribute: .leading, multiplier: 1.0,
-                            constant: 0)
-        
-        let verticalContraints = NSLayoutConstraint(item: graphView, attribute:.trailingMargin, relatedBy: .equal, toItem: price_trend_background,
-                                                    attribute: .trailing, multiplier: 1.0, constant: 0)
-        
-        
-        let pinTop = NSLayoutConstraint(item: graphView, attribute: .top, relatedBy: .equal, toItem: price_trend_background, attribute: .top, multiplier: 1.0, constant: 0)
-        
-        let pinBottom = NSLayoutConstraint(item: graphView, attribute: .bottom, relatedBy: .equal, toItem: price_trend_background, attribute: .bottom, multiplier: 1.0, constant: 0)
-        
-        
-        graphView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([horizonalContraints, verticalContraints,pinTop,pinBottom])
-        
-        
-        
-        
-        
+        //連接圖表API
+        get_price_data()
     }
     
     override func didReceiveMemoryWarning() {
@@ -108,7 +85,282 @@ class PriceChartViewController: UIViewController {
     }
     
     
-    //MARK: 
+    func get_price_data(){
+
+        let searchAPI = API_Manager.shared.SEARCH_API_PATH
+        
+        //組裝url-string
+        let combinedStr = String(format: "%@?t=c&q=%@", arguments: [searchAPI!, supplier.id])
+        let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        print("\(escapedStr)")
+        
+        //放request
+        let url = URL(string: escapedStr)
+        let request = URLRequest(url: url!)
+        //request.httpMethod = "GET"
+        let session = URLSession.shared
+        
+        
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil{
+                print(error.debugDescription)
+                
+                //alert -- 連線錯誤
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                    self.present(alert, animated: true, completion:nil)
+                }
+                
+            } else {
+                
+                if let data = data, let jsonDictionary = self.parse(json: data) {
+                    
+                    if let result = jsonDictionary["result"] as? [String:Any]{
+                        
+                        if let supplierDistribute = result["supplierDistribute"] as? [String:Any]{
+                            if let supplierPriceDetail = supplierDistribute[self.supplier.sup] as? [String:Any]{
+                                //print("\(supplierPriceDetail)")
+                                
+                                if !supplierPriceDetail.isEmpty{
+                                    
+                                    //日期
+                                    let dates = supplierPriceDetail.keys.sorted()
+                                    //print("\(dates)")
+                                    
+                                    for dateHistory in dates{
+                                        //print("\(supplierPriceDetail[dateHistory])")
+                                        // 取得mfs名稱
+                                        if let mfsContent = supplierPriceDetail[dateHistory] as? [String:Any] {
+
+                                            if !mfsContent.isEmpty{
+                                                // 取得mfs的名稱
+                                                //if let mfs = mfsContent.keys.first{
+                                                if let insideDetail = mfsContent["mfs"] as? [String:Any]{
+                                                    if let mfsName = insideDetail.keys.first{
+                                                        
+                                                        if let filterResult = insideDetail[mfsName] as? [String:Any]{
+                                                            if let price = filterResult["price"] as? Double {
+                                                                //print ("Date:\(dateHistory) Price:\(price)")
+                                                                self.priceDots.append(price)
+                                                                //priceData.append([dateHistory:price])
+                                                            } else{
+                                                                self.priceDots.append(0)
+                                                            }
+                                                            
+                                                            if let inventory = filterResult["inventory"] as? Double {
+                                                                //print ("Date:\(dateHistory) Inventory:\(inventory)")
+                                                                self.quantityDots.append(inventory)
+                                                                //quantityData.append([dateHistory:inventory])
+                                                            } else {
+                                                                self.quantityDots.append(0)
+                                                            }
+                                                            
+                                                            self.datesDots.append(dateHistory)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+//                                    print("\(self.priceDots)")
+//                                    print("\(self.datesDots)")
+                                    print("\(self.quantityDots)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 更新圖表資料：
+            DispatchQueue.main.async {
+                
+                // price chart:
+                self.priceView = ScrollableGraphView(frame: self.price_trend_background.frame)
+                self.priceView.backgroundFillColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+                self.priceView.lineWidth = 1
+                self.priceView.lineColor = UIColor(red: 119/255, green: 119/255, blue: 119/255, alpha: 1)
+                self.priceView.lineStyle = ScrollableGraphViewLineStyle.smooth
+                
+                self.priceView.shouldFill = true
+                self.priceView.fillType = ScrollableGraphViewFillType.gradient
+                
+                self.priceView.fillColor = UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1)
+                self.priceView.fillGradientType = ScrollableGraphViewGradientType.linear
+                self.priceView.fillGradientStartColor = UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1)
+                self.priceView.fillGradientEndColor = UIColor(red: 68/255, green: 68/255, blue: 68/255, alpha: 1)
+                
+                self.priceView.dataPointSpacing = 80
+                self.priceView.dataPointSize = 2
+                self.priceView.dataPointFillColor = UIColor.white
+                
+                self.priceView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+                self.priceView.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+                self.priceView.referenceLineLabelColor = UIColor.white
+                self.priceView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+                self.priceView.shouldAutomaticallyDetectRange = true
+                
+                
+                
+                //如果資料為空：則設為0
+                if !self.priceDots.isEmpty{
+                    //priceView:
+                    self.priceView.set(data: self.priceDots, withLabels: self.datesDots)
+                    
+                    self.price_trend_background.addSubview(self.priceView)
+                    
+                    let horizonalContraints = NSLayoutConstraint(item: self.priceView, attribute:
+                        .leadingMargin, relatedBy: .equal, toItem: self.price_trend_background,
+                                        attribute: .leading, multiplier: 1.0,
+                                        constant: 0)
+                    
+                    let verticalContraints = NSLayoutConstraint(item: self.priceView, attribute:.trailingMargin, relatedBy: .equal, toItem: self.price_trend_background,
+                                                                attribute: .trailing, multiplier: 1.0, constant: 0)
+                    
+                    let pinTop = NSLayoutConstraint(item: self.priceView, attribute: .top, relatedBy: .equal, toItem: self.price_trend_background, attribute: .top, multiplier: 1.0, constant: 0)
+                    
+                    let pinBottom = NSLayoutConstraint(item: self.priceView, attribute: .bottom, relatedBy: .equal, toItem: self.price_trend_background, attribute: .bottom, multiplier: 1.0, constant: 0)
+                    
+                    self.priceView.translatesAutoresizingMaskIntoConstraints = false
+                    NSLayoutConstraint.activate([horizonalContraints, verticalContraints,pinTop,pinBottom])
+                    
+                } else {
+                    let data: [Double] = [0]
+                    
+                    //date:
+                    let date = Date()
+                    let calendar = Calendar.current
+                    let components = calendar.dateComponents([.year,.month,.day], from: date)
+                    let currentDate = "\(components.year!)/\(components.month!)/\(components.day!)"
+                    let labels = [currentDate]
+                    
+                    self.priceView.set(data: data, withLabels: labels)
+                    self.price_trend_background.addSubview(self.priceView)
+                    
+                    let horizonalContraints = NSLayoutConstraint(item: self.priceView, attribute:
+                        .leadingMargin, relatedBy: .equal, toItem: self.price_trend_background,
+                                        attribute: .leading, multiplier: 1.0,
+                                        constant: 0)
+                    let verticalContraints = NSLayoutConstraint(item: self.priceView, attribute:.trailingMargin, relatedBy: .equal, toItem: self.price_trend_background,
+                                                                attribute: .trailing, multiplier: 1.0, constant: 0)
+                    let pinTop = NSLayoutConstraint(item: self.priceView, attribute: .top, relatedBy: .equal, toItem: self.price_trend_background, attribute: .top, multiplier: 1.0, constant: 0)
+                    
+                    let pinBottom = NSLayoutConstraint(item: self.priceView, attribute: .bottom, relatedBy: .equal, toItem: self.price_trend_background, attribute: .bottom, multiplier: 1.0, constant: 0)
+                    
+                    self.priceView.translatesAutoresizingMaskIntoConstraints = false
+                    NSLayoutConstraint.activate([horizonalContraints, verticalContraints,pinTop,pinBottom])
+                    
+                }
+                
+                
+                //quantity chart
+                
+                self.quantityView = ScrollableGraphView(frame: self.quantity_trend_background.frame)
+                
+                // Disable the lines and data points.
+                self.quantityView.shouldDrawDataPoint = false
+                self.quantityView.lineColor = UIColor.clear
+                
+                // Tell the graph it should draw the bar layer instead.
+                self.quantityView.shouldDrawBarLayer = true
+                
+                self.quantityView.dataPointSpacing = 80
+                self.quantityView.dataPointSize = 2
+                
+                // Customise the bar.
+                self.quantityView.barWidth = 25
+                self.quantityView.barLineWidth = 1
+                self.quantityView.barLineColor = UIColor(red: 119/255, green: 119/255, blue: 119/255, alpha: 1)
+                self.quantityView.barColor = UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1)
+                self.quantityView.backgroundFillColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+                
+                self.quantityView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+                self.quantityView.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+                self.quantityView.referenceLineLabelColor = UIColor.white
+                self.quantityView.numberOfIntermediateReferenceLines = 5
+                self.quantityView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+                
+                self.quantityView.shouldAnimateOnStartup = true
+                //self.quantityView.shouldAdaptRange = true
+                self.quantityView.shouldAutomaticallyDetectRange = true
+                self.quantityView.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+                self.quantityView.animationDuration = 1.5
+                self.quantityView.rangeMax = 10
+                self.quantityView.shouldRangeAlwaysStartAtZero = true
+                
+                
+                
+                //如果資料為空：則設為0
+                if !self.quantityDots.isEmpty{
+                    //quantityView:
+                    self.quantityView.set(data: self.quantityDots, withLabels: self.datesDots)
+                    
+                    self.quantity_trend_background.addSubview(self.quantityView)
+                    
+                    let horizonalContraints = NSLayoutConstraint(item: self.quantityView, attribute:
+                        .leadingMargin, relatedBy: .equal, toItem: self.quantity_trend_background,
+                                        attribute: .leading, multiplier: 1.0,
+                                        constant: 0)
+                    
+                    let verticalContraints = NSLayoutConstraint(item: self.quantityView, attribute:.trailingMargin, relatedBy: .equal, toItem: self.quantity_trend_background,
+                                                                attribute: .trailing, multiplier: 1.0, constant: 0)
+                    
+                    let pinTop = NSLayoutConstraint(item: self.quantityView, attribute: .top, relatedBy: .equal, toItem: self.quantity_trend_background, attribute: .top, multiplier: 1.0, constant: 0)
+                    
+                    let pinBottom = NSLayoutConstraint(item: self.quantityView, attribute: .bottom, relatedBy: .equal, toItem: self.quantity_trend_background, attribute: .bottom, multiplier: 1.0, constant: 0)
+                    
+                    self.quantityView.translatesAutoresizingMaskIntoConstraints = false
+                    NSLayoutConstraint.activate([horizonalContraints, verticalContraints,pinTop,pinBottom])
+                    
+                } else {
+                    let data: [Double] = [0]
+                    
+                    //date:
+                    let date = Date()
+                    let calendar = Calendar.current
+                    let components = calendar.dateComponents([.year,.month,.day], from: date)
+                    let currentDate = "\(components.year!)/\(components.month!)/\(components.day!)"
+                    let labels = [currentDate]
+                    
+                    self.quantityView.set(data: data, withLabels: labels)
+                    self.quantity_trend_background.addSubview(self.quantityView)
+                    
+                    let horizonalContraints = NSLayoutConstraint(item: self.quantityView, attribute:
+                        .leadingMargin, relatedBy: .equal, toItem: self.quantity_trend_background,
+                                        attribute: .leading, multiplier: 1.0,
+                                        constant: 0)
+                    
+                    let verticalContraints = NSLayoutConstraint(item: self.quantityView, attribute:.trailingMargin, relatedBy: .equal, toItem: self.quantity_trend_background,
+                                                                attribute: .trailing, multiplier: 1.0, constant: 0)
+                    
+                    let pinTop = NSLayoutConstraint(item: self.quantityView, attribute: .top, relatedBy: .equal, toItem: self.quantity_trend_background, attribute: .top, multiplier: 1.0, constant: 0)
+                    
+                    let pinBottom = NSLayoutConstraint(item: self.quantityView, attribute: .bottom, relatedBy: .equal, toItem: self.quantity_trend_background, attribute: .bottom, multiplier: 1.0, constant: 0)
+                    
+                    self.quantityView.translatesAutoresizingMaskIntoConstraints = false
+                    NSLayoutConstraint.activate([horizonalContraints, verticalContraints,pinTop,pinBottom])
+                    
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    
+    func parse(json data:Data) -> [String : Any]? {
+        
+        do {
+            return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        } catch{
+            print("JSON Error:\(error)")
+            
+            return nil
+        }
+        
+        
+    }
+    
     
     
     

@@ -871,7 +871,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMp-0Q-dTZ" userLabel="價格趨勢View">
                                         <rect key="frame" x="16" y="303" width="344" height="180"/>
-                                        <color key="backgroundColor" red="0.34307583180000001" green="0.61975439160000001" blue="0.86010362689999997" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="180" id="OMY-pa-NsV"/>
                                         </constraints>
