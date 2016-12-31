@@ -163,7 +163,7 @@ class PriceChartViewController: UIViewController {
                                             }
                                         }
                                     }
-//                                    print("\(self.priceDots)")
+                                    print("\(self.priceDots)")
 //                                    print("\(self.datesDots)")
                                     print("\(self.quantityDots)")
                                 }
@@ -198,6 +198,7 @@ class PriceChartViewController: UIViewController {
                 self.priceView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
                 self.priceView.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
                 self.priceView.referenceLineLabelColor = UIColor.white
+                self.priceView.referenceLineNumberOfDecimalPlaces = 6
                 self.priceView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
                 self.priceView.shouldAutomaticallyDetectRange = true
                 
