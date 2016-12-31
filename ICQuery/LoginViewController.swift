@@ -298,32 +298,44 @@ class LoginViewController: UIViewController {
 
         if self.register_email_textField.text != "", self.register_password_textField.text != "", self.register_reenter_password_textField.text != "" {
             
-            // 確認password是否相同？
-            if self.register_password_textField.text != register_reenter_password_textField.text{
-                // 密碼輸入錯誤
-                let alert = UIAlertController(title: "密碼輸入錯誤", message: "請再次確認輸入的密碼是否正確",     preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+            // 檢查email格式是否正確：
+            if isValidEmail(testStr: self.register_email_textField.text!){
+                
+                // 確認password是否相同？
+                if self.register_password_textField.text != register_reenter_password_textField.text{
+                    // 密碼輸入錯誤
+                    let alert = UIAlertController(title: "密碼輸入錯誤", message: "請再次確認輸入的密碼是否正確",     preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                } else {
+                    //email,pwd,latitude,longtitude,name,node
+                    let email = self.register_email_textField.text!
+                    let password = self.register_password_textField.text!
+                    
+                    //"latitude", "longitude"
+                    let latitude = DBManager.shared.get_device_position()["latitude"]!
+                    let longitude = DBManager.shared.get_device_position()["longitude"]!
+                    
+                    //name=UUID node=DeviceName
+                    let name = DBManager.shared.systemInfo.deviceUUID
+                    let node = DBManager.shared.systemInfo.deviceName
+                    
+                    
+                    let combinedStr = String(format: "%@/signin?email=%@&pwd=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, password, latitude, longitude, name, node])
+                    let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                    print("\(escapedStr)")
+                    connectToServer(URLString: escapedStr, Type: "Register")
+                }
                 
             } else {
-                //email,pwd,latitude,longtitude,name,node
-                let email = self.register_email_textField.text!
-                let password = self.register_password_textField.text!
                 
-                //"latitude", "longitude"
-                let latitude = DBManager.shared.get_device_position()["latitude"]!
-                let longitude = DBManager.shared.get_device_position()["longitude"]!
-                
-                //name=UUID node=DeviceName
-                let name = DBManager.shared.systemInfo.deviceUUID
-                let node = DBManager.shared.systemInfo.deviceName
+                let alert = UIAlertController(title: "Email格式錯誤", message: "請再次檢查輸入的Email是否正確",     preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             
-            
-                let combinedStr = String(format: "%@/signin?email=%@&pwd=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, password, latitude, longitude, name, node])
-                let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                print("\(escapedStr)")
-                connectToServer(URLString: escapedStr, Type: "Register")
             }
+            
         } else {
         
             var alertMessage = ""
@@ -518,3 +530,14 @@ extension LoginViewController: UIGestureRecognizerDelegate {
     }
 }
 
+
+
+// MARK: Email format check function
+extension LoginViewController{
+    func isValidEmail(testStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
+}
