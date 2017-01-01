@@ -721,7 +721,7 @@ extension ListViewController{
         
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         //hud.mode = MBProgressHUDMode.annularDeterminate
-        hud.label.text = "Loading"
+        hud.label.text = "搜尋中"
         let queue = DispatchQueue.global()
         
         queue.async {

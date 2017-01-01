@@ -364,99 +364,134 @@ class LoginViewController: UIViewController {
     //login確認
     func connectToServer(URLString: String, Type: String) {
         
-        let url = URL(string:URLString)!
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        //hud.mode = MBProgressHUDMode.annularDeterminate
+        hud.label.text = "連線中，請稍候"
         
-        let session = URLSession.shared
+        let queue = DispatchQueue.global()
         
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+        queue.async {
             
-            if error != nil{
-                print(error.debugDescription)
+            let url = URL(string:URLString)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
                 
-                let alert = UIAlertController(title: "連線失敗", message: "伺服器連線失敗，請稍後再試", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-                
-            }else{
-                if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
-                    if serverTalkBack == "0"{
-                        //資料有誤！
-                        
-                        DispatchQueue.main.async {
-                            let alert = UIAlertController(title: "登入失敗", message: "請再次確認填入帳號與密碼是否正確", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                            self.present(alert, animated: true, completion: {
-                                self.login_email_textField.text = ""
-                                self.login_password_textField.text = ""
-                            
-                            })
-                        }
-                        
-                    } else if serverTalkBack == "ERR: email registed" {
-                        
-                        DispatchQueue.main.async {
-                            let alert = UIAlertController(title: "該Email已註冊過", message: "請使用有效的Email", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                            self.present(alert, animated: true, completion: {
-                                
-                                self.register_email_textField.text = ""
-                                self.register_password_textField.text = ""
-                                self.register_reenter_password_textField.text = ""
-                            })
-                        }
+                if error != nil{
+                    print(error.debugDescription)
                     
-                    } else {
-                        
-                        print("\(serverTalkBack)")
-
-                        //登入成功
-                        if Type == "Login"{
+                    DispatchQueue.main.async {
+                        hud.hide(animated: true)
+                        let alert = UIAlertController(title: "連線失敗", message: "伺服器連線失敗，請稍後再試", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: {
+                            hud.removeFromSuperview()
+                        })
+                    }
+                    
+                    
+                    
+                    
+                }else{
+                    if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                        if serverTalkBack == "0"{
+                            //資料有誤！
                             
-                            self.delegate?.sendValue(loginStatus: true, value: self.login_email_textField.text!)
-                            self.close()
+                            DispatchQueue.main.async {
+                                hud.hide(animated: true)
+                                let alert = UIAlertController(title: "登入失敗", message: "請再次確認填入帳號與密碼是否正確", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                self.present(alert, animated: true, completion: {
+                                    self.login_email_textField.text = ""
+                                    self.login_password_textField.text = ""
+                                    hud.removeFromSuperview()
+                                })
+                            }
                             
-                        } else if Type == "Register" {
-                            self.delegate?.sendValue(loginStatus: true, value: self.register_email_textField.text!)
-                            self.close()
+                        } else if serverTalkBack == "ERR: email registed" {
+                            
+                            DispatchQueue.main.async {
+                                hud.hide(animated: true)
+                                let alert = UIAlertController(title: "該Email已註冊過", message: "請使用有效的Email", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                self.present(alert, animated: true, completion: {
+                                    
+                                    self.register_email_textField.text = ""
+                                    self.register_password_textField.text = ""
+                                    self.register_reenter_password_textField.text = ""
+                                    hud.removeFromSuperview()
+                                })
+                            }
                             
                         } else {
                             
-                            if serverTalkBack == ""{
-                                // 找不到該email
+                            print("\(serverTalkBack)")
+                            
+                            //登入成功
+                            if Type == "Login"{
                                 
                                 DispatchQueue.main.async {
-                                    let alert = UIAlertController(title: "此Email尚未註冊會員", message: "請重新輸入Email帳號", preferredStyle: .alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-                                    //self.present(alert, animated: true, completion: nil)
-                                    self.present(alert, animated: true, completion: {
-                                        
-                                        self.forget_email_textField.text = ""
-                                    })
+                                    hud.hide(animated: true)
+                                    self.delegate?.sendValue(loginStatus: true, value: self.login_email_textField.text!)
+                                    self.close()
+                                
                                 }
-                              
-                            } else {
+                            } else if Type == "Register" {
+                                
                                 DispatchQueue.main.async {
-                                    let alert = UIAlertController(title: "密碼已重新設定", message: "請使用新密碼重新登入", preferredStyle: .alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler: { (action) in
-                                        
-                                        self.close()
-                                    }))
-                                    self.present(alert, animated: true, completion: nil)
+                                    hud.hide(animated: true)
+                                    self.delegate?.sendValue(loginStatus: true, value: self.register_email_textField.text!)
+                                    self.close()
+                                    
                                 }
+                                
+                            } else {
+                                
+                                if serverTalkBack == ""{
+                                    // 找不到該email
+                                    
+                                    DispatchQueue.main.async {
+                                        hud.hide(animated: true)
+                                        let alert = UIAlertController(title: "此Email尚未註冊會員", message: "請重新輸入Email帳號", preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                        //self.present(alert, animated: true, completion: nil)
+                                        self.present(alert, animated: true, completion: {
+                                            self.forget_email_textField.text = ""
+                                            hud.removeFromSuperview()
+                                        })
+                                    }
+                                    
+                                } else {
+                                    DispatchQueue.main.async {
+                                        hud.hide(animated: true)
+                                        let alert = UIAlertController(title: "密碼已重新設定", message: "請使用新密碼重新登入", preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "OK", style:.default, handler: { (action) in
+                                            
+                                            self.close()
+                                        }))
+                                        self.present(alert, animated: true, completion: nil)
+                                    }
+                                }
+                                
                             }
                             
                         }
- 
                     }
                 }
             }
+            
+            task.resume()
+
+        
         }
         
-        task.resume()
-    
+        
+        
     }
     
     

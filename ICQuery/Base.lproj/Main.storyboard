@@ -239,7 +239,7 @@
                                                 <rect key="frame" x="8" y="131" width="224" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="JA3-UY-ksU" id="sG0-Jy-mke"/>
                                                 </connections>
@@ -353,7 +353,7 @@
                                                 <rect key="frame" x="8" y="131" width="224" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="JA3-UY-ksU" id="L9N-rK-kYE"/>
                                                 </connections>
@@ -368,7 +368,7 @@
                                                 <rect key="frame" x="8" y="194" width="224" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="JA3-UY-ksU" id="o6R-1w-fL7"/>
                                                 </connections>
