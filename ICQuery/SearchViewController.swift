@@ -79,7 +79,7 @@ class SearchViewController: UIViewController{
         //        self.view.addConstraint(NSLayoutConstraint(item: autocompleteTableView, attribute: .leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leadingMargin, multiplier: 1.0, constant: 8))
         //        self.view.addConstraint(NSLayoutConstraint(item: autocompleteTableView, attribute: .trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailingMargin, multiplier: 1.0, constant: -8))
         
-        heightConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: NSLayoutAttribute.height, relatedBy: .equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 80)
+        heightConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: NSLayoutAttribute.height, relatedBy: .equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 88)
         
         autocompleteTableView.addConstraint(heightConstraint)
         
@@ -338,7 +338,7 @@ class SearchViewController: UIViewController{
             print("JSON Error:\(error)")
             
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "JSON解析錯誤", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
+                let alert = UIAlertController(title: "查無資料", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
                 self.present(alert, animated: true, completion:nil)
             }
@@ -436,7 +436,7 @@ class SearchViewController: UIViewController{
                 //alert -- 連線錯誤
             } else {
                 
-                print("\(response)")
+                //print("\(response)")
                 if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
                     let filter1 = serverTalkBack.replacingOccurrences(of: "null({\"result\":[", with: "")
                     let filter2 = filter1.replacingOccurrences(of: "]});", with: "")
@@ -719,6 +719,10 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
         self.textField.resignFirstResponder()
         self.autocompleteTableView.isHidden = true
         
+        if autoCompleteTask != nil{
+            autoCompleteTask.cancel()
+        }
+        
         
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = "搜尋中"
@@ -785,7 +789,16 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
                                 self.present(lsVC, animated: true, completion: nil)
                             }
                         }
+                    } else {
+                        
+                        DispatchQueue.main.async {
+                            hud.hide(animated: true)
+                            let alert = UIAlertController(title: "無法獲得搜尋結果", message: "請重新搜尋", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                            self.present(alert, animated: true, completion:nil)
+                        }
                     }
+                    
                 }
             }
             task.resume()

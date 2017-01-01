@@ -12,6 +12,8 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
     
     
     
+    var autoCompleteTask : URLSessionDataTask!
+    
     
     var searchKeyword:String!
     var searchAPI_Address:String!
@@ -70,8 +72,8 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
     var trailingConstraint: NSLayoutConstraint!
     var topConstraint :NSLayoutConstraint!
     var heightConstraint :NSLayoutConstraint!
-
-
+    
+    
     
     override func viewDidLoad() {
         
@@ -79,7 +81,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
         let placeholderStr = NSAttributedString(string: "請輸入查詢資料", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
         searchTextField.attributedPlaceholder = placeholderStr
         searchTextField.delegate = self
-
+        
         
         autocompleteTableView = UITableView(frame: CGRect(), style: UITableViewStyle.plain)
         autocompleteTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -99,10 +101,10 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
         
         self.view.addConstraints([topConstraint,leadingConstraint,trailingConstraint])
         
-        heightConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: NSLayoutAttribute.height, relatedBy: .equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 80)
+        heightConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: NSLayoutAttribute.height, relatedBy: .equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 88)
         
         autocompleteTableView.addConstraint(heightConstraint)
-
+        
         let cellNib = UINib(nibName: CellID.list_cell, bundle: nil)
         listTableView.register(cellNib, forCellReuseIdentifier: CellID.list_cell)
         
@@ -141,7 +143,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
         view.layoutIfNeeded()
         searchTextField.useUnderline()
     }
-
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         super.viewWillTransition(to: size, with: coordinator)
@@ -154,7 +156,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
     @IBAction func main_icon_pressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
     /****** parsing *****/
     
     func get_total_pages(dictionary:[String:Any]) -> Int{
@@ -226,7 +228,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
             print("JSON Error:\(error)")
             
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "JSON解析錯誤", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
+                let alert = UIAlertController(title: "查無資料", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
                 self.present(alert, animated: true, completion:nil)
             }
@@ -242,104 +244,119 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
         
         return Int(total)!
     }
-
+    
     //search button pressed
     @IBAction func searchButtonPressed(_ sender: Any) {
-        print("get another search")
+        //print("get another search")
+        
+        if self.autoCompleteTask != nil{
+            self.autoCompleteTask.cancel()
+        }
+        
         searchTextField.resignFirstResponder()
-        
-        
         self.allItems = []
         self.listTableView.reloadData()
         
-        
         if searchTextField.text!.isEmpty{
-            
             let alert = UIAlertController(title: "尚未輸入任何搜尋關鍵字", message:"請重新輸入搜尋字串", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             
         } else {
             
-            
-            let searchAPI = API_Manager.shared.SEARCH_API_PATH
-            var searchKeyword = ""
-            if self.searchTextField.text!.characters.last == " " || self.searchTextField.text!.characters.last == "\n" || self.searchTextField.text!.characters.last == "\t" {
-                searchKeyword = self.searchTextField.text!.substring(to: self.searchTextField.text!.index(before: self.searchTextField.text!.endIndex))
-            } else {
-                searchKeyword = self.searchTextField.text!
-            }
-            
-//            let searchKeyword = self.searchTextField.text!.components(separatedBy: "\t").first
-//            let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
-            self.type = "f"
-            
-            //組裝url-string
-            
-            let combinedStr = String(format: "%@?t=%@&p=1&q=%@", arguments: [searchAPI!, self.type, searchKeyword])
-            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            print("\(escapedStr)")
-            
-            
-            //放request
-            let url = URL(string: escapedStr)
-            let request = URLRequest(url: url!)
-            //request.httpMethod = "GET"
-            let session = URLSession.shared
-            
-            
-            
-            let task = session.dataTask(with: request as URLRequest) { data, response, error in
-                if error != nil{
-                    //print(error.debugDescription)
-                    
-                    //alert -- 連線錯誤
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-                        self.present(alert, animated: true, completion:nil)
-                    }
-                    
+            let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+            hud.label.text = "搜尋中"
+            let queue = DispatchQueue.global()
+            queue.async {
+                let searchAPI = API_Manager.shared.SEARCH_API_PATH
+                var searchKeyword = ""
+                if self.searchTextField.text!.characters.last == " " || self.searchTextField.text!.characters.last == "\n" || self.searchTextField.text!.characters.last == "\t" {
+                    searchKeyword = self.searchTextField.text!.substring(to: self.searchTextField.text!.index(before: self.searchTextField.text!.endIndex))
                 } else {
-                    
-                    if let data = data, let jsonDictionary = self.parse(json: data) {
-                        //print("\(jsonDictionary)")
+                    searchKeyword = self.searchTextField.text!
+                }
+
+                self.type = "f"
+                //組裝url-string
+                
+                let combinedStr = String(format: "%@?t=%@&p=1&q=%@", arguments: [searchAPI!, self.type, searchKeyword])
+                let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                print("\(escapedStr)")
+                
+                
+                //放request
+                let url = URL(string: escapedStr)
+                let request = URLRequest(url: url!)
+                //request.httpMethod = "GET"
+                let session = URLSession.shared
+
+                let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                    if error != nil{
+                        //print(error.debugDescription)
+                        //alert -- 連線錯誤
+                        DispatchQueue.main.async {
+                            hud.hide(animated: true)
+                            let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                            self.present(alert, animated: true, completion:nil)
+                        }
                         
-                        //確定總共有幾筆：
-                        if self.get_total(dictionary: jsonDictionary) <= 0{
-                            DispatchQueue.main.async {
-                                let alert = UIAlertController(title: "查無資料", message: "請嘗試其他關鍵字", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-                                self.present(alert, animated: true, completion:{
-                                    self.searchTextField.text = ""
-                                })
+                    } else {
+                        
+                        if let data = data, let jsonDictionary = self.parse(json: data) {
+                            //print("\(jsonDictionary)")
+                            
+                            //確定總共有幾筆：
+                            if self.get_total(dictionary: jsonDictionary) <= 0{
+                                DispatchQueue.main.async {
+                                    hud.hide(animated: true)
+                                    let alert = UIAlertController(title: "查無資料", message: "請嘗試其他關鍵字", preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                    self.present(alert, animated: true, completion:{
+                                        self.searchTextField.text = ""
+                                    })
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    //設定筆數：
+                                    self.totalPins = self.get_total(dictionary: jsonDictionary)
+                                    //設定目前頁數：
+                                    self.currentPage = 1
+                                    self.searchKeyword = self.searchTextField.text
+                                    // 爬資料：
+                                    // 存資料到json_dic
+                                    self.json_dic = jsonDictionary
+                                    
+                                    //更新資料
+                                    self.allItems = self.parse(dictionary: self.json_dic)
+                                    self.listTableView.reloadData()
+                                    hud.hide(animated: true)
+                                }
                             }
                         } else {
+                            
                             DispatchQueue.main.async {
-                                //設定筆數：
-                                self.totalPins = self.get_total(dictionary: jsonDictionary)
-                                //設定目前頁數：
-                                self.currentPage = 1
-                                self.searchKeyword = self.searchTextField.text
-                                // 爬資料：
-                                // 存資料到json_dic
-                                self.json_dic = jsonDictionary
-                                
-                                //更新資料
-                                self.allItems = self.parse(dictionary: self.json_dic)
-                                self.listTableView.reloadData()
+                                hud.hide(animated: true)
+                                let alert = UIAlertController(title: "無法獲得搜尋結果", message: "請重新搜尋", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                self.present(alert, animated: true, completion:nil)
                             }
                         }
                     }
                 }
+                task.resume()
             }
-            task.resume()
         }
+        
     }
     
     //******** autocomplete list 下載 ********//
     
     func get_autoComplete_list(searchStr: String){
+        
+        if self.autoCompleteTask != nil{
+            self.autoCompleteTask.cancel()
+        }
         
         autocompleteCacheItems = []
         
@@ -355,13 +372,13 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
         //request.httpMethod = "GET"
         let session = URLSession.shared
         
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+        self.autoCompleteTask = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil{
                 print(error.debugDescription)
                 //alert -- 連線錯誤
             } else {
                 
-                print("\(response)")
+                //print("\(response)")
                 if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
                     let filter1 = serverTalkBack.replacingOccurrences(of: "null({\"result\":[", with: "")
                     let filter2 = filter1.replacingOccurrences(of: "]});", with: "")
@@ -373,14 +390,13 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
                     }
                     
                     DispatchQueue.main.async {
-                        self.autocompleteItems = []
                         self.autocompleteItems = self.autocompleteCacheItems
                         self.autocompleteTableView.reloadData()
                     }
                 }
             }
         }
-        task.resume()
+        self.autoCompleteTask.resume()
     }
     
     
@@ -532,13 +548,93 @@ extension ListViewController:UITableViewDelegate{
             detailVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
             detailVC.delegate = self
             self.present(detailVC, animated: true, completion: nil)
-        
-        } else {
             
-            self.autocompleteTableView.isHidden = true
-            self.searchTextField.text = autocompleteItems[indexPath.row]
+        } else if tableView == autocompleteTableView{
+            
+            if self.autoCompleteTask != nil{
+                self.autoCompleteTask.cancel()
+            }
+            // 從auto complete 選單中選擇出來
             self.searchTextField.resignFirstResponder()
-            self.newSearchBegin(searchKey: self.searchTextField.text!, autoComplete: true)
+            self.searchTextField.text = autocompleteItems[indexPath.row]
+            self.autocompleteTableView.isHidden = true
+            
+            self.allItems = []
+            self.listTableView.reloadData()
+            
+            let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+            hud.label.text = "搜尋中"
+            let queue = DispatchQueue.global()
+            
+            queue.async {
+                
+                self.type = "f"
+                let searchAPI = API_Manager.shared.SEARCH_API_PATH
+                
+                let searchKeyword = self.searchTextField.text!.components(separatedBy: "\t").first!
+                
+                //組裝url-string
+                
+                let combinedStr = String(format: "%@?t=%@&p=1&q=%@", arguments: [searchAPI!, self.type, searchKeyword])
+                let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                print("\(escapedStr)")
+                
+                //放request
+                let url = URL(string: escapedStr)
+                let request = URLRequest(url: url!)
+                //request.httpMethod = "GET"
+                
+                let session = URLSession.shared
+                
+                let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                    if error != nil{
+                        //print(error.debugDescription)
+                        
+                        //alert -- 連線錯誤
+                        DispatchQueue.main.async {
+                            hud.hide(animated: true)
+                            let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                            self.present(alert, animated: true, completion:nil)
+                        }
+                        
+                    } else {
+                        if let data = data, let jsonDictionary = self.parse(json: data) {
+                            
+                            //確定總共有幾筆：
+                            if self.get_total(dictionary: jsonDictionary) <= 0{
+                                DispatchQueue.main.async {
+                                    hud.hide(animated: true)
+                                    let alert = UIAlertController(title: "查無資料", message: "請嘗試其他關鍵字", preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                    self.present(alert, animated: true, completion:{
+                                        self.searchTextField.text = ""
+                                    })
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    
+                                    //設定筆數：
+                                    self.totalPins = self.get_total(dictionary: jsonDictionary)
+                                    //設定目前頁數：
+                                    self.currentPage = 1
+                                    self.searchKeyword = self.searchTextField.text!.components(separatedBy: "\t").first!
+                                    // 爬資料：
+                                    // 存資料到json_dic
+                                    self.json_dic = jsonDictionary
+                                    
+                                    //更新資料
+                                    self.allItems = self.parse(dictionary: self.json_dic)
+                                    self.listTableView.reloadData()
+                                    
+                                    hud.hide(animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+                task.resume()
+            }
         }
     }
     
@@ -559,8 +655,7 @@ extension ListViewController:UITableViewDelegate{
 extension ListViewController:UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        searchTextField.resignFirstResponder()
-        autocompleteItems = []
+        textField.resignFirstResponder()
         autocompleteTableView.isHidden = true
         return true
     }
@@ -568,9 +663,9 @@ extension ListViewController:UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         //增加的時候
-        let newLength = (searchTextField.text?.characters.count)! + string.characters.count - range.length
+        let newLength = (textField.text?.characters.count)! + string.characters.count - range.length
         if newLength >= 3 {
-            let searchStr = searchTextField.text!+string
+            let searchStr = textField.text!+string
             get_autoComplete_list(searchStr: searchStr)
             autocompleteTableView.isHidden = false
         } else if newLength == 0 {
@@ -580,31 +675,22 @@ extension ListViewController:UITextFieldDelegate{
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        searchTextField.resignFirstResponder()
-        autocompleteItems = []
-        autocompleteTableView.reloadData()
+        textField.resignFirstResponder()
         autocompleteTableView.isHidden = true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
         if (textField.text?.characters.count)! >= 3{
-            let searchStr = searchTextField.text!
-            get_autoComplete_list(searchStr: searchStr)
-            autocompleteTableView.isHidden = false
-        } else {
-            autocompleteTableView.isHidden = true
+            get_autoComplete_list(searchStr:textField.text!)
         }
-        
-        
     }
-
+    
 }
 
 
 //MARK: DetailViewControllerDelegate Method
 extension ListViewController{
-
+    
     func reloadTable(){
         self.listTableView.reloadData()
     }
@@ -612,7 +698,7 @@ extension ListViewController{
     func newSearchBegin(searchKey:String, autoComplete:Bool){
         self.allItems = []
         self.listTableView.reloadData()
-
+        
         self.searchTextField.text = searchKey
         self.type = "f"
         let searchAPI = API_Manager.shared.SEARCH_API_PATH
@@ -620,7 +706,7 @@ extension ListViewController{
         var searchKeyword = ""
         
         if autoComplete{
-        
+            
             searchKeyword = searchKey.components(separatedBy: "\t").first!
         } else {
             searchKeyword = searchKey
@@ -638,7 +724,7 @@ extension ListViewController{
         //request.httpMethod = "GET"
         
         let session = URLSession.shared
-
+        
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil{
                 //print(error.debugDescription)
@@ -685,5 +771,5 @@ extension ListViewController{
         }
         task.resume()
     }
- 
+    
 }
