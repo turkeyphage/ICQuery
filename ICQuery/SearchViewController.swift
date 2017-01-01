@@ -274,6 +274,7 @@ class SearchViewController: UIViewController{
                 
                 
                 let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                    
                     if error != nil{
                         print(error.debugDescription)
                         
@@ -282,7 +283,9 @@ class SearchViewController: UIViewController{
                             hud.hide(animated: true)
                             let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-                            self.present(alert, animated: true, completion:nil)
+                            self.present(alert, animated: true, completion:{
+                                hud.removeFromSuperview()
+                            })
                         }
                         
                     } else {
@@ -300,6 +303,7 @@ class SearchViewController: UIViewController{
                                     alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
                                     self.present(alert, animated: true, completion:{
                                         self.textField.text = ""
+                                        hud.removeFromSuperview()
                                     })
                                 }
                                 
@@ -318,9 +322,26 @@ class SearchViewController: UIViewController{
                                     // 動畫
                                     lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
                                     lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-                                    self.present(lsVC, animated: true, completion: nil)
+                                    self.present(lsVC, animated: true, completion: {
+                                        self.textField.text = ""
+                                        hud.removeFromSuperview()
+                                    })
                                 }
                             }
+                            
+                        } else {
+                            
+                            DispatchQueue.main.async {
+                                hud.hide(animated: true)
+                                let alert = UIAlertController(title: "查無資料", message: "請嘗試其他關鍵字", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                                self.present(alert, animated: true, completion:{
+                                    self.textField.text = ""
+                                    hud.removeFromSuperview()
+                                })
+                            }
+                        
+                        
                         }
                     }
                 }
@@ -337,12 +358,12 @@ class SearchViewController: UIViewController{
         } catch{
             print("JSON Error:\(error)")
             
-            DispatchQueue.main.async {
-                let alert = UIAlertController(title: "查無資料", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-                self.present(alert, animated: true, completion:nil)
-            }
-            
+//            DispatchQueue.main.async {
+//                let alert = UIAlertController(title: "查無資料", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+//                self.present(alert, animated: true, completion:nil)
+//            }
+//            
             
             return nil
         }
@@ -566,16 +587,14 @@ extension SearchViewController:UICollectionViewDelegate{
                         alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
                         self.present(alert, animated: true, completion:{
                             self.collectionView.deselectItem(at: indexPath, animated: true)
+                            hud.removeFromSuperview()
                         })
                     }
-                    
                 } else {
                     
                     if let data = data, let jsonDictionary = self.parse(json: data) {
                         //print("\(jsonDictionary)")
-                        
                         //確定page總數：
-                        
                         if self.get_total(dictionary: jsonDictionary) <= 0{
                             
                             DispatchQueue.main.async {
@@ -585,9 +604,9 @@ extension SearchViewController:UICollectionViewDelegate{
                                 self.present(alert, animated: true, completion:{
                                     //self.textField.text = ""
                                     self.collectionView.deselectItem(at: indexPath, animated: true)
+                                    hud.removeFromSuperview()
                                 })
                             }
-                            
                         } else {
                             DispatchQueue.main.async {
                                 hud.hide(animated: true)
@@ -606,8 +625,19 @@ extension SearchViewController:UICollectionViewDelegate{
                                 lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
                                 self.present(lsVC, animated: true, completion: {
                                     self.collectionView.deselectItem(at: indexPath, animated: true)
+                                    hud.removeFromSuperview()
                                 })
                             }
+                        }
+                    } else {
+                        
+                        DispatchQueue.main.async {
+                            hud.hide(animated: true)
+                            let alert = UIAlertController(title: "無法獲得搜尋結果", message: "請重新搜尋", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                            self.present(alert, animated: true, completion:{
+                                hud.removeFromSuperview()
+                            })
                         }
                     }
                     
@@ -756,7 +786,10 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
                         hud.hide(animated: true)
                         let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-                        self.present(alert, animated: true, completion:nil)
+                        self.present(alert, animated: true, completion:{
+                            self.textField.text = ""
+                            hud.removeFromSuperview()
+                        })
                     }
                 } else {
                     if let data = data, let jsonDictionary = self.parse(json: data) {
@@ -770,6 +803,7 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
                                 alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
                                 self.present(alert, animated: true, completion:{
                                     self.textField.text = ""
+                                    hud.removeFromSuperview()
                                 })
                             }
                         } else {
@@ -786,7 +820,10 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
                                 // 動畫
                                 lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
                                 lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-                                self.present(lsVC, animated: true, completion: nil)
+                                self.present(lsVC, animated: true, completion: {
+                                    self.textField.text = ""
+                                    hud.removeFromSuperview()
+                                })
                             }
                         }
                     } else {
@@ -795,7 +832,10 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
                             hud.hide(animated: true)
                             let alert = UIAlertController(title: "無法獲得搜尋結果", message: "請重新搜尋", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-                            self.present(alert, animated: true, completion:nil)
+                            self.present(alert, animated: true, completion:{
+                                self.textField.text = ""
+                                hud.removeFromSuperview()
+                            })
                         }
                     }
                     

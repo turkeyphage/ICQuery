@@ -15,6 +15,19 @@ import SafariServices
 
 class DetailViewController: UIViewController {
 
+    var autoCompleteTask : URLSessionDataTask!
+    
+    // autocomplete function variable
+    var autocompleteTableView : UITableView!
+    var autocompleteItems = [String]()
+    var autocompleteCacheItems = [String]()
+    
+    var leadingConstraint: NSLayoutConstraint!
+    var trailingConstraint: NSLayoutConstraint!
+    var topConstraint :NSLayoutConstraint!
+    var heightConstraint :NSLayoutConstraint!
+    
+    
     //delegate
     var delegate : DetailViewControllerDelegate!
     
@@ -66,6 +79,33 @@ class DetailViewController: UIViewController {
 
         searchTextField.delegate = self
 
+        autocompleteTableView = UITableView(frame: CGRect(), style: UITableViewStyle.plain)
+        autocompleteTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        autocompleteTableView.delegate = self
+        autocompleteTableView.dataSource = self
+        autocompleteTableView.isScrollEnabled = true
+        autocompleteTableView.isHidden = true
+        autocompleteTableView.layer.borderWidth = 1
+        autocompleteTableView.layer.borderColor = UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1).cgColor
+        autocompleteTableView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(autocompleteTableView)
+        
+        // constaints:
+        topConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .top, relatedBy: NSLayoutRelation.equal, toItem: searchTextField, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0)
+        leadingConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leadingMargin, multiplier: 1.0, constant: 8)
+        trailingConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailingMargin, multiplier: 1.0, constant: -8)
+        
+        self.view.addConstraints([topConstraint,leadingConstraint,trailingConstraint])
+        
+        heightConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: NSLayoutAttribute.height, relatedBy: .equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 88)
+        
+        autocompleteTableView.addConstraint(heightConstraint)
+        
+        
+        
+        
+        
+        
         //set notification observer
         let nc = NotificationCenter.default
         nc.addObserver(forName: NSNotification.Name.init(rawValue: "SegmentWasSelected"), object: nil, queue: nil, using: catchingNotification)
@@ -312,7 +352,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         
         if tableView == self.firstTableView {
             return self.allitems.count
-        } else {
+        } else if tableView == self.secondTableView {
             
             /*
             if let spec = self.allitems.first?.spec{
@@ -328,12 +368,13 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
                 return self.spec.count
             }
             
+        } else {
+            return autocompleteItems.count
         }
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         
         if tableView == self.firstTableView{
             
@@ -341,9 +382,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             let manuCell:ManufacturerCell = tableView.dequeueReusableCell(withIdentifier: "ManufacturerCell", for: indexPath) as! ManufacturerCell
             
             manuCell.keyLabel.text = self.allitems[indexPath.row].sup
-            
 
-            
             //過濾price的第一個
             if let firstprice = self.allitems[indexPath.row].price.keys.sorted().first{
                 manuCell.valueLabel.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
@@ -355,83 +394,9 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
                 manuCell.curLabel.text = ""
             }
 
-            
-            //manuCell.valueLabel.text = self.allitems[indexPath.row].price
-            //manuCell.keyLabel.text = self.selectedProduct.list[indexPath.row]["sup"] as! String?
-            
-            
-            /*
-            // 獲得價錢單位：
-            var oneprice = ""
-            var currance = ""
-            
-            
-            if let cur = self.selectedProduct.list[indexPath.row]["cur"] as! String?{
-                
-                currance = cur
-                
-                // 取得價錢：
-                if let price = self.selectedProduct.list[indexPath.row]["price"] as! String?{
-                    //print("price =\(price)")
-                    
-                    let removeSpacePrice = price.replacingOccurrences(of: " ", with: "")
-                    
-                    if let getOne = removeSpacePrice.components(separatedBy: ";").first{
-                        if let getPureValue = getOne.components(separatedBy: ":").last{
-                            if getPureValue != ""{
-                                
-                                if let pureValue_in_float = Float(getPureValue){
-                                
-                                    let value = String(format: "%.2f", pureValue_in_float)
-                                    oneprice = "\(currance) \(value)"
-                                }
-                            }
-                        }
-                    }
-                
-                } else {
-                   
-                }
-                
-            } else {
-                // 取得價錢：
-                if let price = self.selectedProduct.list[indexPath.row]["price"] as! String?{
-                    //print("price =\(price)")
-                    let removeSpacePrice = price.replacingOccurrences(of: " ", with: "")
-                    
-                    if let getOne = removeSpacePrice.components(separatedBy: ";").first{
-                        if let getPureValue = getOne.components(separatedBy: ":").last{
-                            if getPureValue != ""{
-                                
-                                if let pureValue_in_float = Float(getPureValue){
-                                    
-                                    let value = String(format: "%.2f", pureValue_in_float)
-                                    oneprice = "\(value)"
-                                }
-                            }
-                        }
-                    }
-
-                } else {
-                    //print("no price")
-                }
-
-            }
-            
-            if oneprice != ""{
-                manuCell.valueLabel.text = oneprice
-            } else {
-                manuCell.valueLabel.textColor = UIColor.lightGray
-                manuCell.valueLabel.text = "N/A"
-            }
-
-            
-            */
-            
-            
             return manuCell
         
-        } else {
+        } else if tableView == self.secondTableView {
             
             tableView.backgroundColor = UIColor.white
             let spec_cell:SpecCell = tableView.dequeueReusableCell(withIdentifier: "SpecCell", for: indexPath) as! SpecCell
@@ -446,9 +411,15 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             }
 
             return spec_cell
+        
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 12.0)
+            cell.textLabel?.text = autocompleteItems[indexPath.row]
+            
+            return cell
         }
-        
-        
     }
     
     func tableView(_ tableView: UITableView,
@@ -456,15 +427,36 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         
         //let cell = tableView.cellForRow(at: indexPath) as! ManufacturerCell
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let priceChartVC = storyboard.instantiateViewController(withIdentifier: "PriceChartViewController") as! PriceChartViewController
         
-        
-        priceChartVC.supplier = allitems[indexPath.row]
-        
-        self.present(priceChartVC, animated: true) { 
+        if tableView == firstTableView {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let priceChartVC = storyboard.instantiateViewController(withIdentifier: "PriceChartViewController") as! PriceChartViewController
+            
+            
+            priceChartVC.supplier = allitems[indexPath.row]
+            
+            self.present(priceChartVC, animated: true) {
                 tableView.deselectRow(at: indexPath, animated: true)
+            }
+        } else if tableView == autocompleteTableView {
+        
+            if self.autoCompleteTask != nil{
+                self.autoCompleteTask.cancel()
+            }
+            // 從auto complete 選單中選擇出來
+            self.searchTextField.resignFirstResponder()
+            self.searchTextField.text = autocompleteItems[indexPath.row]
+            self.autocompleteTableView.isHidden = true
+            
+            self.delegate.newSearchBegin(searchKey: self.searchTextField.text!, autoComplete: true)
+            self.dismiss(animated: true, completion: nil)
+        
         }
+        
+        
+        
+        
+        
         
     }
     
@@ -640,17 +632,96 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
     }
     
     
+    //******** autocomplete list 下載 ********//
+    
+    func get_autoComplete_list(searchStr: String){
+        
+        if self.autoCompleteTask != nil{
+            self.autoCompleteTask.cancel()
+        }
+        
+        autocompleteCacheItems = []
+        
+        // 呼叫API
+        let searchAPI = API_Manager.shared.SEARCH_API_PATH
+        let combinedStr = String(format: "%@?t=a&q=%@", arguments: [searchAPI!, searchStr])
+        let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        print("\(escapedStr)")
+        
+        //放request
+        let url = URL(string: escapedStr)
+        let request = URLRequest(url: url!)
+        //request.httpMethod = "GET"
+        let session = URLSession.shared
+        
+        self.autoCompleteTask = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil{
+                print(error.debugDescription)
+                //alert -- 連線錯誤
+            } else {
+                
+                //print("\(response)")
+                if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                    let filter1 = serverTalkBack.replacingOccurrences(of: "null({\"result\":[", with: "")
+                    let filter2 = filter1.replacingOccurrences(of: "]});", with: "")
+                    let separateByComma = filter2.components(separatedBy: ",").filter{$0 != ""}
+                    for item in separateByComma{
+                        
+                        let filter3 = item.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "\n", with: "")
+                        self.autocompleteCacheItems.append(filter3)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.autocompleteItems = self.autocompleteCacheItems
+                        self.autocompleteTableView.reloadData()
+                    }
+                }
+            }
+        }
+        self.autoCompleteTask.resume()
+    }
+
+    
+    
+    
     
 }
 
 
 // MARK: UITextFieldDelegate Method
 extension DetailViewController:UITextFieldDelegate{
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        autocompleteTableView.isHidden = true
         return true
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        //增加的時候
+        let newLength = (textField.text?.characters.count)! + string.characters.count - range.length
+        if newLength >= 3 {
+            let searchStr = textField.text!+string
+            get_autoComplete_list(searchStr: searchStr)
+            autocompleteTableView.isHidden = false
+        } else if newLength == 0 {
+            autocompleteTableView.isHidden = true
+        }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.resignFirstResponder()
+        autocompleteTableView.isHidden = true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if (textField.text?.characters.count)! >= 3{
+            get_autoComplete_list(searchStr:textField.text!)
+        }
+    }
+
 }
 
 
