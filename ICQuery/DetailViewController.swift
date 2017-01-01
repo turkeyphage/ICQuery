@@ -233,7 +233,7 @@ class DetailViewController: UIViewController {
 
         } else {
         
-            self.delegate.newSearchBegin(searchKey: self.searchTextField.text!)
+            self.delegate.newSearchBegin(searchKey: self.searchTextField.text!, autoComplete: false)
             self.dismiss(animated: true, completion: nil)
         }
 
@@ -657,7 +657,7 @@ extension DetailViewController:UITextFieldDelegate{
 // MARK: Protocal for sending data back
 protocol DetailViewControllerDelegate{
     
-    func newSearchBegin(searchKey:String)
+    func newSearchBegin(searchKey:String, autoComplete:Bool)
     func reloadTable()
     
 }
