@@ -19,6 +19,18 @@ class SearchViewController: UIViewController{
     @IBOutlet weak var collectionView: UICollectionView!
     
     
+    
+    // autocomplete function variable
+    var autocompleteTableView : UITableView!
+    var autocompleteItems = [String]()
+    var autocompleteCacheItems = [String]()
+
+    var leadingConstraint: NSLayoutConstraint!
+    var trailingConstraint: NSLayoutConstraint!
+    var topConstraint :NSLayoutConstraint!
+    var heightConstraint :NSLayoutConstraint!
+    
+    
     var searchTypes:[String] = ["半導體產品","無源元件","連接器","測試設備","電線電纜","光電元件","電源產品與電池","工業控制和量表","電路保護和開關","辦公設備和配件","工具和用品","外殼和緊固件"]
     
     
@@ -44,9 +56,31 @@ class SearchViewController: UIViewController{
         super.viewDidLoad()
         
         
+        autocompleteTableView = UITableView(frame: CGRect(), style: UITableViewStyle.plain)
+        autocompleteTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        autocompleteTableView.delegate = self
+        autocompleteTableView.dataSource = self
+        autocompleteTableView.isScrollEnabled = true
+        autocompleteTableView.isHidden = true
+        autocompleteTableView.layer.borderWidth = 1
+        autocompleteTableView.layer.borderColor = UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1).cgColor
+        autocompleteTableView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(autocompleteTableView)
         
+        // constaints:
+        topConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .top, relatedBy: NSLayoutRelation.equal, toItem: textField, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0)
+        leadingConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leadingMargin, multiplier: 1.0, constant: 8)
+        trailingConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailingMargin, multiplier: 1.0, constant: -8)
+        self.view.addConstraints([topConstraint,leadingConstraint,trailingConstraint])
         
+//        self.view.addConstraint(NSLayoutConstraint(item: autocompleteTableView, attribute: .top, relatedBy: NSLayoutRelation.equal, toItem: textField, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: -80))
+//        self.view.addConstraint(NSLayoutConstraint(item: autocompleteTableView, attribute: .leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leadingMargin, multiplier: 1.0, constant: 8))
+//        self.view.addConstraint(NSLayoutConstraint(item: autocompleteTableView, attribute: .trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailingMargin, multiplier: 1.0, constant: -8))
         
+        heightConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: NSLayoutAttribute.height, relatedBy: .equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 80)
+        
+        autocompleteTableView.addConstraint(heightConstraint)
+
         // 按空白處可以縮鍵盤
         let gestureRecognizer = UITapGestureRecognizer(target: self,action:#selector(keyboardClose))
         gestureRecognizer.cancelsTouchesInView = false
@@ -94,6 +128,10 @@ class SearchViewController: UIViewController{
     
     
     
+    
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -102,6 +140,25 @@ class SearchViewController: UIViewController{
     
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        
+        coordinator.animate(alongsideTransition: nil) { (_) in
+            
+            if UIDevice.current.orientation.isLandscape {
+                //print("Landscape")
+                self.topConstraint.constant = -(self.textField.frame.size.height+self.autocompleteTableView.frame.size.height+10)
+                
+                //self.heightConstraint.constant = 60
+            } else {
+                //print("Portrait")
+                self.topConstraint.constant = 0
+                //self.heightConstraint.constant = 80
+            }
+            
+        }
+        
         
         collectionView.reloadData()
     }
@@ -184,12 +241,12 @@ class SearchViewController: UIViewController{
         } else {
             
             let searchAPI = API_Manager.shared.SEARCH_API_PATH
-            let searchKeyword = self.textField.text!.components(separatedBy: "\t").first
-            let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
+            let searchKeyword = self.textField.text!
+            //let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
             
             //組裝url-string
             
-            let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, no_space_and_getFirstWord!])
+            let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, searchKeyword])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             print("\(escapedStr)")
             //connectToServer(URLString: escapedStr, Type:"Login")
@@ -237,7 +294,7 @@ class SearchViewController: UIViewController{
                                 lsVC.currentPage = 1
                                 lsVC.totalPins = self.get_total(dictionary: jsonDictionary)
                                 lsVC.json_dic = jsonDictionary
-                                lsVC.searchKeyword =  no_space_and_getFirstWord!
+                                lsVC.searchKeyword =  self.textField.text
                                 lsVC.searchAPI_Address = API_Manager.shared.SEARCH_API_PATH
                                 
                                 // 動畫
@@ -331,8 +388,78 @@ class SearchViewController: UIViewController{
     
     
     
+    //******** autocomplete list 下載 ********//
     
-    
+    func get_autoComplete_list(searchStr: String){
+        
+        autocompleteCacheItems = []
+        
+        // 呼叫API
+        let searchAPI = API_Manager.shared.SEARCH_API_PATH
+        let combinedStr = String(format: "%@?t=a&q=%@", arguments: [searchAPI!, searchStr])
+        let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        print("\(escapedStr)")
+        
+        //放request
+        let url = URL(string: escapedStr)
+        let request = URLRequest(url: url!)
+        //request.httpMethod = "GET"
+        let session = URLSession.shared
+
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil{
+                print(error.debugDescription)
+                
+                //alert -- 連線錯誤
+                
+            } else {
+
+                print("\(response)")
+                if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                    print("\(serverTalkBack)")
+                
+                    let filter1 = serverTalkBack.replacingOccurrences(of: "null({\"result\":[", with: "")
+                    let filter2 = filter1.replacingOccurrences(of: "]});", with: "")
+                    
+                    //print("\(filter2)")
+                    
+                    let separateByComma = filter2.components(separatedBy: ",").filter{$0 != ""}
+                    for item in separateByComma{
+                    
+                        let filter3 = item.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "\n", with: "")
+                        self.autocompleteCacheItems.append(filter3)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.autocompleteItems = self.autocompleteCacheItems
+                        self.autocompleteTableView.reloadData()
+                    }
+                    
+                    
+                    
+                }
+                
+                
+//                if let data = data, let jsonDictionary = self.parse(json: data) {
+//                    //print("\(jsonDictionary)")
+//
+//                    if let result = jsonDictionary["result"] as? [String]{
+//                        print(result)
+//                        print("****************")
+//                    }
+//                    
+//                    
+//                    
+//                }
+            }
+        }
+        task.resume()
+    }
+
+
+
+
+    //****************************************//
 }
 
 
@@ -353,8 +480,54 @@ extension SearchViewController:UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        autocompleteTableView.isHidden = true
         return true
     }
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        
+        //增加的時候
+        let newLength = (textField.text?.characters.count)! + string.characters.count - range.length
+        if newLength >= 3 {
+            print("增加")
+            //if (textField.text?.characters.count)! >= 2{
+                
+                let searchStr = textField.text!+string
+                get_autoComplete_list(searchStr: searchStr)
+                autocompleteTableView.isHidden = false
+            //} else if {
+            
+            //}
+
+            
+        } else if newLength == 0 {
+            autocompleteTableView.isHidden = true
+        }
+        
+        
+        //print("range: \(range.length) ;string: \(string)")
+                return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.resignFirstResponder()
+        autocompleteTableView.isHidden = true
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        if (textField.text?.characters.count)! >= 2{
+//            
+//            get_autoComplete_list(searchStr: textField.text!)
+//            
+//            
+//            
+//            autocompleteTableView.isHidden = false
+//        }
+        
+    }
+    
     
 }
 
@@ -375,7 +548,7 @@ extension SearchViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionCell
-
+        
         print("cell selected: \(cell.tag)")
         
         // 呼叫API
@@ -447,22 +620,13 @@ extension SearchViewController:UICollectionViewDelegate{
         }
         
         task.resume()
-        
-        
-        
-        
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
 
     }
     
-    
-    
-    
-    
-    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
+    }
+
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         
         let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionCell
@@ -507,9 +671,7 @@ extension SearchViewController:UICollectionViewDataSource{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionCell", for: indexPath) as! SearchCollectionCell
         
         cell.tag = indexPath.row
-        
-        
-        
+    
         cell.searchTypeLabel.text = searchTypes[indexPath.row]
         
         return cell
@@ -532,6 +694,98 @@ extension SearchViewController:UICollectionViewDelegateFlowLayout{
 
 
 
+//MARK: UITableViewDelegate and DataSource methods
+extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return autocompleteItems.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
+        //cell.contentView.backgroundColor = UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1)
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 12.0)
+        //cell.textLabel?.textColor = UIColor.white
+        cell.textLabel?.text = autocompleteItems[indexPath.row]
+        
+        return cell
+        
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        self.textField.resignFirstResponder()
+        self.textField.text = autocompleteItems[indexPath.row]
+        let searchAPI = API_Manager.shared.SEARCH_API_PATH
+        let searchKeyword = autocompleteItems[indexPath.row].components(separatedBy: "\t").first
+        let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
+        
+        //組裝url-string
+        
+        let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, no_space_and_getFirstWord!])
+        let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        print("\(escapedStr)")
+        //connectToServer(URLString: escapedStr, Type:"Login")
+        
+        //放request
+        let url = URL(string: escapedStr)
+        let request = URLRequest(url: url!)
+        //request.httpMethod = "GET"
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil{
+                print(error.debugDescription)
+                //alert -- 連線錯誤
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "連線錯誤", message: "請稍後再試", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                    self.present(alert, animated: true, completion:nil)
+                }
+            } else {
+                if let data = data, let jsonDictionary = self.parse(json: data) {
+                    //print("\(jsonDictionary)")
+                    
+                    //確定page總數：
+                    if self.get_total(dictionary: jsonDictionary) <= 0{
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "查無資料", message: "請嘗試其他關鍵字", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+                            self.present(alert, animated: true, completion:{
+                                self.textField.text = ""
+                            })
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let lsVC = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+                            lsVC.type = "f"
+                            lsVC.currentPage = 1
+                            lsVC.totalPins = self.get_total(dictionary: jsonDictionary)
+                            lsVC.json_dic = jsonDictionary
+                            lsVC.searchKeyword =  no_space_and_getFirstWord!
+                            lsVC.searchAPI_Address = API_Manager.shared.SEARCH_API_PATH
+                            // 動畫
+                            lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
+                            lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+                            self.present(lsVC, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
+        }
+
+        task.resume()
+
+    }
+    
+    
+}
 
 
 
