@@ -25,9 +25,13 @@ class DBManager: NSObject {
 
 
     /***使用者資訊***/
-    //let field_UserID = "UserID"
-    //let field_UserPassword = "UserPassword"
-    //let field_UserEmail = "UserEmail"
+    let field_ServerLog = "ServerLog"
+    let field_UserPassword = "UserPassword"
+    let field_UserEmail = "UserEmail"
+    let field_LoginDate = "LoginDate"
+    let field_History = "History"
+    
+    
     
     /***系統資訊***/
     let field_DeviceProductName = "DeviceProductName"
@@ -57,6 +61,39 @@ class DBManager: NSObject {
         self.systemInfo = SystemInfo(deviceUUID: self.get_device_uuid(), deviceName: self.get_device_name())
     
     }
+    
+    
+    // 建立account table
+    func createAccountTable() {
+        
+        if openDatabase(){
+        
+            //******* create table *******//
+            // SQL syntax
+            let createAccountInfoTableQuery = "CREATE TABLE IF NOT EXISTS accountinfo (\(field_ServerLog) INTEGER PRIMARY KEY, \(field_UserEmail) TEXT , \(field_UserPassword) TEXT, \(field_History) TEXT, \(field_LoginDate) TEXT)"
+            do {
+                try database.executeUpdate(createAccountInfoTableQuery, values: nil)
+                //
+            } catch{
+                //fail create table
+                print("Could not create table")
+                print(error.localizedDescription)
+            }
+            
+            database.close()
+        
+        } else {
+            print("cannot open the database")
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     // for create database --> return Bool, success or not
@@ -229,33 +266,73 @@ class DBManager: NSObject {
     }
     
     
-    //讀取systemInfo資料
+    //讀取 account info資料
+//    func loadAccountInfo(completionHandler: (_ systemInfo: SystemInfo?) -> Void) {
+//        var systemInfo: SystemInfo!
+//        
+//        if openDatabase() {
+//            let query = "select * from systeminfo where \(field_DeviceUUID)=?"
+//            
+//            do {
+//                let results = try database.executeQuery(query, values: [self.get_device_uuid()])
+//                
+//                if results.next() {
+//                    systemInfo = SystemInfo(deviceUUID: results.string(forColumn: field_DeviceUUID), deviceName: results.string(forColumn: field_DeviceProductName))
+//                }
+//                else {
+//                    print(database.lastError())
+//                }
+//            }
+//            catch {
+//                print(error.localizedDescription)
+//            }
+//            
+//            database.close()
+//        }
+//        
+//        completionHandler(systemInfo)
+//        
+//    }
+
     
-    func loadSystemInfo(completionHandler: (_ systemInfo: SystemInfo?) -> Void) {
-        var systemInfo: SystemInfo!
+    
+    
+    // 檢查是否有最近一筆的登入資料
+    func checkAccountTable(tableName: String) -> AccountManager?{
         
-        if openDatabase() {
-            let query = "select * from systemInfo where \(field_DeviceUUID)=?"
-            
+        var accountLists : [AccountManager]  = [AccountManager]()
+        
+        var recentAccount : AccountManager?
+        
+        
+        if openDatabase(){
+            let query = "select * from \(tableName)"
+        
             do {
-                let results = try database.executeQuery(query, values: [self.get_device_uuid()])
+                let results = try database.executeQuery(query, values: nil)
+                while results.next() {
+                    
+                    let each = AccountManager(email: results.string(forColumn: field_UserEmail), password: results.string(forColumn: field_UserPassword), serverLog: Int(results.int(forColumn: field_ServerLog)), loginDate: results.string(forColumn: field_LoginDate), history: results.string(forColumn: field_History))
+                    
+                   
+                    accountLists.append(each)
+                }
                 
-                if results.next() {
-                    systemInfo = SystemInfo(deviceUUID: results.string(forColumn: field_DeviceUUID), deviceName: results.string(forColumn: field_DeviceProductName))
-                }
-                else {
-                    print(database.lastError())
-                }
-            }
-            catch {
+            } catch {
                 print(error.localizedDescription)
             }
-            
             database.close()
+            
+            
+            
+            // 檢查
+            if !accountLists.isEmpty{
+                let sortedArray = accountLists.sorted(by: { $0.realDate > $1.realDate })
+                recentAccount = sortedArray.first!
+            }
         }
-        
-        completionHandler(systemInfo)
-        
+
+        return recentAccount
     }
 
     
@@ -273,4 +350,18 @@ struct SystemInfo{
     var deviceName:String
 }
 
-
+struct AccountManager{
+    var email : String
+    var password : String
+    var serverLog : Int
+    var loginDate : String
+    var history : String
+    
+    var realDate : Date{
+        get{
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            return formatter.date(from: self.loginDate)!
+        }
+    }
+}
