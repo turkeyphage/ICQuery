@@ -216,7 +216,7 @@ class LoginViewController: UIViewController {
             
             let combinedStr = String(format: "%@/login?email=%@&pwd=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, password, latitude, longitude, name, node])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            //print("\(escapedStr)")
+            print("\(escapedStr)")
             connectToServer(URLString: escapedStr, Type:"Login")
         } else {
             

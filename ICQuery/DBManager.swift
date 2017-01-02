@@ -15,19 +15,27 @@ class DBManager: NSObject {
     
     //數據庫檔案名
     let databaseFileName = "database.sqlite"
+    // 帳號密碼數據庫
+    let databaseAccount = "account.sqlite"
+    
+    
+    
     //數據庫檔案路徑
     var pathToDatabase: String!
+    var pathToAccount: String!
+    
     //一個FMDatabase object, 用它來訪問和操作真正的數據庫
     var database: FMDatabase!
-    
+    var accountDatabase : FMDatabase!
 
     var systemInfo :SystemInfo!
+    var accountInfo :AccountInfo!
 
-
+    
     /***使用者資訊***/
-    //let field_UserID = "UserID"
-    //let field_UserPassword = "UserPassword"
-    //let field_UserEmail = "UserEmail"
+    let field_UserEmail = "UserEmail"
+    let field_UserPassword = "UserPassword"
+
     
     /***系統資訊***/
     let field_DeviceProductName = "DeviceProductName"
@@ -48,8 +56,12 @@ class DBManager: NSObject {
         
         
         pathToDatabase = String(format: "%@/%@", arguments: [documentDirectory, databaseFileName])
+        pathToAccount = String(format: "%@/%@", arguments: [documentDirectory, databaseAccount])
+        
+        
         //pathToDatabase = documentDirectory.appending("/\(databaseFileName)")
         print("database path = \(pathToDatabase)")
+        print("account database path = \(pathToAccount)")
 
         locationManage = CLLocationManager()
         locationManage.requestAlwaysAuthorization()
@@ -69,34 +81,88 @@ class DBManager: NSObject {
             //create database
             database = FMDatabase(path: pathToDatabase!)
             
+            
             if database != nil{
-                // open database
-                if database.open(){
+                
+                // open account database
+                if accountDatabase.open(){
                     //******* create table *******//
                     // SQL syntax
-                    let createSysteminfoTableQuery = "create table systeminfo (\(field_DeviceProductName) text, \(field_DeviceUUID) text)"
+                    let createAccountInfoTableQuery = "create table accountinfo (\(field_UserEmail) text, \(field_UserPassword) text)"
                     do {
-                        try database.executeUpdate(createSysteminfoTableQuery, values: nil)
-                            //
+                        try database.executeUpdate(createAccountInfoTableQuery, values: nil)
+                        //
                         return true
                     } catch{
                         //fail create table
-                        print("Could not create table")
+                        print("Could not create accountinfo table")
                         print(error.localizedDescription)
                     }
                     
-                    database.close()
+                    accountDatabase.close()
                     
                 } else {
-                    print("cannot open the database")
+                    print("cannot open the accountDatabase")
                 }
-                
+
             }
             
         }
         // exist?
         return created
     }
+    
+    
+    
+    
+    // for create account Database --> return Bool, success or not
+    func createAccountDataBase() -> Bool{
+        let created = false
+        
+        // not exist?
+        if !FileManager.default.fileExists(atPath: pathToDatabase){
+            
+            //create account database
+            accountDatabase = FMDatabase(path: pathToAccount!)
+
+            /*
+            if accountDatabase != nil{
+                
+                // open account database
+                if accountDatabase.open(){
+                    //******* create table *******//
+                    // SQL syntax
+                    let createAccountInfoTableQuery = "create table accountinfo (\(field_UserEmail) text, \(field_UserPassword) text)"
+                    do {
+                        try database.executeUpdate(createAccountInfoTableQuery, values: nil)
+                        //
+                        return true
+                    } catch{
+                        //fail create table
+                        print("Could not create accountinfo table")
+                        print(error.localizedDescription)
+                    }
+                    
+                    accountDatabase.close()
+                    
+                } else {
+                    print("cannot open the accountDatabase")
+                }
+                
+            }
+             */
+            
+        }
+        // exist?
+        return created
+    }
+
+    
+    
+    
+    
+    
+    
     
     // openDataBase
     func openDatabase()-> Bool{
@@ -112,11 +178,34 @@ class DBManager: NSObject {
                 return true
             }
         }
-        
         return false
-        
     }
 
+    
+    
+    // openAccountDataBase
+    func openAccountDatabase()-> Bool{
+        if accountDatabase == nil {
+            if FileManager.default.fileExists(atPath: pathToAccount) {
+                accountDatabase = FMDatabase(path: pathToAccount)
+            }
+        }
+        
+        
+        if accountDatabase != nil {
+            if accountDatabase.open() {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    
+    
+    
+    
+    
     //獲得系統版本
     func get_system_version() -> String{
         let systemName = UIDevice.current.systemName
@@ -186,6 +275,27 @@ class DBManager: NSObject {
             database.close()
         }
     }
+    
+    func insert_accountInfo_Data(email:String, password:String){
+        if openAccountDatabase(){
+            let email = email
+            let password = password
+            
+            //insert SQL syntax
+            let query = "insert into accountinfo (\(field_UserEmail), \(field_UserPassword)) values ('\(email)', '\(password)');"
+            
+            //執行insert SQL，如果執行失敗，顯示出理由
+            
+            if !accountDatabase.executeStatements(query) {
+                print("Failed to insert initial data into the account database.")
+                print(accountDatabase.lastError(), accountDatabase.lastErrorMessage())
+            }
+            accountDatabase.close()
+        }
+    }
+    
+    
+    
 
     
     //update data
@@ -204,6 +314,27 @@ class DBManager: NSObject {
             database.close()
         }
     }
+    
+    
+    
+    //update account data
+    func update_account_data(inTable table:String, column_name:String, new_Data:String, withReference:String, referValue:String){
+        
+        if openAccountDatabase(){
+            let query = "update \(table) set \(column_name)=? where \(withReference)=?"
+            
+            do{
+                try accountDatabase.executeUpdate(query, values: [new_Data, referValue])
+                
+            } catch{
+                print(error.localizedDescription)
+            }
+            
+            accountDatabase.close()
+        }
+    }
+    
+    
 
     
     //刪除整筆資料
@@ -227,6 +358,31 @@ class DBManager: NSObject {
         return deleted
         
     }
+    
+    //刪除整筆資料
+    func deleteAccountData(inTable table:String, withReference:String, referValue:String) -> Bool{
+        var deleted = false
+        
+        if openAccountDatabase() {
+            let query = "delete from \(table) where \(withReference)=?"
+            
+            do {
+                try accountDatabase.executeUpdate(query, values: [referValue])
+                deleted = true
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+            
+            accountDatabase.close()
+        }
+        
+        return deleted
+        
+    }
+    
+    
+    
     
     
     //讀取systemInfo資料
@@ -273,4 +429,9 @@ struct SystemInfo{
     var deviceName:String
 }
 
+
+struct AccountInfo{
+    var accountName:String
+    var password:String
+}
 

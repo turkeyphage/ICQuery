@@ -41,6 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if DBManager.shared.createDataBase() {
             DBManager.shared.insert_systemInfo_Data()
+            
+            
+            
+            
         }
         
         
