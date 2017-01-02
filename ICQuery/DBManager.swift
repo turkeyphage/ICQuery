@@ -85,26 +85,26 @@ class DBManager: NSObject {
             if database != nil{
                 
                 // open account database
-                if accountDatabase.open(){
+                if database.open(){
                     //******* create table *******//
                     // SQL syntax
-                    let createAccountInfoTableQuery = "create table accountinfo (\(field_UserEmail) text, \(field_UserPassword) text)"
+                    let createSysteminfoTableQuery = "create table systeminfo (\(field_DeviceProductName) text, \(field_DeviceUUID) text)"
                     do {
-                        try database.executeUpdate(createAccountInfoTableQuery, values: nil)
+                        try database.executeUpdate(createSysteminfoTableQuery, values: nil)
                         //
                         return true
                     } catch{
                         //fail create table
-                        print("Could not create accountinfo table")
+                        print("Could not create table")
                         print(error.localizedDescription)
                     }
                     
-                    accountDatabase.close()
+                    database.close()
                     
                 } else {
-                    print("cannot open the accountDatabase")
+                    print("cannot open the database")
                 }
-
+                
             }
             
         }
