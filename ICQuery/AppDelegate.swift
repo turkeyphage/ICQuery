@@ -18,6 +18,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         
+        
+        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        if launchedBefore  {
+            //print("Not first launch.")
+        
+        
+        } else {
+            //print("First launch, setting UserDefault.")
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+        
+            if DBManager.shared.createDataBase() {
+                DBManager.shared.insert_systemInfo_Data()
+            }
+            
+            
+            //安裝完app後第一次開啟App，傳送Device資料給server進行紀錄，回傳值會是數字
+            //"password"-暫定
+            let password = "1qaz@WSX"
+            //"latitude", "longitude"
+            let latitude = DBManager.shared.get_device_position()["latitude"]!
+            let longitude = DBManager.shared.get_device_position()["longitude"]!
+            
+            //name=UUID node=DeviceName
+            let name = DBManager.shared.systemInfo.deviceUUID
+            let node = DBManager.shared.systemInfo.deviceName
+            
+            let combinedStr = String(format: "%@/newdevice?deviceid=%@&pwd=%@&latitude=%@&longtitude=%@&devicedesc=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, password, latitude, longitude,node])
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            print("\(escapedStr)")
+        
+        
+            
+            let url = URL(string:escapedStr)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
+                if error != nil{
+                    print(error.debugDescription)
+                } else{
+                    if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                    
+                        print("\(serverTalkBack)")
+                    
+                    } else {
+                        print("error")
+                    }
+                }
+            }
+            
+            task.resume()
+        }
+        
+        
+        
+        
+        
+        
         //sleep(2)
         return true
     }
@@ -39,9 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        if DBManager.shared.createDataBase() {
-            DBManager.shared.insert_systemInfo_Data()
-        }
+        
         
         
     }
