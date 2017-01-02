@@ -258,6 +258,8 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
             
         } else {
             
+            self.searchLogSend(searchStr: self.searchTextField.text!)
+            
             let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud.label.text = "搜尋中"
             let queue = DispatchQueue.global()
@@ -555,7 +557,7 @@ extension ListViewController:UITableViewDelegate{
             
             // 從auto complete 選單中選擇出來
             self.searchTextField.text = autocompleteItems[indexPath.row]
-
+            self.searchLogSend(searchStr: searchTextField.text!)
             
             self.allItems = []
             self.listTableView.reloadData()
@@ -716,6 +718,8 @@ extension ListViewController{
     func newSearchBegin(searchKey:String, autoComplete:Bool){
         
         self.searchTextField.text = searchKey
+        self.searchLogSend(searchStr: searchKey)
+        
         self.allItems = []
         self.listTableView.reloadData()
         
@@ -815,3 +819,8 @@ extension ListViewController{
     }
     
 }
+
+
+
+
+

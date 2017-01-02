@@ -233,7 +233,6 @@ class SearchViewController: UIViewController{
         
         self.textField.resignFirstResponder()
         
-        
         if self.textField.text!.isEmpty{
             
             let alert = UIAlertController(title: "尚未輸入任何搜尋關鍵字", message:"請重新輸入搜尋字串", preferredStyle: .alert)
@@ -242,6 +241,7 @@ class SearchViewController: UIViewController{
             
         } else {
             
+            searchLogSend(searchStr: self.textField.text!)
             
             let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             
@@ -557,6 +557,9 @@ extension SearchViewController:UICollectionViewDelegate{
         //print("cell selected: \(cell.tag)")
         
         
+        //searchLogSend
+        
+        
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = "類別搜尋中"
         let queue = DispatchQueue.global()
@@ -753,15 +756,15 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
             autoCompleteTask.cancel()
         }
         
+        self.textField.text = self.autocompleteItems[indexPath.row]
+        self.searchLogSend(searchStr: self.textField.text!)
         
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = "搜尋中"
         
         let queue = DispatchQueue.global()
-        
         queue.async {
             
-            self.textField.text = self.autocompleteItems[indexPath.row]
             let searchAPI = API_Manager.shared.SEARCH_API_PATH
             let searchKeyword = self.autocompleteItems[indexPath.row].components(separatedBy: "\t").first
             let no_space_and_getFirstWord = searchKeyword!.components(separatedBy: " ").first
@@ -843,12 +846,51 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
             }
             task.resume()
         }
-        
-        
     }
-    
-    
 }
+
+
+// syslog
+extension UIViewController{
+
+    func searchLogSend(searchStr: String){
+        //要用post
+        //"latitude", "longitude"
+        let latitude = DBManager.shared.get_device_position()["latitude"]!
+        let longitude = DBManager.shared.get_device_position()["longitude"]!
+        
+        //name=UUID
+        let name = DBManager.shared.systemInfo.deviceUUID
+        
+        let combinedStr = String(format: "%@/syslog?deviceid=%@&latitude=%@&longtitude=%@&key=query&value=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, latitude, longitude, searchStr])
+        let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        print("\(escapedStr)")
+
+        let url = URL(string:escapedStr)!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
+            if error != nil{
+                print(error.debugDescription)
+            } else{
+                if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                    print("\(serverTalkBack)")
+                } else {
+                    print("error")
+                }
+            }
+        }
+        task.resume()
+    }
+
+
+}
+
 
 
 
