@@ -374,7 +374,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
                 //alert -- 連線錯誤
             } else {
                 
-                print("\(response)")
+                //print("\(response)")
                 if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
                     let filter1 = serverTalkBack.replacingOccurrences(of: "null({\"result\":[", with: "")
                     let filter2 = filter1.replacingOccurrences(of: "]});", with: "")
@@ -468,7 +468,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
             task.resume()
             
         } else {
-            print("已經到達最後一頁")
+            //print("已經到達最後一頁")
             self.isLoading = false
         }
     }
@@ -507,7 +507,7 @@ extension ListViewController:UITableViewDataSource{
             let searchResult = allItems[indexPath.row]
             cell.configure(for: searchResult)
             if indexPath.row == self.allItems.count-1 {
-                print("current page:\(self.currentPage!), final row")
+                //print("current page:\(self.currentPage!), final row")
                 self.loadMore()
             }
             return cell

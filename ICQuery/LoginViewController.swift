@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     
     
     deinit {
-        print("deinit of LoginViewController")
+        //print("deinit of LoginViewController")
     }
     
     
@@ -430,7 +430,7 @@ class LoginViewController: UIViewController {
                             
                         } else {
                             
-                            print("\(serverTalkBack)")
+                            //print("\(serverTalkBack)")
                             
                             //登入成功
                             if Type == "Login"{
@@ -438,6 +438,26 @@ class LoginViewController: UIViewController {
                                 DispatchQueue.main.async {
                                     hud.hide(animated: true)
                                     self.delegate?.sendValue(loginStatus: true, value: self.login_email_textField.text!)
+                                    
+                                    
+                                    //查詢是否有這筆資料
+
+                                    if DBManager.shared.checkDataAvailable(searchTable: "accountinfo", searchStr: serverTalkBack){
+                                        // 有->更新
+                                        // 密碼
+                                        DBManager.shared.update_data(inTable: "accountinfo", column_name: DBManager.shared.field_UserPassword, new_Data: self.login_password_textField.text!, withReference: DBManager.shared.field_ServerLog, referValue: serverTalkBack)
+                                        // 登入日期
+                                        let formatter = DateFormatter()
+                                        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                                        let date = Date()
+                                        DBManager.shared.update_data(inTable: "accountinfo", column_name: DBManager.shared.field_LoginDate, new_Data: formatter.string(from: date), withReference: DBManager.shared.field_ServerLog, referValue: serverTalkBack)
+                                    } else {
+                                        // 無->新增
+                                        DBManager.shared.insert_accountInfo_Data(syslog: serverTalkBack, email: self.login_email_textField.text!, password: self.login_password_textField.text!)
+                                    }
+                                    
+                                    
+                                    
                                     self.close()
                                 
                                 }
@@ -446,6 +466,9 @@ class LoginViewController: UIViewController {
                                 DispatchQueue.main.async {
                                     hud.hide(animated: true)
                                     self.delegate?.sendValue(loginStatus: true, value: self.register_email_textField.text!)
+                                    
+                                    DBManager.shared.insert_accountInfo_Data(syslog: serverTalkBack, email: self.register_email_textField.text!, password: self.register_password_textField.text!)
+                                    
                                     self.close()
                                     
                                 }
@@ -494,31 +517,7 @@ class LoginViewController: UIViewController {
         
     }
     
-    
-    
-    
-    
-//    func combineURL(based:String, added:String) -> URL{
-        
-        
-        
-//        
-//        let escapedSearchText = added.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-//
-//        let urlString = String(format: "http://122.116.142.181:5959/fm/portal?t=a&q=%@", escapedSearchText)
-////        
-////        
-////        
-////        print("\(urlString)")
-////        let url = URL(string:urlString)
-////        return url!
-//    }
-
-    
-    
-    
-    
-    
+  
 }
 
 

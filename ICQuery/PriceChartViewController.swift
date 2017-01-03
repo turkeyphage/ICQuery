@@ -163,9 +163,9 @@ class PriceChartViewController: UIViewController {
                                             }
                                         }
                                     }
-                                    print("\(self.priceDots)")
-//                                    print("\(self.datesDots)")
-                                    print("\(self.quantityDots)")
+                                    //print("\(self.priceDots)")
+                                    //print("\(self.datesDots)")
+                                    //print("\(self.quantityDots)")
                                 }
                             }
                         }

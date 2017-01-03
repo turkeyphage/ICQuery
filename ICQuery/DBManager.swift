@@ -70,7 +70,7 @@ class DBManager: NSObject {
         
             //******* create table *******//
             // SQL syntax
-            let createAccountInfoTableQuery = "CREATE TABLE IF NOT EXISTS accountinfo (\(field_ServerLog) INTEGER PRIMARY KEY, \(field_UserEmail) TEXT , \(field_UserPassword) TEXT, \(field_History) TEXT, \(field_LoginDate) TEXT)"
+            let createAccountInfoTableQuery = "CREATE TABLE IF NOT EXISTS accountinfo (\(field_ServerLog) TEXT, \(field_UserEmail) TEXT , \(field_UserPassword) TEXT, \(field_History) TEXT, \(field_LoginDate) TEXT)"
             do {
                 try database.executeUpdate(createAccountInfoTableQuery, values: nil)
                 //
@@ -87,14 +87,7 @@ class DBManager: NSObject {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     // for create database --> return Bool, success or not
     func createDataBase() -> Bool{
@@ -205,6 +198,29 @@ class DBManager: NSObject {
     
     
     
+    func insert_accountInfo_Data(syslog:String, email:String, password:String){
+
+        let history = ""
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = Date()
+        
+        if openDatabase(){
+            //insert SQL syntax
+            let query = "insert into accountinfo (\(field_ServerLog), \(field_UserEmail), \(field_UserPassword), \(field_History), \(field_LoginDate)) values ('\(syslog)', '\(email)', '\(password)', '\(history)', '\(formatter.string(from: date))');"
+            
+            //執行insert SQL，如果執行失敗，顯示出理由
+            
+            if !database.executeStatements(query) {
+                print("Failed to insert initial data into the database.")
+                print(database.lastError(), database.lastErrorMessage())
+            }
+            database.close()
+        }
+    }
+
+
     
     func insert_systemInfo_Data(){
         if openDatabase(){
@@ -266,55 +282,21 @@ class DBManager: NSObject {
     }
     
     
-    //讀取 account info資料
-//    func loadAccountInfo(completionHandler: (_ systemInfo: SystemInfo?) -> Void) {
-//        var systemInfo: SystemInfo!
-//        
-//        if openDatabase() {
-//            let query = "select * from systeminfo where \(field_DeviceUUID)=?"
-//            
-//            do {
-//                let results = try database.executeQuery(query, values: [self.get_device_uuid()])
-//                
-//                if results.next() {
-//                    systemInfo = SystemInfo(deviceUUID: results.string(forColumn: field_DeviceUUID), deviceName: results.string(forColumn: field_DeviceProductName))
-//                }
-//                else {
-//                    print(database.lastError())
-//                }
-//            }
-//            catch {
-//                print(error.localizedDescription)
-//            }
-//            
-//            database.close()
-//        }
-//        
-//        completionHandler(systemInfo)
-//        
-//    }
-
     
-    
-    
-    // 檢查是否有最近一筆的登入資料
-    func checkAccountTable(tableName: String) -> AccountManager?{
-        
+    //檢查是否有這筆資料
+    func checkDataAvailable(searchTable: String, searchStr: String) -> Bool{
+        var exist = false
         var accountLists : [AccountManager]  = [AccountManager]()
-        
-        var recentAccount : AccountManager?
-        
-        
         if openDatabase(){
-            let query = "select * from \(tableName)"
-        
+            
+            let query = "select * from accountinfo where \(field_ServerLog)=?"
+            
             do {
-                let results = try database.executeQuery(query, values: nil)
+                let results = try database.executeQuery(query, values: [searchStr])
                 while results.next() {
                     
-                    let each = AccountManager(email: results.string(forColumn: field_UserEmail), password: results.string(forColumn: field_UserPassword), serverLog: Int(results.int(forColumn: field_ServerLog)), loginDate: results.string(forColumn: field_LoginDate), history: results.string(forColumn: field_History))
+                    let each = AccountManager(email: results.string(forColumn: field_UserEmail), password: results.string(forColumn: field_UserPassword), serverLog: results.string(forColumn: field_ServerLog), loginDate: results.string(forColumn: field_LoginDate), history: results.string(forColumn: field_History))
                     
-                   
                     accountLists.append(each)
                 }
                 
@@ -322,23 +304,52 @@ class DBManager: NSObject {
                 print(error.localizedDescription)
             }
             database.close()
-            
-            
-            
+
+            if !accountLists.isEmpty{
+                exist = true
+            }
+        }
+        return exist
+    }
+    
+    
+    
+    
+    
+    
+    
+    // 檢查是否有最近一筆的登入資料
+    func checkAccountTable() -> AccountManager?{
+        var accountLists : [AccountManager]  = [AccountManager]()
+        var recentAccount : AccountManager?
+        if openDatabase(){
+            let query = "select * from accountinfo"
+        
+            do {
+                let results = try database.executeQuery(query, values: nil)
+                while results.next() {
+                    
+                    let each = AccountManager(email: results.string(forColumn: field_UserEmail), password: results.string(forColumn: field_UserPassword), serverLog: results.string(forColumn: field_ServerLog), loginDate: results.string(forColumn: field_LoginDate), history: results.string(forColumn: field_History))
+
+                    accountLists.append(each)
+                }
+                
+            } catch {
+                print(error.localizedDescription)
+            }
+            database.close()
+
             // 檢查
             if !accountLists.isEmpty{
                 let sortedArray = accountLists.sorted(by: { $0.realDate > $1.realDate })
                 recentAccount = sortedArray.first!
             }
         }
-
         return recentAccount
     }
-
     
     
     
-
 }
 
 
@@ -353,7 +364,7 @@ struct SystemInfo{
 struct AccountManager{
     var email : String
     var password : String
-    var serverLog : Int
+    var serverLog : String
     var loginDate : String
     var history : String
     

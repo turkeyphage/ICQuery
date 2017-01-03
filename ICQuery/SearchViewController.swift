@@ -50,7 +50,7 @@ class SearchViewController: UIViewController{
     
     
     deinit {
-        print("deinit of SearchViewController")
+        //print("deinit of SearchViewController")
     }
     
     
@@ -88,6 +88,9 @@ class SearchViewController: UIViewController{
         gestureRecognizer.cancelsTouchesInView = false
         gestureRecognizer.delegate = self
         view.addGestureRecognizer(gestureRecognizer)
+        
+        
+        auto_login()
         
         
     }
@@ -173,11 +176,13 @@ class SearchViewController: UIViewController{
         
         if loginStatus {
             //self.loginButton.isEnabled = false
-            
+
+        
             let alert = UIAlertController(title: "你目前已經登入囉", message:nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-            
+ 
+        
             //return
         } else {
             UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
@@ -425,6 +430,81 @@ class SearchViewController: UIViewController{
             self.loginStatusLabel.text = "未登入"
         }
     }
+    
+    
+    //******** 判斷是否能自動登入 ********//
+    //
+    func auto_login(){
+        
+        if let recentlyUser = DBManager.shared.checkAccountTable(){
+            
+            let email = recentlyUser.email
+            let password = recentlyUser.password
+            
+            
+            //"latitude", "longitude"
+            let latitude = DBManager.shared.get_device_position()["latitude"]!
+            let longitude = DBManager.shared.get_device_position()["longitude"]!
+            
+            //name=UUID node=DeviceName
+            let name = DBManager.shared.systemInfo.deviceUUID
+            let node = DBManager.shared.systemInfo.deviceName
+            
+            let combinedStr = String(format: "%@/login?email=%@&pwd=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, password, latitude, longitude, name, node])
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            //print("\(escapedStr)")
+            //connectToServer(URLString: escapedStr, Type:"Login")
+            let url = URL(string:escapedStr)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                
+                if error != nil{
+                
+                    print(error.debugDescription)
+                } else {
+                    if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                        if serverTalkBack == "0"{
+                            //資料有誤！
+                            DispatchQueue.main.async {
+                                self.loginStatus = false
+                            }  
+                        } else {
+                            let syslog = serverTalkBack
+                            
+                            //目前時間
+                            let formatter = DateFormatter()
+                            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            let date = Date()
+                            //formatter.string(from: date)
+                            
+                            
+                            
+                            //更換account table資料
+                            DBManager.shared.update_data(inTable: "accountinfo", column_name: DBManager.shared.field_LoginDate, new_Data: formatter.string(from: date), withReference: DBManager.shared.field_ServerLog, referValue: syslog)
+
+                            // 更換登入狀態
+                            DispatchQueue.main.async {
+                                self.loginStatus = true
+                                self.loginStatusLabel.text = email
+                            }
+ 
+                        }
+                    }
+                }
+            }
+            task.resume()
+        }
+
+    }
+    
+    
+    
+    
     
     
     

@@ -32,9 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DBManager.shared.insert_systemInfo_Data()
                 DBManager.shared.createAccountTable()
             }
-            
-            
-            /*
+
             //安裝完app後第一次開啟App，傳送Device資料給server進行紀錄，回傳值會是數字
             //"password"-暫定
             let password = "1qaz@WSX"
@@ -75,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             task.resume()
-             */
+
         }
         
  
