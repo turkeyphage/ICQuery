@@ -916,19 +916,56 @@
                                     <constraint firstItem="8LW-BV-mm7" firstAttribute="top" secondItem="aMp-0Q-dTZ" secondAttribute="bottom" constant="25" id="yq2-L3-SOc"/>
                                 </constraints>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Yv-pE-J9m" userLabel="manuButton">
+                                <rect key="frame" x="304" y="592" width="55" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="CKF-YS-LXn"/>
+                                    <constraint firstAttribute="width" constant="55" id="igL-lP-J3O"/>
+                                </constraints>
+                                <state key="normal" image="menu_circle"/>
+                                <state key="disabled" image="menu_circle"/>
+                                <state key="selected" image="menu_circle_close"/>
+                                <state key="highlighted" image="menu_circle_close"/>
+                                <connections>
+                                    <action selector="manuButtonPressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="1FY-eu-nLN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oSR-q0-DeP" userLabel="buyButton">
+                                <rect key="frame" x="310" y="540" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="ISv-kB-ZUd"/>
+                                    <constraint firstAttribute="width" constant="44" id="oOW-6E-ZXC"/>
+                                </constraints>
+                                <state key="normal" image="buy_0" backgroundImage="blue_circle"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHz-TI-AQB" userLabel="favorButton">
+                                <rect key="frame" x="310" y="488" width="44" height="44"/>
+                                <state key="normal" image="favor_0" backgroundImage="blue_circle"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="AiG-zq-Tjl" firstAttribute="leading" secondItem="bMm-o6-bfn" secondAttribute="leading" id="36J-jY-szs"/>
+                            <constraint firstItem="oSR-q0-DeP" firstAttribute="height" secondItem="ZHz-TI-AQB" secondAttribute="height" id="ELN-2n-aaL"/>
+                            <constraint firstItem="oSR-q0-DeP" firstAttribute="centerX" secondItem="ZHz-TI-AQB" secondAttribute="centerX" id="IOS-x3-mFI"/>
                             <constraint firstAttribute="trailing" secondItem="K7Z-FC-DtQ" secondAttribute="trailing" id="L8o-56-wgM"/>
                             <constraint firstItem="K7Z-FC-DtQ" firstAttribute="top" secondItem="7fx-Gt-FXP" secondAttribute="bottom" constant="-20" id="Ll1-a7-dp5"/>
                             <constraint firstItem="K7Z-FC-DtQ" firstAttribute="leading" secondItem="bMm-o6-bfn" secondAttribute="leading" id="N2Q-Ky-wOn"/>
+                            <constraint firstItem="oSR-q0-DeP" firstAttribute="width" secondItem="ZHz-TI-AQB" secondAttribute="width" id="QN3-qg-zIo"/>
+                            <constraint firstItem="oSR-q0-DeP" firstAttribute="top" secondItem="ZHz-TI-AQB" secondAttribute="bottom" constant="8" id="a4h-vO-Gl3"/>
+                            <constraint firstItem="dLo-C1-t4C" firstAttribute="top" secondItem="7Yv-pE-J9m" secondAttribute="bottom" constant="20" id="cDK-Vk-fvi"/>
                             <constraint firstAttribute="trailing" secondItem="AiG-zq-Tjl" secondAttribute="trailing" id="dUE-Kk-mje"/>
+                            <constraint firstItem="7Yv-pE-J9m" firstAttribute="centerX" secondItem="oSR-q0-DeP" secondAttribute="centerX" id="hB7-9x-Dmm"/>
                             <constraint firstItem="AiG-zq-Tjl" firstAttribute="top" secondItem="K7Z-FC-DtQ" secondAttribute="bottom" id="j2t-Bn-wAG"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7Yv-pE-J9m" secondAttribute="trailing" id="jaO-yr-y9p"/>
+                            <constraint firstItem="7Yv-pE-J9m" firstAttribute="top" secondItem="oSR-q0-DeP" secondAttribute="bottom" constant="8" id="pWZ-Yz-GtP"/>
                             <constraint firstItem="dLo-C1-t4C" firstAttribute="top" secondItem="AiG-zq-Tjl" secondAttribute="bottom" id="uAH-6d-jUG"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buyButton" destination="oSR-q0-DeP" id="WSd-y7-9mO"/>
+                        <outlet property="favorButton" destination="ZHz-TI-AQB" id="dej-Nz-Cbj"/>
+                        <outlet property="manuButton" destination="7Yv-pE-J9m" id="MRs-Ab-gx0"/>
                         <outlet property="priceTable" destination="hRM-HX-siy" id="aXS-hC-PaM"/>
                         <outlet property="price_trend_background" destination="aMp-0Q-dTZ" id="xpc-gV-fHD"/>
                         <outlet property="quantity_trend_background" destination="Qa6-gM-bKK" id="jee-A4-3y1"/>
@@ -943,9 +980,14 @@
     </scenes>
     <resources>
         <image name="back" width="160" height="160"/>
+        <image name="blue_circle" width="160" height="160"/>
+        <image name="buy_0" width="36" height="36"/>
+        <image name="favor_0" width="36" height="36"/>
         <image name="landing_search_01" width="130" height="130"/>
         <image name="login_44" width="44" height="44"/>
         <image name="logo_120_120" width="120" height="120"/>
         <image name="logo_152_152" width="152" height="152"/>
+        <image name="menu_circle" width="160" height="160"/>
+        <image name="menu_circle_close" width="160" height="160"/>
     </resources>
 </document>
