@@ -19,14 +19,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c9s-hx-HNo">
-                        <rect key="frame" x="8" y="8" width="42" height="33.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NOM-Vb-R1n">
-                        <rect key="frame" x="242" y="15" width="70" height="20.5"/>
+                        <rect key="frame" x="242" y="14" width="70" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="70" id="nmB-7U-jU9"/>
                         </constraints>
@@ -35,30 +29,48 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTY-vY-bQp">
-                        <rect key="frame" x="192" y="15" width="42" height="21"/>
+                        <rect key="frame" x="192" y="14" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tracking_0" translatesAutoresizingMaskIntoConstraints="NO" id="1bz-9A-Q2n">
+                        <rect key="frame" x="8" y="12.5" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="aCB-ad-Lzn"/>
+                            <constraint firstAttribute="width" constant="25" id="bdm-KN-0aU"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c9s-hx-HNo">
+                        <rect key="frame" x="41" y="14.5" width="42" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="c9s-hx-HNo" firstAttribute="top" secondItem="fhl-UB-alq" secondAttribute="top" constant="8" id="9rF-Hv-xL3"/>
+                    <constraint firstItem="c9s-hx-HNo" firstAttribute="leading" secondItem="1bz-9A-Q2n" secondAttribute="trailing" constant="8" id="3qf-JA-MOw"/>
                     <constraint firstItem="NOM-Vb-R1n" firstAttribute="centerY" secondItem="fhl-UB-alq" secondAttribute="centerY" id="CMw-zh-4VW"/>
                     <constraint firstItem="NOM-Vb-R1n" firstAttribute="centerY" secondItem="fhl-UB-alq" secondAttribute="centerY" id="JVE-Ep-JmS"/>
                     <constraint firstItem="VTY-vY-bQp" firstAttribute="centerY" secondItem="fhl-UB-alq" secondAttribute="centerY" id="KbQ-3S-9fa"/>
+                    <constraint firstItem="c9s-hx-HNo" firstAttribute="centerY" secondItem="fhl-UB-alq" secondAttribute="centerY" id="OKI-nO-OfF"/>
                     <constraint firstItem="VTY-vY-bQp" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="c9s-hx-HNo" secondAttribute="trailing" priority="750" constant="12" id="QkC-uj-pFS"/>
-                    <constraint firstItem="c9s-hx-HNo" firstAttribute="leading" secondItem="fhl-UB-alq" secondAttribute="leading" constant="8" id="Uau-Ee-Sys"/>
+                    <constraint firstItem="c9s-hx-HNo" firstAttribute="centerY" secondItem="1bz-9A-Q2n" secondAttribute="centerY" id="QyK-dx-t5e"/>
                     <constraint firstItem="NOM-Vb-R1n" firstAttribute="leading" secondItem="VTY-vY-bQp" secondAttribute="trailing" constant="8" id="h9j-YN-As8"/>
+                    <constraint firstItem="1bz-9A-Q2n" firstAttribute="leading" secondItem="fhl-UB-alq" secondAttribute="leading" constant="8" id="le9-lg-Tz8"/>
                     <constraint firstAttribute="trailingMargin" secondItem="NOM-Vb-R1n" secondAttribute="trailing" id="mhI-sn-A5z"/>
-                    <constraint firstAttribute="bottom" secondItem="c9s-hx-HNo" secondAttribute="bottom" constant="8" id="wp2-u9-TsF"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="curLabel" destination="VTY-vY-bQp" id="9uq-GZ-zvU"/>
+                <outlet property="favorImageView" destination="1bz-9A-Q2n" id="h3m-dg-lTR"/>
                 <outlet property="keyLabel" destination="c9s-hx-HNo" id="Npa-ag-LbO"/>
                 <outlet property="valueLabel" destination="NOM-Vb-R1n" id="C66-AF-2Yh"/>
             </connections>
             <point key="canvasLocation" x="34" y="-121"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="tracking_0" width="115" height="115"/>
+    </resources>
 </document>

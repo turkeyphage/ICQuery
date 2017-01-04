@@ -11,11 +11,13 @@ import UIKit
 class ManufacturerCell: UITableViewCell {
 
     
+    @IBOutlet weak var favorImageView: UIImageView!
     @IBOutlet weak var keyLabel: UILabel!
-    
     @IBOutlet weak var valueLabel: UILabel!
-    
     @IBOutlet weak var curLabel: UILabel!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
