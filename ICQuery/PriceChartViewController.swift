@@ -7,7 +7,8 @@
 //
 
 import UIKit
-//import ScrollableGraphView
+import SafariServices
+
 
 
 class PriceChartViewController: UIViewController {
@@ -421,6 +422,21 @@ class PriceChartViewController: UIViewController {
     }
     
     
+    @IBAction func buyButtonPressed(_ sender: Any) {
+        //print("\(self.supplier)")
+        
+        if self.supplier.url.isEmpty || self.supplier.url == " " {
+           
+            let alert = UIAlertController(title: "目前無法連線至購買網頁", message: "請稍後再試", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+            self.present(alert, animated: true, completion:nil)
+            
+        } else {
+            print("url: \(self.supplier.url)")
+            let svc = SFSafariViewController(url: URL(string: self.supplier.url)!)
+            self.present(svc, animated: true, completion: nil)
+        }
+    }
     
     
     

@@ -937,6 +937,9 @@
                                     <constraint firstAttribute="width" constant="44" id="oOW-6E-ZXC"/>
                                 </constraints>
                                 <state key="normal" image="buy_0" backgroundImage="blue_circle"/>
+                                <connections>
+                                    <action selector="buyButtonPressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="2YV-pD-ySO"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHz-TI-AQB" userLabel="favorButton">
                                 <rect key="frame" x="310" y="488" width="44" height="44"/>
