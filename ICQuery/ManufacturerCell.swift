@@ -16,6 +16,7 @@ class ManufacturerCell: UITableViewCell {
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var curLabel: UILabel!
     
+    @IBOutlet weak var favorStar: UIImageView!
     
     
     override func awakeFromNib() {

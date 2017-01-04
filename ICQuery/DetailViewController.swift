@@ -15,6 +15,12 @@ import SafariServices
 
 class DetailViewController: UIViewController {
 
+    //登入帳號：
+    var account : String?
+    
+    var favorList = [Int]()
+    
+    
     var autoCompleteTask : URLSessionDataTask!
     
     // autocomplete function variable
@@ -72,7 +78,9 @@ class DetailViewController: UIViewController {
         }
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        checkPriceAlertList()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -378,6 +386,10 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         
         if tableView == self.firstTableView{
             
+            
+            print("\(allitems[indexPath.row])")
+            
+            
             tableView.backgroundColor = UIColor.white
             let manuCell:ManufacturerCell = tableView.dequeueReusableCell(withIdentifier: "ManufacturerCell", for: indexPath) as! ManufacturerCell
             
@@ -394,6 +406,22 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
                 manuCell.curLabel.text = ""
             }
 
+            
+            for item in favorList{
+                let itemInString = String(item)
+                if itemInString == self.allitems[indexPath.row].id{
+                    // 顯示已加關注
+                    manuCell.favorStar.image = UIImage(named: "tracking_1")
+                } else {
+                    manuCell.favorStar.image = UIImage(named: "tracking_0")
+                }
+
+            }
+            
+            
+            
+            
+            
             return manuCell
         
         } else if tableView == self.secondTableView {
@@ -682,6 +710,88 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
     }
 
     
+    
+    
+    // 取得自己所設定的價格變動通知 selPriceAlert
+    func checkPriceAlertList(){
+
+        if self.account != nil{
+            // 呼叫API
+            
+            //"latitude", "longitude"
+            let latitude = DBManager.shared.get_device_position()["latitude"]!
+            let longitude = DBManager.shared.get_device_position()["longitude"]!
+            
+            //name=UUID node=DeviceName
+            let name = DBManager.shared.systemInfo.deviceUUID
+            
+  
+            let combinedStr = String(format: "%@/selPriceAlert?deviceid=%@&latitude=%@&longtitude=%@&user_id=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, latitude, longitude, self.account!])
+            
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            print("\(escapedStr)")
+        
+            let url = URL(string:escapedStr)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
+                
+                if let data = data, let jsonDictionary = self.parse(json: data) {
+                    //print("jsonDic = \(jsonDictionary)")
+                
+                    if let favorList = jsonDictionary["id"] as? [Any]{
+                        //print("favorList = \(favorList)")
+                        
+                        for item in favorList{
+                            //print("\(item)")
+                            if let each = item as? Int{
+                                //print("\(each)")
+                                self.favorList.append(each)
+                            }
+                        }
+                        
+                        // 重新整理table
+                        self.firstTableView.reloadData()
+                    }
+                    
+                    
+                } else {
+                    print("\(error)")
+                }
+                
+                
+                
+                
+            }
+            task.resume()
+            
+            
+            
+        }
+        
+        
+        
+        
+    
+    }
+    
+    
+    func parse(json data:Data) -> [String : Any]? {
+        
+        do {
+            return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        } catch{
+            print("JSON Error:\(error)")
+            return nil
+        }
+        
+    }
+
     
     
     

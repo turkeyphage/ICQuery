@@ -64,6 +64,7 @@
             <connections>
                 <outlet property="curLabel" destination="VTY-vY-bQp" id="9uq-GZ-zvU"/>
                 <outlet property="favorImageView" destination="1bz-9A-Q2n" id="h3m-dg-lTR"/>
+                <outlet property="favorStar" destination="1bz-9A-Q2n" id="nNc-Cw-Auq"/>
                 <outlet property="keyLabel" destination="c9s-hx-HNo" id="Npa-ag-LbO"/>
                 <outlet property="valueLabel" destination="NOM-Vb-R1n" id="C66-AF-2Yh"/>
             </connections>

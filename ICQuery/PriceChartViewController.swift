@@ -13,6 +13,9 @@ import SafariServices
 
 class PriceChartViewController: UIViewController {
 
+    //登入帳號：
+    var account : String?
+    
     @IBOutlet weak var supplier_label: UILabel!
     
     @IBOutlet weak var titleTable: UITableView!
@@ -423,7 +426,7 @@ class PriceChartViewController: UIViewController {
     
     
     @IBAction func buyButtonPressed(_ sender: Any) {
-        //print("\(self.supplier)")
+        print("\(self.supplier)")
         
         if self.supplier.url.isEmpty || self.supplier.url == " " {
            

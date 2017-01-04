@@ -20,6 +20,8 @@ class SearchViewController: UIViewController{
     
     
     
+    var userID : String?
+    
     // autocomplete function variable
     var autocompleteTableView : UITableView!
     var autocompleteItems = [String]()
@@ -327,6 +329,11 @@ class SearchViewController: UIViewController{
                                     // 動畫
                                     lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
                                     lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+                                    
+                                    if self.loginStatus{
+                                        lsVC.account = self.userID
+                                    }
+                                    
                                     self.present(lsVC, animated: true, completion: {
                                         self.textField.text = ""
                                         hud.removeFromSuperview()
@@ -474,8 +481,11 @@ class SearchViewController: UIViewController{
                                 self.loginStatus = false
                             }  
                         } else {
-                            let syslog = serverTalkBack
                             
+                            
+                            
+                            let syslog = serverTalkBack
+                            self.userID = syslog
                             //目前時間
                             let formatter = DateFormatter()
                             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -489,8 +499,9 @@ class SearchViewController: UIViewController{
 
                             // 更換登入狀態
                             DispatchQueue.main.async {
+                                self.account = email
                                 self.loginStatus = true
-                                self.loginStatusLabel.text = email
+
                             }
  
                         }
@@ -570,9 +581,10 @@ class SearchViewController: UIViewController{
 
 
 extension SearchViewController:LoginViewControllerDelegate{
-    func sendValue(loginStatus: Bool, value:String) {
+    func sendValue(loginStatus: Bool, value:[String]) {
         self.loginStatus = loginStatus
-        self.account = value
+        self.account = value[0]
+        self.userID = value[1]
         change_login_label(login: self.loginStatus)
     }
 }
@@ -706,6 +718,13 @@ extension SearchViewController:UICollectionViewDelegate{
                                 // 動畫
                                 lsVC.modalPresentationStyle = UIModalPresentationStyle.custom
                                 lsVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+                                
+                                if self.loginStatus{
+                                    lsVC.account = self.userID
+                                }
+                                
+                                
+                                
                                 self.present(lsVC, animated: true, completion: {
                                     self.collectionView.deselectItem(at: indexPath, animated: true)
                                     hud.removeFromSuperview()

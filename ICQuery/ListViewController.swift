@@ -24,6 +24,11 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
     var currentPage : Int!
     var isLoading : Bool = false
     
+    //登入帳號：
+    var account : String?
+    
+    
+    
     //搜尋的方式
     var type : String!
     
@@ -543,6 +548,8 @@ extension ListViewController:UITableViewDelegate{
             detailVC.modalPresentationStyle = UIModalPresentationStyle.custom
             detailVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
             detailVC.delegate = self
+            detailVC.account = self.account
+            
             self.present(detailVC, animated: true, completion: nil)
             
         } else {

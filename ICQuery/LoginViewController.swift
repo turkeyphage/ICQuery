@@ -437,7 +437,7 @@ class LoginViewController: UIViewController {
                                 
                                 DispatchQueue.main.async {
                                     hud.hide(animated: true)
-                                    self.delegate?.sendValue(loginStatus: true, value: self.login_email_textField.text!)
+                                    self.delegate?.sendValue(loginStatus: true, value: [self.login_email_textField.text!, serverTalkBack])
                                     
                                     
                                     //查詢是否有這筆資料
@@ -465,9 +465,11 @@ class LoginViewController: UIViewController {
                                 
                                 DispatchQueue.main.async {
                                     hud.hide(animated: true)
-                                    self.delegate?.sendValue(loginStatus: true, value: self.register_email_textField.text!)
+                                    
                                     
                                     DBManager.shared.insert_accountInfo_Data(syslog: serverTalkBack, email: self.register_email_textField.text!, password: self.register_password_textField.text!)
+                                    
+                                    self.delegate?.sendValue(loginStatus: true, value: [self.register_email_textField.text!, serverTalkBack])
                                     
                                     self.close()
                                     
@@ -527,7 +529,7 @@ class LoginViewController: UIViewController {
 
 protocol LoginViewControllerDelegate{
 
-    func sendValue(loginStatus:Bool, value:String)
+    func sendValue(loginStatus:Bool, value:[String])
 
 }
 
