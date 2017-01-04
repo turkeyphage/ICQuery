@@ -18,6 +18,7 @@ class ManufacturerCell: UITableViewCell {
     
     @IBOutlet weak var favorStar: UIImageView!
     
+    var favorStatus : Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()

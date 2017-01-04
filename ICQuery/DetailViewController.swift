@@ -387,9 +387,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         if tableView == self.firstTableView{
             
             
-            print("\(allitems[indexPath.row])")
-            
-            
+            //print("\(allitems[indexPath.row])")
             tableView.backgroundColor = UIColor.white
             let manuCell:ManufacturerCell = tableView.dequeueReusableCell(withIdentifier: "ManufacturerCell", for: indexPath) as! ManufacturerCell
             
@@ -412,8 +410,10 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
                 if itemInString == self.allitems[indexPath.row].id{
                     // 顯示已加關注
                     manuCell.favorStar.image = UIImage(named: "tracking_1")
+                    manuCell.favorStatus = true
                 } else {
                     manuCell.favorStar.image = UIImage(named: "tracking_0")
+                    manuCell.favorStatus = false
                 }
 
             }
@@ -457,11 +457,14 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         
         
         if tableView == firstTableView {
+            let cell = firstTableView.cellForRow(at: indexPath) as! ManufacturerCell
+            
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let priceChartVC = storyboard.instantiateViewController(withIdentifier: "PriceChartViewController") as! PriceChartViewController
             
-            
             priceChartVC.supplier = allitems[indexPath.row]
+            priceChartVC.account = self.account
+            priceChartVC.favorStatus = cell.favorStatus
             
             self.present(priceChartVC, animated: true) {
                 tableView.deselectRow(at: indexPath, animated: true)

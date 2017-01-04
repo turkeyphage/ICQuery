@@ -15,6 +15,8 @@ class PriceChartViewController: UIViewController {
 
     //登入帳號：
     var account : String?
+    var favorStatus : Bool!
+    
     
     @IBOutlet weak var supplier_label: UILabel!
     
@@ -48,7 +50,8 @@ class PriceChartViewController: UIViewController {
         
         self.buyButton.isHidden = true
         self.favorButton.isHidden = true
-        
+
+
         supplier_label.text = "\(supplier.pn) (\(supplier.sup))"
         //print("\(supplier)")
         print("id = \(supplier.id)")
@@ -83,6 +86,31 @@ class PriceChartViewController: UIViewController {
         //連接圖表API
         get_price_data()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if self.account == nil{
+            
+            self.favorButton.setBackgroundImage(UIImage(named: "gray_circle"), for: UIControlState.normal)
+            self.favorButton.setImage(UIImage(named: "favor_0"), for: UIControlState.normal)
+            //self.favorButton.setImage(UIImage(named: "favor_0"), for: UIControlState.selected)
+            
+        } else {
+            
+            if favorStatus == true{
+                self.favorButton.setBackgroundImage(UIImage(named: "blue_circle"), for: UIControlState.normal)
+                
+                //self.favorButton.imageView?.image = UIImage(named: "favor_1")
+                self.favorButton.setImage(UIImage(named: "favor_1"), for: UIControlState.normal)
+            } else {
+                self.favorButton.setBackgroundImage(UIImage(named: "gray_circle"), for: UIControlState.normal)
+                //self.favorButton.imageView?.image = UIImage(named: "favor_0")
+                self.favorButton.setImage(UIImage(named: "favor_0"), for: UIControlState.normal)
+            }
+        }
+
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -382,7 +410,7 @@ class PriceChartViewController: UIViewController {
             buyButton.isHidden = false
             buyButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
             
-            UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+            UIView.animate(withDuration: 0.08, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
                 self.buyButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             }, completion: nil)
             
@@ -391,7 +419,7 @@ class PriceChartViewController: UIViewController {
             
             buyButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             
-            UIView.animate(withDuration: 0.1, delay: 0.2, options: UIViewAnimationOptions.curveLinear, animations: {
+            UIView.animate(withDuration: 0.08, delay: 0.05, options: UIViewAnimationOptions.curveLinear, animations: {
                 self.buyButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
             }, completion: { (animated) in
                 self.buyButton.isHidden = true
@@ -404,7 +432,7 @@ class PriceChartViewController: UIViewController {
             favorButton.isHidden = false
             favorButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
             
-            UIView.animate(withDuration: 0.1, delay: 0.2, options: UIViewAnimationOptions.curveLinear, animations: {
+            UIView.animate(withDuration: 0.08, delay: 0.05, options: UIViewAnimationOptions.curveLinear, animations: {
                 self.favorButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             }, completion: nil)
             
@@ -413,7 +441,7 @@ class PriceChartViewController: UIViewController {
             
             favorButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             
-            UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+            UIView.animate(withDuration: 0.08, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
                 self.favorButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
             }, completion: { (animated) in
                 self.favorButton.isHidden = true
@@ -442,6 +470,182 @@ class PriceChartViewController: UIViewController {
     }
     
     
+    @IBAction func favorButtonPressed(_ sender: Any) {
+    
+    
+        if self.account == nil{
+            
+            let alert = UIAlertController(title: "無法加入價錢追蹤清單", message:"請先登入帳號以開啟此功能", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+
+            
+        } else {
+            
+            if favorStatus == true{
+                let alert = UIAlertController(title: "確定將此產品移出追蹤清單？", message:nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(
+                    title: "確認",
+                    style: .default,
+                    handler: {
+                        (action: UIAlertAction!) -> Void in
+                        
+                        //呼叫setPriceAlert
+                        print("\(self.supplier.price)")
+                        
+                        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+                        hud.label.text = "連線中"
+                        let queue = DispatchQueue.global()
+                        
+                        queue.async {
+                            // 呼叫API
+                            //"latitude", "longitude", pid
+                            let pid = self.supplier.id
+                            let name = DBManager.shared.systemInfo.deviceUUID
+                            let latitude = DBManager.shared.get_device_position()["latitude"]!
+                            let longitude = DBManager.shared.get_device_position()["longitude"]!
+                            let userid = self.account
+                            let action = "d"
+                            let stock = "0"
+                            let price = "\(self.supplier.price)"
+                            let purl = self.supplier.url
+                            
+                            let combinedStr = String(format: "%@/setPriceAlert?pid=%@&deviceid=%@&latitude=%@&longtitude=%@&user_id=%@&action=%@&stock=%@&price=%@&url=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, pid, name, latitude, longitude, userid!, action, stock, price, purl])
+                            
+                            
+                            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                            print("\(escapedStr)")
+                            
+                            let url = URL(string:escapedStr)!
+                            
+                            var request = URLRequest(url: url)
+                            request.httpMethod = "POST"
+                            
+                            let session = URLSession.shared
+                            
+                            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                                
+                                
+                                if error != nil{
+                                    
+                                    print(error.debugDescription)
+                                } else {
+                                    if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                                        if serverTalkBack == "1"{
+                                            
+                                            print("成功移除")
+                                            
+                                            DispatchQueue.main.async {
+                                                hud.hide(animated: true)
+                                                self.favorStatus = false
+                                                self.favorButton.setBackgroundImage(UIImage(named: "gray_circle"), for: UIControlState.normal)
+                                                //self.favorButton.imageView?.image = UIImage(named: "favor_0")
+                                                self.favorButton.setImage(UIImage(named: "favor_0"), for: UIControlState.normal)
+                                                hud.removeFromSuperview()
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                            task.resume()
+                        }
+                        
+                    })
+                
+                alert.addAction(okAction)
+                
+                let cancelAction = UIAlertAction(
+                    title: "取消",
+                    style: .default,
+                    handler: nil)
+                alert.addAction(cancelAction)
+
+                self.present(alert, animated: true, completion: nil)
+                
+            } else {
+                
+                let alert = UIAlertController(title: "確定將此產品加入追蹤清單？", message:nil, preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(
+                    title: "確認",
+                    style: .default,
+                    handler: {
+                        (action: UIAlertAction!) -> Void in
+                        
+                        //呼叫setPriceAlert
+                        print("\(self.supplier.price)")
+                        
+                        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+                        hud.label.text = "連線中"
+                        let queue = DispatchQueue.global()
+                        
+                        queue.async {
+                            // 呼叫API
+                            //"latitude", "longitude", pid
+                            let pid = self.supplier.id
+                            let name = DBManager.shared.systemInfo.deviceUUID
+                            let latitude = DBManager.shared.get_device_position()["latitude"]!
+                            let longitude = DBManager.shared.get_device_position()["longitude"]!
+                            let userid = self.account
+                            let action = "a"
+                            let stock = "0"
+                            let price = "\(self.supplier.price)"
+                            let purl = self.supplier.url
+                            
+                            let combinedStr = String(format: "%@/setPriceAlert?pid=%@&deviceid=%@&latitude=%@&longtitude=%@&user_id=%@&action=%@&stock=%@&price=%@&url=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, pid, name, latitude, longitude, userid!, action, stock, price, purl])
+                            
+                            
+                            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                            print("\(escapedStr)")
+                            
+                            let url = URL(string:escapedStr)!
+                            
+                            var request = URLRequest(url: url)
+                            request.httpMethod = "POST"
+                            
+                            let session = URLSession.shared
+                            
+                            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                                
+                                
+                                if error != nil{
+                                    
+                                    print(error.debugDescription)
+                                } else {
+                                    if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                                        if serverTalkBack == "1"{
+                                            
+                                            print("成功加入")
+                                            
+                                            DispatchQueue.main.async {
+                                                hud.hide(animated: true)
+                                                self.favorStatus = true
+                                                self.favorButton.setBackgroundImage(UIImage(named: "blue_circle"), for: UIControlState.normal)
+                                                //self.favorButton.imageView?.image = UIImage(named: "favor_1")
+                                                self.favorButton.setImage(UIImage(named: "favor_1"), for: UIControlState.normal)
+                                                hud.removeFromSuperview()
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                            task.resume()
+                        }
+                })
+                alert.addAction(okAction)
+                
+                let cancelAction = UIAlertAction(
+                    title: "取消",
+                    style: .default,
+                    handler: nil)
+                alert.addAction(cancelAction)
+  
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
     
 }
 

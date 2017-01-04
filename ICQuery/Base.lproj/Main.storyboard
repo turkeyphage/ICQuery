@@ -945,7 +945,10 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHz-TI-AQB" userLabel="favorButton">
                                 <rect key="frame" x="310" y="488" width="44" height="44"/>
-                                <state key="normal" image="favor_0" backgroundImage="blue_circle"/>
+                                <state key="normal" backgroundImage="blue_circle"/>
+                                <connections>
+                                    <action selector="favorButtonPressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="Wnl-wJ-2Qp"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -987,7 +990,6 @@
         <image name="back" width="160" height="160"/>
         <image name="blue_circle" width="160" height="160"/>
         <image name="buy_0" width="36" height="36"/>
-        <image name="favor_0" width="36" height="36"/>
         <image name="landing_search_01" width="130" height="130"/>
         <image name="login_44" width="44" height="44"/>
         <image name="logo_120_120" width="120" height="120"/>
