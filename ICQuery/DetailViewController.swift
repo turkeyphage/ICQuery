@@ -264,6 +264,7 @@ class DetailViewController: UIViewController {
     deinit {
         let nc = NotificationCenter.default
         nc.removeObserver(self)
+        print("deinit of DetailViewController")
     }
     
     

@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     
     
     deinit {
-        //print("deinit of LoginViewController")
+        print("deinit of LoginViewController")
     }
     
     

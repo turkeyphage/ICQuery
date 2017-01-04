@@ -45,6 +45,13 @@ class PriceChartViewController: UIViewController {
     var datesDots:[String] = []
     var quantityDots:[Double] = []
     
+    
+    deinit {
+        print("deinit of PriceChartViewController")
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

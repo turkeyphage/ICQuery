@@ -79,6 +79,10 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
     var heightConstraint :NSLayoutConstraint!
     
     
+    deinit {
+        print("deinit of ListViewController")
+    }
+    
     
     override func viewDidLoad() {
         

@@ -52,7 +52,7 @@ class SearchViewController: UIViewController{
     
     
     deinit {
-        //print("deinit of SearchViewController")
+        print("deinit of SearchViewController")
     }
     
     
