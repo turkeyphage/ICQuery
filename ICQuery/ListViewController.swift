@@ -263,7 +263,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
             
         } else {
             
-            self.searchLogSend(searchStr: self.searchTextField.text!)
+            self.searchLogSend(searchStr: self.searchTextField.text!, key:"query")
             
             let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud.label.text = "搜尋中"
@@ -539,6 +539,10 @@ extension ListViewController:UITableViewDelegate{
         if tableView == listTableView{
             
             tableView.deselectRow(at: indexPath, animated: true)
+            
+            let value = "\(allItems[indexPath.row].pn)+\(allItems[indexPath.row].mfs)"
+            self.searchLogSend(searchStr: value, key: "view")
+            
             // 轉到DetailViewController
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
@@ -564,7 +568,7 @@ extension ListViewController:UITableViewDelegate{
             
             // 從auto complete 選單中選擇出來
             self.searchTextField.text = autocompleteItems[indexPath.row]
-            self.searchLogSend(searchStr: searchTextField.text!)
+            self.searchLogSend(searchStr: searchTextField.text!, key:"query")
             
             self.allItems = []
             self.listTableView.reloadData()
@@ -725,7 +729,7 @@ extension ListViewController{
     func newSearchBegin(searchKey:String, autoComplete:Bool){
         
         self.searchTextField.text = searchKey
-        self.searchLogSend(searchStr: searchKey)
+        self.searchLogSend(searchStr: searchKey, key:"query")
         
         self.allItems = []
         self.listTableView.reloadData()

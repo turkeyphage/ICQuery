@@ -28,9 +28,6 @@ class ListTableViewCell: UITableViewCell {
 
         let selectedView = UIView(frame: CGRect.zero)
         selectedView.backgroundColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 0.5)
-        //selectedView.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 0.5)
-        
-        
         selectedBackgroundView = selectedView
         
         

@@ -459,6 +459,11 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         if tableView == firstTableView {
             let cell = firstTableView.cellForRow(at: indexPath) as! ManufacturerCell
             
+            let value = "\(allitems[indexPath.row].pn)+\(allitems[indexPath.row].mfs)+\(allitems[indexPath.row].sup)"
+            self.searchLogSend(searchStr: value, key: "price")
+            
+            
+            
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let priceChartVC = storyboard.instantiateViewController(withIdentifier: "PriceChartViewController") as! PriceChartViewController
             
@@ -469,6 +474,10 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             self.present(priceChartVC, animated: true) {
                 tableView.deselectRow(at: indexPath, animated: true)
             }
+            
+            
+            
+            
         } else if tableView == autocompleteTableView {
         
             if self.autoCompleteTask != nil{

@@ -248,7 +248,7 @@ class SearchViewController: UIViewController{
             
         } else {
             
-            searchLogSend(searchStr: self.textField.text!)
+            searchLogSend(searchStr: self.textField.text!, key:"query")
             
             let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             
@@ -856,7 +856,7 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
         }
         
         self.textField.text = self.autocompleteItems[indexPath.row]
-        self.searchLogSend(searchStr: self.textField.text!)
+        self.searchLogSend(searchStr: self.textField.text!, key:"query")
         
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = "搜尋中"
@@ -952,7 +952,7 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
 // syslog
 extension UIViewController{
 
-    func searchLogSend(searchStr: String){
+    func searchLogSend(searchStr: String, key: String){
         //要用post
         //"latitude", "longitude"
         let latitude = DBManager.shared.get_device_position()["latitude"]!
@@ -961,7 +961,7 @@ extension UIViewController{
         //name=UUID
         let name = DBManager.shared.systemInfo.deviceUUID
         
-        let combinedStr = String(format: "%@/syslog?deviceid=%@&latitude=%@&longtitude=%@&key=query&value=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, latitude, longitude, searchStr])
+        let combinedStr = String(format: "%@/syslog?deviceid=%@&latitude=%@&longtitude=%@&key=%@&value=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, latitude, longitude, key , searchStr])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         print("\(escapedStr)")
 
