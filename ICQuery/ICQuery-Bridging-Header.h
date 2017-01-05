@@ -4,3 +4,4 @@
 
 #import "FMDB.h"
 #import "MBProgressHUD.h"
+#include <ifaddrs.h>
