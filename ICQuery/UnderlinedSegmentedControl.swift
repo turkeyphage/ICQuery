@@ -229,7 +229,11 @@ import UIKit
             sendActions(for: .valueChanged)
             
             
-            NotificationCenter.default.post(name: NSNotification.Name.init("SegmentWasSelected"), object: nil, userInfo: ["selected":calculatedIndex!])
+            let notificationName = Notification.Name("SegmentWasSelected")
+            
+            //NotificationCenter.default.post(name: notificationName, object: nil
+            NotificationCenter.default.post(name: notificationName, object: nil, userInfo: ["selected":calculatedIndex!])
+//            NotificationCenter.default.post(name: NSNotification.Name.init("SegmentWasSelected"), object: nil, userInfo: ["selected":calculatedIndex!])
             
             
             

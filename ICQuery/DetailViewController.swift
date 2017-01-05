@@ -35,7 +35,7 @@ class DetailViewController: UIViewController {
     
     
     //delegate
-    var delegate : DetailViewControllerDelegate!
+    weak var delegate : DetailViewControllerDelegate?
     
     
     @IBOutlet weak var datasheetButton: UIButton!
@@ -57,6 +57,9 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var firstTableView: UITableView!
     
     @IBOutlet weak var secondTableView: UITableView!
+    
+    //let nc = NotificationCenter.default
+    
     
     var selectedProduct : ProductDetail!
     var datasheetURLStr : String!
@@ -115,8 +118,14 @@ class DetailViewController: UIViewController {
         
         
         //set notification observer
-        let nc = NotificationCenter.default
-        nc.addObserver(forName: NSNotification.Name.init(rawValue: "SegmentWasSelected"), object: nil, queue: nil, using: catchingNotification)
+
+        let notificationName = Notification.Name("SegmentWasSelected")
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.catchingNotification(notification:)), name: notificationName, object: nil)
+        
+        
+        //nc.addObserver(forName: NSNotification.Name.init(rawValue: "SegmentWasSelected"), object: nil, queue: nil, using: catchingNotification)
         
         
         
@@ -262,8 +271,12 @@ class DetailViewController: UIViewController {
 
     
     deinit {
-        let nc = NotificationCenter.default
-        nc.removeObserver(self)
+        
+        let notificationName = Notification.Name("SegmentWasSelected")
+        
+        NotificationCenter.default.removeObserver(self, name: notificationName, object: nil)
+        
+        
         print("deinit of DetailViewController")
     }
     
@@ -282,7 +295,7 @@ class DetailViewController: UIViewController {
 
         } else {
         
-            self.delegate.newSearchBegin(searchKey: self.searchTextField.text!, autoComplete: false)
+            self.delegate?.newSearchBegin(searchKey: self.searchTextField.text!, autoComplete: false)
             self.dismiss(animated: true, completion: nil)
         }
 
@@ -294,7 +307,7 @@ class DetailViewController: UIViewController {
     //返回ListViewController
     @IBAction func backButtonPressed(_ sender: Any) {
         
-        self.delegate.reloadTable()
+        self.delegate?.reloadTable()
         dismiss(animated: true, completion: nil)
     }
     
@@ -489,7 +502,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             self.searchTextField.text = autocompleteItems[indexPath.row]
             self.autocompleteTableView.isHidden = true
             
-            self.delegate.newSearchBegin(searchKey: self.searchTextField.text!, autoComplete: true)
+            self.delegate?.newSearchBegin(searchKey: self.searchTextField.text!, autoComplete: true)
             self.dismiss(animated: true, completion: nil)
         
         }
@@ -849,7 +862,7 @@ extension DetailViewController:UITextFieldDelegate{
 
 
 // MARK: Protocal for sending data back
-protocol DetailViewControllerDelegate{
+protocol DetailViewControllerDelegate:class{
     
     func newSearchBegin(searchKey:String, autoComplete:Bool)
     func reloadTable()
