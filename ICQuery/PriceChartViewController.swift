@@ -38,6 +38,9 @@ class PriceChartViewController: UIViewController {
     
     
     var units = [String]()
+    var currency = ""
+    var prices = [String]()
+    
     
     var priceView :ScrollableGraphView!
     var quantityView : ScrollableGraphView!
@@ -88,8 +91,22 @@ class PriceChartViewController: UIViewController {
             let quanityArraySorted = quanityArray.sorted()
             for each in quanityArraySorted{
                 units.append(String(each))
+                
             }
+            
+            for eachUnit in units{
+                prices.append(supplier.price[eachUnit]!)
+            }
+            
         }
+        
+        
+        if supplier.cur.isEmpty || supplier.price.isEmpty{
+            self.currency = "N/A"
+        } else {
+            self.currency = supplier.cur
+        }
+        
         
         //連接圖表API
         get_price_data()
@@ -677,11 +694,18 @@ extension PriceChartViewController:UITableViewDelegate,UITableViewDataSource{
         if tableView == self.titleTable{
             return 1
         } else {
-            if !supplier.price.keys.isEmpty{
-                return supplier.price.keys.count
-            } else {
+//            if !supplier.price.keys.isEmpty{
+//                return supplier.price.keys.count
+//            } else {
+//                return 1
+//            }
+            
+            if self.prices.isEmpty {
                 return 1
+            } else {
+                return self.prices.count
             }
+            
         }
     }
     
@@ -695,24 +719,44 @@ extension PriceChartViewController:UITableViewDelegate,UITableViewDataSource{
             cell.center_label.text = "幣別"
             cell.right_label.text = "單價"
             return cell
+            
+            
+            
         } else {
+            
+            
+            
             let cell =  tableView.dequeueReusableCell(withIdentifier: "PriceValueCell", for: indexPath) as! ValueTableViewCell
             
-            if supplier.cur.isEmpty{
+            if self.currency == "N/A"{
                 cell.center_label.textColor = UIColor.darkGray
-                cell.center_label.text = "N/A"
             } else {
-                if supplier.price.isEmpty{
-                    cell.center_label.textColor = UIColor.darkGray
-                    cell.center_label.text = "N/A"
-                } else {
-                    cell.center_label.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
-                    cell.center_label.text = supplier.cur
-                }
-                
+                cell.center_label.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
             }
             
-            if supplier.price.isEmpty{
+            cell.center_label.text = self.currency
+            
+            
+           
+            
+            
+            
+//            if supplier.cur.isEmpty{
+//                cell.center_label.textColor = UIColor.darkGray
+//                cell.center_label.text = "N/A"
+//                
+//            } else {
+//                if supplier.price.isEmpty{
+//                    cell.center_label.textColor = UIColor.darkGray
+//                    cell.center_label.text = "N/A"
+//                } else {
+//                    cell.center_label.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
+//                    cell.center_label.text = supplier.cur
+//                }
+//                
+//            }
+            
+            if self.prices.isEmpty{
                 cell.left_label.textColor = UIColor.darkGray
                 cell.left_label.text = "N/A"
                 cell.right_label.textColor = UIColor.darkGray
@@ -722,7 +766,7 @@ extension PriceChartViewController:UITableViewDelegate,UITableViewDataSource{
                 cell.left_label.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
                 cell.left_label.text = units[indexPath.row]
                 cell.right_label.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
-                cell.right_label.text = supplier.price[units[indexPath.row]]
+                cell.right_label.text = prices[indexPath.row]
                 
             }
             
@@ -745,6 +789,7 @@ extension PriceChartViewController{
         request.httpMethod = "POST"
         let session = URLSession.shared
 
+        weak var weakSelf = self
         let task1 = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil{
                 print("error: \(error)")
@@ -780,19 +825,41 @@ extension PriceChartViewController{
                                 
                                 if let jsonDictionary = self.parse(json: response.data) {
                                     //print("\(jsonDictionary)")
+                                    
+                                    
                                     if let success = jsonDictionary["success"] as? Bool{
                                         if success == true{
                                             
                                             if let results = jsonDictionary["results"] as? [Any]{
                                                 //print("\(results)")
-                                                
+
                                                 if let contents = results.first as? [String:Any]{
+                                                    if let currency = contents["currency"] as? String{
+                                                        print("currency = \(currency)")
+                                                        weakSelf?.currency = currency
+                                                    }
+                                                    
                                                     
                                                     if let newPrice = contents["priceStores"] as? [[String:Any]]{
+                                                        var updatePrice = [String]()
+                                                        var updateAmount = [String]()
                                                         for item in newPrice{
                                                             print("\(item)")
+                                                            if let unitPrice = item["unitPrice"] as? String, let amount = item["amount"] as? Int{
+                                                                updatePrice.append(unitPrice)
+                                                                updateAmount.append(String(amount))
+                                                            }
                                                         }
+                                                        weakSelf?.prices = updatePrice
+                                                        weakSelf?.units = updateAmount
+                                                        
                                                     }
+                                                    
+                                                    DispatchQueue.main.async {
+                                                        weakSelf?.priceTable.reloadData()
+                                                    }
+                                                    
+                                                    
                                                 }
                                             }
                                         
@@ -801,9 +868,7 @@ extension PriceChartViewController{
                                     
                                     
                                 }
-                                
-                                
-                                
+  
                             }
                         } catch let error {
                             print("got an error creating the request: \(error)")
