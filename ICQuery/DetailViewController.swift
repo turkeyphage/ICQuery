@@ -338,20 +338,25 @@ class DetailViewController: UIViewController {
                     if let firstURL = docurl.components(separatedBy: ",").first{
                         self.datasheetURLStr = firstURL
                         self.datasheetButton.isEnabled = true
+                        self.datasheetButton.isHidden = false
                     } else {
                         self.datasheetButton.isEnabled = false
+                        self.datasheetButton.isHidden = true
                     }
                     
                 } else {
                     self.datasheetButton.isEnabled = false
+                    self.datasheetButton.isHidden = true
                 }
                 
                 
             } else {
                 self.datasheetButton.isEnabled = false
+                self.datasheetButton.isHidden = true
             }
         } else {
-                self.datasheetButton.isEnabled = false
+            self.datasheetButton.isEnabled = false
+            self.datasheetButton.isHidden = true
         }
     }
     
