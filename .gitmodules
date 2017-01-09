@@ -1,0 +1,3 @@
+[submodule "SwiftHTTP"]
+	path = SwiftHTTP
+	url = https://github.com/daltoniam/SwiftHTTP.git

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftHTTP
 import SafariServices
 import SwiftHTTP
 
@@ -761,6 +762,8 @@ extension PriceChartViewController{
                         //包成一個 json
                         let ip = DBManager.shared.getIFAddresses().first
                         let dic = ["html":web64Encode, "ip":ip, "productId":pn, "url":urlAdd, "uuid": DBManager.shared.systemInfo.deviceUUID]
+
+                        //print("\(dic)")
                         
                         let escapedStr = String(format: "%@parsers", arguments: [API_Manager.shared.PARSER_API_PATH]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
      
@@ -793,12 +796,10 @@ extension PriceChartViewController{
                         } catch let error {
                             print("got an error creating the request: \(error)")
                         }
+                    */
                     }
-            
                 }
-    
-
-}
+            }
         }
         task1.resume()
     }
