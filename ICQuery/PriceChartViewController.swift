@@ -9,7 +9,7 @@
 import UIKit
 import SwiftHTTP
 import SafariServices
-import SwiftHTTP
+
 
 
 class PriceChartViewController: UIViewController {
@@ -766,6 +766,51 @@ extension PriceChartViewController{
                         //print("\(dic)")
                         
                         let escapedStr = String(format: "%@parsers", arguments: [API_Manager.shared.PARSER_API_PATH]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                        
+                        
+                        do {
+                            let opt = try HTTP.POST(escapedStr, parameters: dic)
+                            opt.start { response in
+                                //do things...
+                                if let err = response.error {
+                                    print("error: \(err.localizedDescription)")
+                                    return //also notify app of failure as needed
+                                }
+                                print("opt finished: \(response.description)")
+                                
+                                if let jsonDictionary = self.parse(json: response.data) {
+                                    //print("\(jsonDictionary)")
+                                    if let success = jsonDictionary["success"] as? Bool{
+                                        if success == true{
+                                            
+                                            if let results = jsonDictionary["results"] as? [Any]{
+                                                //print("\(results)")
+                                                
+                                                if let contents = results.first as? [String:Any]{
+                                                    
+                                                    if let newPrice = contents["priceStores"] as? [[String:Any]]{
+                                                        for item in newPrice{
+                                                            print("\(item)")
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        
+                                        }
+                                    }
+                                    
+                                    
+                                }
+                                
+                                
+                                
+                            }
+                        } catch let error {
+                            print("got an error creating the request: \(error)")
+                        }
+                        
+                        
+                        /*
      
                         do {
                             let opt = try HTTP.POST(escapedStr, parameters: dic)
@@ -795,6 +840,9 @@ extension PriceChartViewController{
                             }
                         } catch let error {
                             print("got an error creating the request: \(error)")
+                            task2.resume()
+                        } catch {
+                            print(error.localizedDescription)
                         }
                     */
                     }
