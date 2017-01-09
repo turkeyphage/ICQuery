@@ -895,6 +895,18 @@
                                             <constraint firstAttribute="height" constant="180" id="8Oj-WN-2hb"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="正在擷取最新價格" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X1o-Bt-vxQ">
+                                        <rect key="frame" x="103" y="22" width="107" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="oHh-Ye-dSy">
+                                        <rect key="frame" x="81" y="18" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="color" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="8LW-BV-mm7" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="8" id="3pB-t8-tTx"/>
@@ -973,6 +985,8 @@
                     <connections>
                         <outlet property="buyButton" destination="oSR-q0-DeP" id="WSd-y7-9mO"/>
                         <outlet property="favorButton" destination="ZHz-TI-AQB" id="dej-Nz-Cbj"/>
+                        <outlet property="loadingActivity" destination="oHh-Ye-dSy" id="oKM-UT-Lfp"/>
+                        <outlet property="loadingSign" destination="X1o-Bt-vxQ" id="eTZ-kl-mm4"/>
                         <outlet property="manuButton" destination="7Yv-pE-J9m" id="MRs-Ab-gx0"/>
                         <outlet property="priceTable" destination="hRM-HX-siy" id="aXS-hC-PaM"/>
                         <outlet property="price_trend_background" destination="aMp-0Q-dTZ" id="xpc-gV-fHD"/>

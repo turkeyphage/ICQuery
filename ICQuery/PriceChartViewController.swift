@@ -35,6 +35,10 @@ class PriceChartViewController: UIViewController {
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var favorButton: UIButton!
     
+    @IBOutlet weak var loadingActivity: UIActivityIndicatorView!
+    
+    @IBOutlet weak var loadingSign: UILabel!
+    
     
     
     var units = [String]()
@@ -106,6 +110,10 @@ class PriceChartViewController: UIViewController {
         } else {
             self.currency = supplier.cur
         }
+        
+        
+        self.loadingActivity.isHidden = true
+        self.loadingSign.isHidden = true
         
         
         //連接圖表API
@@ -783,6 +791,12 @@ extension PriceChartViewController:UITableViewDelegate,UITableViewDataSource{
 extension PriceChartViewController{
 
     func updatePrice(pn:String, urlAdd:String){
+        
+        
+        self.loadingSign.isHidden = false
+        self.loadingActivity.isHidden = false
+        self.loadingActivity.startAnimating()
+        
         // 1.取得HTML
         let url = URL(string:urlAdd)!
         var request = URLRequest(url: url)
@@ -793,7 +807,13 @@ extension PriceChartViewController{
         let task1 = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil{
                 print("error: \(error)")
+                DispatchQueue.main.async {
+                    weakSelf?.loadingActivity.stopAnimating()
+                    weakSelf?.loadingSign.isHidden = true
+                    weakSelf?.loadingActivity.isHidden = true
+                }
             } else {
+                
                 if let serverTalkBack1 = String(data: data!, encoding: String.Encoding.utf8){
                     let webData = serverTalkBack1.data(using: String.Encoding.utf8)
                     
@@ -803,6 +823,11 @@ extension PriceChartViewController{
                     if DBManager.shared.getIFAddresses().isEmpty{
                         //沒有連線功能
                         print("no-connection")
+                        DispatchQueue.main.async {
+                            weakSelf?.loadingActivity.stopAnimating()
+                            weakSelf?.loadingSign.isHidden = true
+                            weakSelf?.loadingActivity.isHidden = true
+                        }
                     } else {
                         //包成一個 json
                         let ip = DBManager.shared.getIFAddresses().first
@@ -819,32 +844,31 @@ extension PriceChartViewController{
                                 //do things...
                                 if let err = response.error {
                                     print("error: \(err.localizedDescription)")
+                                    DispatchQueue.main.async {
+                                        weakSelf?.loadingActivity.stopAnimating()
+                                        weakSelf?.loadingSign.isHidden = true
+                                        weakSelf?.loadingActivity.isHidden = true
+                                    }
                                     return //also notify app of failure as needed
                                 }
                                 print("opt finished: \(response.description)")
                                 
                                 if let jsonDictionary = self.parse(json: response.data) {
                                     //print("\(jsonDictionary)")
-                                    
-                                    
                                     if let success = jsonDictionary["success"] as? Bool{
                                         if success == true{
                                             
                                             if let results = jsonDictionary["results"] as? [Any]{
                                                 //print("\(results)")
-
                                                 if let contents = results.first as? [String:Any]{
-                                                    if let currency = contents["currency"] as? String{
-                                                        print("currency = \(currency)")
-                                                        weakSelf?.currency = currency
-                                                    }
+                                                    
                                                     
                                                     
                                                     if let newPrice = contents["priceStores"] as? [[String:Any]]{
                                                         var updatePrice = [String]()
                                                         var updateAmount = [String]()
                                                         for item in newPrice{
-                                                            print("\(item)")
+                                                            //print("\(item)")
                                                             if let unitPrice = item["unitPrice"] as? String, let amount = item["amount"] as? Int{
                                                                 updatePrice.append(unitPrice)
                                                                 updateAmount.append(String(amount))
@@ -855,63 +879,81 @@ extension PriceChartViewController{
                                                         
                                                     }
                                                     
-                                                    DispatchQueue.main.async {
-                                                        weakSelf?.priceTable.reloadData()
+                                                    if let currency = contents["currency"] as? String{
+                                                        print("currency = \(currency)")
+                                                        weakSelf?.currency = currency
+                                                    }
+                                                    
+                                                    if (weakSelf?.prices.isEmpty)! {
+                                                        weakSelf?.currency = "N/A"
                                                     }
                                                     
                                                     
+                                                    DispatchQueue.main.async {
+                                                        weakSelf?.priceTable.reloadData()
+                                                        weakSelf?.loadingActivity.stopAnimating()
+                                                        weakSelf?.loadingSign.isHidden = true
+                                                        weakSelf?.loadingActivity.isHidden = true
+ 
+                                                    }
+
+                                                }else{
+                                                    DispatchQueue.main.async {
+                                                        weakSelf?.loadingActivity.stopAnimating()
+                                                        weakSelf?.loadingSign.isHidden = true
+                                                        weakSelf?.loadingActivity.isHidden = true
+                                                    }
+                                                }
+                                            } else {
+                                                DispatchQueue.main.async {
+                                                    weakSelf?.loadingActivity.stopAnimating()
+                                                    weakSelf?.loadingSign.isHidden = true
+                                                    weakSelf?.loadingActivity.isHidden = true
                                                 }
                                             }
-                                        
+                                        } else {
+                                            DispatchQueue.main.async {
+                                                weakSelf?.loadingActivity.stopAnimating()
+                                                weakSelf?.loadingSign.isHidden = true
+                                                weakSelf?.loadingActivity.isHidden = true
+                                            }
+                                        }
+                                    } else {
+                                        DispatchQueue.main.async {
+                                            weakSelf?.loadingActivity.stopAnimating()
+                                            weakSelf?.loadingSign.isHidden = true
+                                            weakSelf?.loadingActivity.isHidden = true
                                         }
                                     }
-                                    
-                                    
+
+                                }else{
+                                    DispatchQueue.main.async {
+                                        weakSelf?.loadingActivity.stopAnimating()
+                                        weakSelf?.loadingSign.isHidden = true
+                                        weakSelf?.loadingActivity.isHidden = true
+                                    }
                                 }
   
                             }
                         } catch let error {
                             print("got an error creating the request: \(error)")
-                        }
-                        
-                        
-                        /*
-     
-                        do {
-                            let opt = try HTTP.POST(escapedStr, parameters: dic)
-                            opt.start { response in
-                                
-                                print("\(response)")
-                                if let jsonDictionary = self.parse(json: response.data) {
-                                
-                                    print("\(jsonDictionary)")
-
-                                    if let results = jsonDictionary["results"] as? [Any]{
-                                        if let resultContent = results.first as? [String:Any]{
-                                            if let priceStores = resultContent["priceStores"] as? [[String:Any]]{
-                                            
-                                                print("\(priceStores)")
-                                                
-                                                //this is roger test
-                                            }
-                                        }
-                                    
-                                    }
-                                    
-                                } else{
-                                    print("no results")
-                                }
-
+                            DispatchQueue.main.async {
+                                weakSelf?.loadingActivity.stopAnimating()
+                                weakSelf?.loadingSign.isHidden = true
+                                weakSelf?.loadingActivity.isHidden = true
                             }
-                        } catch let error {
-                            print("got an error creating the request: \(error)")
-                            task2.resume()
-                        } catch {
-                            print(error.localizedDescription)
                         }
-                    */
+                        
                     }
+                } else {
+                    DispatchQueue.main.async {
+                        weakSelf?.loadingActivity.stopAnimating()
+                        weakSelf?.loadingSign.isHidden = true
+                        weakSelf?.loadingActivity.isHidden = true
+                    }
+                
                 }
+                
             }
         }
         task1.resume()
