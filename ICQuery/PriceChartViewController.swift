@@ -778,8 +778,9 @@ extension PriceChartViewController{
                                             if let priceStores = resultContent["priceStores"] as? [[String:Any]]{
                                             
                                                 print("\(priceStores)")
-                                            
-                                            }  
+                                                
+                                                //this is roger test
+                                            }
                                         }
                                     
                                     }
