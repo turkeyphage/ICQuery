@@ -763,73 +763,35 @@ extension PriceChartViewController{
                         let dic = ["html":web64Encode, "ip":ip, "productId":pn, "url":urlAdd, "uuid": DBManager.shared.systemInfo.deviceUUID]
                         
                         let escapedStr = String(format: "%@parsers", arguments: [API_Manager.shared.PARSER_API_PATH]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                        
-                        
+     
                         do {
                             let opt = try HTTP.POST(escapedStr, parameters: dic)
                             opt.start { response in
                                 
-                                //print("\(response.data)")
-                                
+                                print("\(response)")
                                 if let jsonDictionary = self.parse(json: response.data) {
                                 
                                     print("\(jsonDictionary)")
 
+                                    if let results = jsonDictionary["results"] as? [Any]{
+                                        if let resultContent = results.first as? [String:Any]{
+                                            if let priceStores = resultContent["priceStores"] as? [[String:Any]]{
+                                            
+                                                print("\(priceStores)")
+                                            
+                                            }  
+                                        }
+                                    
+                                    }
+                                    
                                 } else{
                                     print("no results")
                                 }
-                                
-                                
-                                
+
                             }
                         } catch let error {
                             print("got an error creating the request: \(error)")
                         }
-                        
-                        
-                        
-                        //print("\(dic)")
-                        
-                        
-                        
-                        
-//                        do {
-//                            //let jsonData = try JSONSerialization.data(withJSONObject: fakedic, options: .prettyPrinted)
-//                            
-//                            let jsonData = try JSONSerialization.data(withJSONObject: fakedic, options: JSONSerialization.WritingOptions.prettyPrinted)
-//                            
-//                            let escapedStr = String(format: "%@parsers", arguments: [API_Manager.shared.PARSER_API_PATH]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-//                            
-//                            
-//                            print("\(escapedStr)")
-//                            let url2 = URL(string:escapedStr)!
-//                            var request2 = URLRequest(url: url2)
-//                            request2.httpMethod = "POST"
-//                            request2.httpBody = jsonData
-//
-//                            let session2 = URLSession.shared
-//                            let task2 = session2.dataTask(with: request2 as URLRequest) { data, response, error in
-//                            
-//                                
-//                                if error != nil{
-//                                    print("\(error?.localizedDescription)")
-//                                    return
-//                                } else {
-//                                
-//                                
-//                                }
-////                                if let responseJSON = JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as! [String:Any]{
-////                                    //NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? [String:AnyObject]{
-////                                    print(responseJSON)
-////                                }
-//                                
-//                                
-//                            }
-//                            
-//                            task2.resume()
-//                        } catch {
-//                            print(error.localizedDescription)
-//                        }
                     }
             
                 }
