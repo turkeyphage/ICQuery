@@ -799,12 +799,14 @@ extension PriceChartViewController{
         
         // 1.取得HTML
         let url = URL(string:urlAdd)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        let request = URLRequest(url: url)
+        //request.httpMethod = "POST"
         let session = URLSession.shared
 
         weak var weakSelf = self
+  
         let task1 = session.dataTask(with: request as URLRequest) { data, response, error in
+          
             if error != nil{
                 print("error: \(error)")
                 DispatchQueue.main.async {
@@ -813,13 +815,10 @@ extension PriceChartViewController{
                     weakSelf?.loadingActivity.isHidden = true
                 }
             } else {
-                
                 if let serverTalkBack1 = String(data: data!, encoding: String.Encoding.utf8){
                     let webData = serverTalkBack1.data(using: String.Encoding.utf8)
                     
                     let web64Encode = webData?.base64EncodedString() // HTML with base64Encode
-                    //let web64Encode = webData?.base64EncodedData()
-                    
                     if DBManager.shared.getIFAddresses().isEmpty{
                         //沒有連線功能
                         print("no-connection")
@@ -832,16 +831,16 @@ extension PriceChartViewController{
                         //包成一個 json
                         let ip = DBManager.shared.getIFAddresses().first
                         let dic = ["html":web64Encode, "ip":ip, "productId":pn, "url":urlAdd, "uuid": DBManager.shared.systemInfo.deviceUUID]
-
-                        //print("\(dic)")
-                        
+//
+//                        //print("\(dic)")
+//                        
                         let escapedStr = String(format: "%@parsers", arguments: [API_Manager.shared.PARSER_API_PATH]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                        
-                        
+//
+//                        
                         do {
                             let opt = try HTTP.POST(escapedStr, parameters: dic)
                             opt.start { response in
-                                //do things...
+//                                //do things...
                                 if let err = response.error {
                                     print("error: \(err.localizedDescription)")
                                     DispatchQueue.main.async {
@@ -852,18 +851,27 @@ extension PriceChartViewController{
                                     return //also notify app of failure as needed
                                 }
                                 print("opt finished: \(response.description)")
-                                
-                                if let jsonDictionary = self.parse(json: response.data) {
-                                    //print("\(jsonDictionary)")
+//
+                                if let jsonDictionary = weakSelf?.parse(json: response.data) {
+                                    print("\(jsonDictionary)")
                                     if let success = jsonDictionary["success"] as? Bool{
-                                        if success == true{
-                                            
+                                        if success == true {
+//
+//                                            
+                                            print("supplier = \(weakSelf?.supplier)")
+                                            let value = "\(weakSelf?.supplier.pn)+\(weakSelf?.supplier.mfs)+\(weakSelf?.supplier.sup)+1)"
+                                            //print("\(value)")
+                                            weakSelf?.searchLogSend(searchStr: value, key: "refresh")
+//                                            
+//                                            
+//                                            
+//                                            
                                             if let results = jsonDictionary["results"] as? [Any]{
                                                 //print("\(results)")
                                                 if let contents = results.first as? [String:Any]{
-                                                    
-                                                    
-                                                    
+//
+//                                                    
+//                                                    
                                                     if let newPrice = contents["priceStores"] as? [[String:Any]]{
                                                         var updatePrice = [String]()
                                                         var updateAmount = [String]()
@@ -878,17 +886,17 @@ extension PriceChartViewController{
                                                         weakSelf?.units = updateAmount
                                                         
                                                     }
-                                                    
+//
                                                     if let currency = contents["currency"] as? String{
                                                         print("currency = \(currency)")
                                                         weakSelf?.currency = currency
                                                     }
-                                                    
+//
                                                     if (weakSelf?.prices.isEmpty)! {
                                                         weakSelf?.currency = "N/A"
                                                     }
-                                                    
-                                                    
+//
+//                                                    
                                                     DispatchQueue.main.async {
                                                         weakSelf?.priceTable.reloadData()
                                                         weakSelf?.loadingActivity.stopAnimating()
@@ -896,7 +904,7 @@ extension PriceChartViewController{
                                                         weakSelf?.loadingActivity.isHidden = true
  
                                                     }
-
+//
                                                 }else{
                                                     DispatchQueue.main.async {
                                                         weakSelf?.loadingActivity.stopAnimating()
@@ -912,6 +920,10 @@ extension PriceChartViewController{
                                                 }
                                             }
                                         } else {
+                                            print("supplier = \(weakSelf?.supplier)")
+                                            let value = "\(weakSelf?.supplier.pn)+\(weakSelf?.supplier.mfs)+\(weakSelf?.supplier.sup)+0)"
+                                            weakSelf?.searchLogSend(searchStr: value, key: "refresh")
+                                            
                                             DispatchQueue.main.async {
                                                 weakSelf?.loadingActivity.stopAnimating()
                                                 weakSelf?.loadingSign.isHidden = true
@@ -925,25 +937,26 @@ extension PriceChartViewController{
                                             weakSelf?.loadingActivity.isHidden = true
                                         }
                                     }
-
-                                }else{
+//
+                                } else {
                                     DispatchQueue.main.async {
                                         weakSelf?.loadingActivity.stopAnimating()
                                         weakSelf?.loadingSign.isHidden = true
                                         weakSelf?.loadingActivity.isHidden = true
                                     }
                                 }
-  
+//
                             }
                         } catch let error {
                             print("got an error creating the request: \(error)")
+                            
                             DispatchQueue.main.async {
                                 weakSelf?.loadingActivity.stopAnimating()
                                 weakSelf?.loadingSign.isHidden = true
                                 weakSelf?.loadingActivity.isHidden = true
                             }
                         }
-                        
+//
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -953,11 +966,12 @@ extension PriceChartViewController{
                     }
                 
                 }
-                
+//
             }
         }
         task1.resume()
     }
+
 
 }
 

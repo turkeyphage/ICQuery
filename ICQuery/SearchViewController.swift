@@ -20,6 +20,9 @@ class SearchViewController: UIViewController{
     
     
     
+    var batchDealer : BatchDealer?
+    
+    
     var userID : String?
     
     // autocomplete function variable
@@ -403,6 +406,13 @@ class SearchViewController: UIViewController{
         if reachability.isReachable {
             if reachability.isReachableViaWiFi {
                 print("Reachable via WiFi")
+                
+                
+                self.batchDealer = BatchDealer()
+                
+                
+                
+                
                 /*
                  let alert = UIAlertController(title: "網路連線方式更動", message: "目前採用WiFi連線", preferredStyle: .alert)
                  alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -410,6 +420,7 @@ class SearchViewController: UIViewController{
                  */
             } else {
                 print("Reachable via Cellular")
+                self.batchDealer = nil
                 /*
                  let alert = UIAlertController(title: "網路連線方式更動", message: "目前採用行動網路連線", preferredStyle: .alert)
                  alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -418,6 +429,7 @@ class SearchViewController: UIViewController{
             }
         } else {
             print("Network not reachable")
+            self.batchDealer = nil
             /*
              let alert = UIAlertController(title: "網路連線方式更動", message: "網路目前無法連線", preferredStyle: .alert)
              alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
