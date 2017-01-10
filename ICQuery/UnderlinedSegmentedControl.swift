@@ -39,13 +39,15 @@ import UIKit
 	}
 	
 	//Selectable Properties editable directly from Attributes Inspector in Main Storyboard//////////////////
-	@IBInspectable var selectedItemColor: UIColor = UIColor(red: 0, green: 120/255, blue: 1, alpha: 1){
+    
+    // UIColor = UIColor(red: 0, green: 120/255, blue: 1, alpha: 1)
+	@IBInspectable var selectedItemColor: UIColor = UIColor.white{
 		didSet{
 			changedColor()
 		}
 	}
 	
-    @IBInspectable var unselectedItemColor: UIColor = UIColor.black{
+    @IBInspectable var unselectedItemColor: UIColor = UIColor.lightGray{
 		didSet{
 			changedColor()
 		}
@@ -57,6 +59,22 @@ import UIKit
 		}
 	}
 	
+    @IBInspectable var selectedItemBackgroundColor: UIColor = UIColor(red: 0, green: 120/255, blue: 1, alpha: 1){
+        didSet{
+            changedColor()
+        }
+    }
+    
+    @IBInspectable var unselectedItemBackgroundColor: UIColor = UIColor.white{
+        didSet{
+            changedColor()
+        }
+    }
+    
+    
+    
+    
+    
     @IBInspectable var fontSize: CGFloat = 16{
 		didSet{
 			for label in labels{
@@ -76,11 +94,14 @@ import UIKit
 		super.init(coder: coder)
 		setupSCView()
 	}
+    
 	func setupSCView(){
-		layer.cornerRadius = frame.height / 2
+		//layer.cornerRadius = frame.height / 2
         //整體segment的框框顏色
-        layer.borderColor = UIColor(white: 1.0, alpha: 0.5).cgColor
-        layer.borderWidth = 2
+        //layer.borderColor = UIColor(white: 1.0, alpha: 0.5).cgColor
+        
+        //layer.borderColor = UIColor.white.cgColor
+        //layer.borderWidth = 2
 		
 		setupLabels() //set up the label views and add them as subviews to the segmented controller
 		
@@ -88,6 +109,8 @@ import UIKit
 		
 		
 	}
+    
+    
 	func setupLabels(){
 		for label in labels{
 			label.removeFromSuperview()	//remove all label views from segmented controller, so we have a blank slate
@@ -96,6 +119,7 @@ import UIKit
 		
 		for index in 0..<itemNames.count{
 			let label = UILabel(frame: CGRect(x: 0, y: 0, width: 40, height: 70))	//initialized at point (0,0) with hight 40, width 70
+            
 			label.text = itemNames[index]
 			label.translatesAutoresizingMaskIntoConstraints = false
 			label.textAlignment = .center
@@ -103,6 +127,11 @@ import UIKit
             label.font = UIFont.systemFont(ofSize: 14) // 調label字的大小
             
             label.textColor = index == selectedIndex ? selectedItemColor : unselectedItemColor	//logic for selected or not
+            
+            
+            label.backgroundColor = index == selectedIndex ? selectedItemBackgroundColor : unselectedItemBackgroundColor
+            
+            
 			self.addSubview(label)	//add label view as a subview to segmented view controller
 			labels.append(label)	//add this newly created label to the array of labels
 		}
@@ -156,15 +185,20 @@ import UIKit
 		super.layoutSubviews()
 		let selectedLabel = self.labels[self.selectedIndex]
 		let underlineHeight: CGFloat = 1
-		let underlineOffset: CGFloat = 5
-		
-        let textFrame = self.frameOfTextInLabel(label: selectedLabel)
+		//let underlineOffset: CGFloat = 5
+//		
+//        let textFrame = self.frameOfTextInLabel(label: selectedLabel)
 
-		
+        
+        
+        
 		//self.underline.frame = CGRect(x: textFrame.minX, y: textFrame.minY + underlineOffset, width: textFrame.width, height: underlineHeight)
         
         
-        self.underline.frame = CGRect(x: textFrame.minX, y: textFrame.minY + underlineOffset, width: textFrame.width, height: underlineHeight)
+        //self.underline.frame = CGRect(x: textFrame.minX, y: textFrame.minY + underlineOffset, width: textFrame.width, height: underlineHeight)
+        
+        self.underline.frame = CGRect(x: self.frame.origin.x, y: selectedLabel.frame.size.height, width: self.frame.size.width, height: underlineHeight)
+        
         
         //print("underlineframe: \(self.underline.frame.origin.x),\(self.underline.frame.origin.y),\(self.underline.frame.size.width),\(self.underline.frame.size.height)")
         
@@ -184,23 +218,25 @@ import UIKit
 	func animateChangedSelection(){
 		for label in labels {	//give all labels 'unselected' color
 			label.textColor = unselectedItemColor
+            label.backgroundColor = unselectedItemBackgroundColor
+            
 		}
 		let label = labels[selectedIndex]			//give seleted label the 'selected label' color
 		label.textColor = selectedItemColor
-		
+		label.backgroundColor = selectedItemBackgroundColor
         
         
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: .allowAnimatedContent, animations: {
-        
-            			let selectedLabel = self.labels[self.selectedIndex]
-            			let underlineHeight: CGFloat = 5
-            			let underlineOffset: CGFloat = 5
-            
-                        let textFrame = self.frameOfTextInLabel(label: selectedLabel)
-            
-            			self.underline.frame = CGRect(x: textFrame.minX, y: textFrame.maxY + underlineOffset, width: textFrame.width, height: underlineHeight)
-
-        }, completion: nil)
+//        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: .allowAnimatedContent, animations: {
+//        
+//            			let selectedLabel = self.labels[self.selectedIndex]
+//            			let underlineHeight: CGFloat = 5
+//            			let underlineOffset: CGFloat = 5
+//            
+//                        let textFrame = self.frameOfTextInLabel(label: selectedLabel)
+//            
+//            			self.underline.frame = CGRect(x: textFrame.minX, y: textFrame.maxY + underlineOffset, width: textFrame.width, height: underlineHeight)
+//
+//        }, completion: nil)
     }
     
 //selected view slides over to the index that was selected
@@ -276,8 +312,10 @@ import UIKit
     func changedColor(){
 		for label in labels{
 			label.textColor = unselectedItemColor
+            label.backgroundColor = unselectedItemBackgroundColor
 		}
 		labels[selectedIndex].textColor = selectedItemColor
+        labels[selectedIndex].backgroundColor = selectedItemBackgroundColor
 		underline.backgroundColor = underlineColor
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
