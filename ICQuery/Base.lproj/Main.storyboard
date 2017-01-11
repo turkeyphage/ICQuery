@@ -705,15 +705,52 @@
                                     <constraint firstAttribute="height" constant="30" id="yBl-5R-5eY"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MC3-BS-qFw" userLabel="segmentSliderBackgroundView" customClass="MMSegmentSlider">
+                                <rect key="frame" x="0.0" y="239" width="375" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="購買量" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AaR-ZY-0Os">
+                                        <rect key="frame" x="8" y="2" width="37" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="EbV-vV-E8n"/>
+                                    <constraint firstItem="AaR-ZY-0Os" firstAttribute="leading" secondItem="MC3-BS-qFw" secondAttribute="leading" constant="8" id="RMT-Q6-Lee"/>
+                                    <constraint firstItem="AaR-ZY-0Os" firstAttribute="top" secondItem="MC3-BS-qFw" secondAttribute="top" constant="2" id="yNR-Ye-fgR"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="basicColor">
+                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="labelColor">
+                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedValueColor">
+                                        <color key="value" red="0.22999486159999999" green="0.54671285810000003" blue="0.86010362689999997" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedLabelColor">
+                                        <color key="value" red="0.22999486159999999" green="0.54671285810000003" blue="0.86010362689999997" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="circlesRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="textOffset">
+                                        <real key="value" value="-24"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3D-4G-5u8" userLabel="scrollView">
-                                <rect key="frame" x="0.0" y="279" width="375" height="388"/>
+                                <rect key="frame" x="0.0" y="289" width="375" height="378"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="B80-wU-Jn1" userLabel="firstTableView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="388"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="378"/>
                                         <color key="backgroundColor" red="0.22999486159999999" green="0.54671285810000003" blue="0.86010362689999997" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableView>
                                     <tableView clipsSubviews="YES" tag="2" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MPL-H9-IMF" userLabel="secondTableView">
-                                        <rect key="frame" x="375" y="0.0" width="375" height="388"/>
+                                        <rect key="frame" x="375" y="0.0" width="375" height="378"/>
                                         <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableView>
                                 </subviews>
@@ -731,13 +768,6 @@
                                     <constraint firstItem="MPL-H9-IMF" firstAttribute="leading" secondItem="B80-wU-Jn1" secondAttribute="trailing" id="suD-ni-hyF"/>
                                 </constraints>
                             </scrollView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MC3-BS-qFw" userLabel="segmentSliderView">
-                                <rect key="frame" x="0.0" y="239" width="375" height="40"/>
-                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="EbV-vV-E8n"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -780,6 +810,7 @@
                         <outlet property="product_imageview" destination="Xxh-aK-hMW" id="MFj-3I-2zW"/>
                         <outlet property="searchTextField" destination="ZPd-JG-VU8" id="Oih-XJ-24r"/>
                         <outlet property="secondTableView" destination="MPL-H9-IMF" id="Hep-RQ-qWE"/>
+                        <outlet property="segmentSlider" destination="MC3-BS-qFw" id="2K2-C0-Zib"/>
                         <outlet property="theScrollView" destination="b3D-4G-5u8" id="7YA-e5-Csh"/>
                     </connections>
                 </viewController>

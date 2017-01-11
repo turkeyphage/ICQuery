@@ -15,6 +15,7 @@ import SafariServices
 
 class DetailViewController: UIViewController {
 
+    @IBOutlet weak var segmentSlider: MMSegmentSlider!
     //登入帳號：
     var account : String?
     
@@ -87,6 +88,9 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        segmentSlider.labelsFont = UIFont.systemFont(ofSize: 12.0)
+            //UIFont(name: "HelveticaNeue-Light", size: 12.0)
 
         searchTextField.delegate = self
 

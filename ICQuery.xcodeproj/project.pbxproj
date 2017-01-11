@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */; };
+		DB0D338F1E26262B001286F5 /* MMSegmentSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0D338E1E26262B001286F5 /* MMSegmentSlider.m */; };
 		DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FB5C1DF94D670046E44D /* DetailViewController.swift */; };
 		DB1C0C5D1E247AE300A24915 /* BatchDealer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1C0C5C1E247AE300A24915 /* BatchDealer.swift */; };
 		DB2A10D11E167F780085868F /* PriceValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB2A10D01E167F780085868F /* PriceValueCell.xib */; };
@@ -156,6 +157,8 @@
 
 /* Begin PBXFileReference section */
 		DB054C4B1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnderlinedSegmentedControl.swift; sourceTree = "<group>"; };
+		DB0D338D1E26262B001286F5 /* MMSegmentSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSegmentSlider.h; sourceTree = "<group>"; };
+		DB0D338E1E26262B001286F5 /* MMSegmentSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMSegmentSlider.m; sourceTree = "<group>"; };
 		DB18FB5C1DF94D670046E44D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DB1C0C5C1E247AE300A24915 /* BatchDealer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchDealer.swift; sourceTree = "<group>"; };
 		DB2A10D01E167F780085868F /* PriceValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PriceValueCell.xib; sourceTree = "<group>"; };
@@ -384,6 +387,8 @@
 		DBF896A71DF4FD0600366418 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DB0D338D1E26262B001286F5 /* MMSegmentSlider.h */,
+				DB0D338E1E26262B001286F5 /* MMSegmentSlider.m */,
 				DB2A10D41E168DD10085868F /* ScrollableGraphView.swift */,
 				DB9FF62F1E0A96EB00E1DCF0 /* MBProgressHUD.h */,
 				DB5E58291E14992100BD157D /* SearchCollectionCell.swift */,
@@ -631,6 +636,7 @@
 				DB1C0C5D1E247AE300A24915 /* BatchDealer.swift in Sources */,
 				DB5E1ED31E139D8000658702 /* SpecCell.swift in Sources */,
 				DB054C4C1DFA5E29005A94AD /* UnderlinedSegmentedControl.swift in Sources */,
+				DB0D338F1E26262B001286F5 /* MMSegmentSlider.m in Sources */,
 				DBD360551E0260F500A08204 /* FMResultSet.m in Sources */,
 				DB18FB5D1DF94D670046E44D /* DetailViewController.swift in Sources */,
 				DBD3605A1E02618D00A08204 /* DBManager.swift in Sources */,
