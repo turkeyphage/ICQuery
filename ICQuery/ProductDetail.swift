@@ -41,3 +41,9 @@ struct SupplierDetail{
     var catagory = ""
     var price : [String:String] = [String:String]()
 }
+
+
+
+
+
+

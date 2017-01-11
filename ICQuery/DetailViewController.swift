@@ -365,6 +365,55 @@ class DetailViewController: UIViewController {
     }
     
     
+    func whatCurrencySign(oriStr: String) -> String{
+    
+        switch oriStr {
+            
+        case "CNY", "RMB":
+            return "¥"
+
+        case "TWD", "NT.", "NT", "NTD":
+            return "$"
+        
+        case "JPY":
+            return "¥"
+        
+        case "GBP":
+            return "£"
+            
+        case "USD", "U.S", "U.S.":
+            return "$"
+        
+        case "CAN", "CAD":
+            return "$"
+            
+        case "KRW":
+            return "₩"
+        
+        case "THB":
+            return "฿"
+            
+        case "INR":
+            return "₹"
+            
+        case "EUR":
+            return "€"
+            
+        case "HK", "HKD":
+            return "$"
+        
+        case "SGD":
+            return "$"
+            
+        default:
+            return oriStr
+        }
+        
+    }
+    
+    
+    
+    
     
 }
 
@@ -420,7 +469,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             if let firstprice = self.allitems[indexPath.row].price.keys.sorted().first{
                 manuCell.valueLabel.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
                 manuCell.valueLabel.text = self.allitems[indexPath.row].price[firstprice]
-                manuCell.curLabel.text = self.allitems[indexPath.row].cur
+                manuCell.curLabel.text = self.whatCurrencySign(oriStr:self.allitems[indexPath.row].cur)
             } else {
                 manuCell.valueLabel.textColor = UIColor.lightGray
                 manuCell.valueLabel.text = "N/A"
