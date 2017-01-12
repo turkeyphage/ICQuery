@@ -972,6 +972,17 @@
                                     <constraint firstItem="8LW-BV-mm7" firstAttribute="top" secondItem="aMp-0Q-dTZ" secondAttribute="bottom" constant="25" id="yq2-L3-SOc"/>
                                 </constraints>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHz-TI-AQB" userLabel="favorButton">
+                                <rect key="frame" x="303" y="525" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="5Xi-Od-ars"/>
+                                    <constraint firstAttribute="height" constant="44" id="yHC-Nz-83e"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="blue_circle"/>
+                                <connections>
+                                    <action selector="favorButtonPressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="Wnl-wJ-2Qp"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1H-gK-1XT" userLabel="menu_button">
                                 <rect key="frame" x="295" y="577" width="60" height="60"/>
                                 <constraints>
@@ -982,17 +993,6 @@
                                 <state key="highlighted" image="menu_circle_close"/>
                                 <connections>
                                     <action selector="manuButton_pressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="wjR-91-rFg"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHz-TI-AQB" userLabel="favorButton">
-                                <rect key="frame" x="303" y="525" width="44" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="5Xi-Od-ars"/>
-                                    <constraint firstAttribute="height" constant="44" id="yHC-Nz-83e"/>
-                                </constraints>
-                                <state key="normal" backgroundImage="blue_circle"/>
-                                <connections>
-                                    <action selector="favorButtonPressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="Wnl-wJ-2Qp"/>
                                 </connections>
                             </button>
                         </subviews>
