@@ -27,7 +27,10 @@ class PriceChartViewController: UIViewController {
     var supplier : SupplierDetail!
     
     
+    @IBOutlet weak var price_trend_label: UILabel!
     @IBOutlet weak var price_trend_background: UIView!
+    
+    @IBOutlet weak var quantity_trend_label: UILabel!
     @IBOutlet weak var quantity_trend_background: UIView!
     
 
@@ -64,7 +67,7 @@ class PriceChartViewController: UIViewController {
         super.viewDidLoad()
         
         //self.buyButton.isHidden = true
-        //self.favorButton.isHidden = true
+        self.favorButton.isHidden = true
 
 
         supplier_label.text = "\(supplier.pn) (\(supplier.sup))"
@@ -441,52 +444,57 @@ class PriceChartViewController: UIViewController {
         
     }
     
+    @IBAction func manuButton_pressed(_ sender: Any) {
+        
+        if self.favorButton.isHidden {
+            favorButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            favorButton.isHidden = false
+            favorButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            
+            UIView.animate(withDuration: 0.08, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+                self.favorButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }, completion: nil)
+            
+            
+        } else {
+            
+            favorButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            
+            UIView.animate(withDuration: 0.08, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+                self.favorButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            }, completion: { (animated) in
+                self.favorButton.isHidden = true
+            })
+            
+        }
+
+        
+    }
     
 //    @IBAction func manuButtonPressed(_ sender: Any) {
-//
-//        if self.buyButton.isHidden {
-//            buyButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-//            buyButton.isHidden = false
-//            buyButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-//            
-//            UIView.animate(withDuration: 0.08, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
-//                self.buyButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-//            }, completion: nil)
-//            
-//           
-//        } else {
-//            
-//            buyButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-//            
-//            UIView.animate(withDuration: 0.08, delay: 0.05, options: UIViewAnimationOptions.curveLinear, animations: {
-//                self.buyButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-//            }, completion: { (animated) in
-//                self.buyButton.isHidden = true
-//            })
-//
-//        }
-//        
-//        if self.favorButton.isHidden {
-//            favorButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-//            favorButton.isHidden = false
-//            favorButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-//            
-//            UIView.animate(withDuration: 0.08, delay: 0.05, options: UIViewAnimationOptions.curveLinear, animations: {
-//                self.favorButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-//            }, completion: nil)
-//            
-//            
-//        } else {
-//            
-//            favorButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-//            
-//            UIView.animate(withDuration: 0.08, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
-//                self.favorButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-//            }, completion: { (animated) in
-//                self.favorButton.isHidden = true
-//            })
-//            
-//        }
+////
+////        if self.buyButton.isHidden {
+////            buyButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+////            buyButton.isHidden = false
+////            buyButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+////            
+////            UIView.animate(withDuration: 0.08, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+////                self.buyButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+////            }, completion: nil)
+////            
+////           
+////        } else {
+////            
+////            buyButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+////            
+////            UIView.animate(withDuration: 0.08, delay: 0.05, options: UIViewAnimationOptions.curveLinear, animations: {
+////                self.buyButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+////            }, completion: { (animated) in
+////                self.buyButton.isHidden = true
+////            })
+////
+////        }
+////        
 //        
 //        
 //    }

@@ -945,17 +945,6 @@
                                         <rect key="frame" x="81" y="21" width="20" height="20"/>
                                         <color key="color" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </activityIndicatorView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHz-TI-AQB" userLabel="favorButton">
-                                        <rect key="frame" x="316" y="8" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="5Xi-Od-ars"/>
-                                            <constraint firstAttribute="height" constant="44" id="yHC-Nz-83e"/>
-                                        </constraints>
-                                        <state key="normal" backgroundImage="blue_circle"/>
-                                        <connections>
-                                            <action selector="favorButtonPressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="Wnl-wJ-2Qp"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="8LW-BV-mm7" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="8" id="3pB-t8-tTx"/>
@@ -966,9 +955,7 @@
                                     <constraint firstItem="cWi-SL-9p6" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="8" id="7XV-df-rMi"/>
                                     <constraint firstItem="Qa6-gM-bKK" firstAttribute="centerX" secondItem="AiG-zq-Tjl" secondAttribute="centerX" id="8F5-DP-qho"/>
                                     <constraint firstItem="cWi-SL-9p6" firstAttribute="top" secondItem="Isn-9m-6vN" secondAttribute="bottom" constant="25" id="CP9-gd-thN"/>
-                                    <constraint firstItem="ZHz-TI-AQB" firstAttribute="top" secondItem="AiG-zq-Tjl" secondAttribute="top" constant="8" id="Cnc-xx-3kw"/>
                                     <constraint firstItem="Isn-9m-6vN" firstAttribute="top" secondItem="ZXj-qb-AtS" secondAttribute="bottom" constant="16" id="EaI-qZ-2tF"/>
-                                    <constraint firstAttribute="trailing" secondItem="ZHz-TI-AQB" secondAttribute="trailing" constant="16" id="HII-YJ-D1L"/>
                                     <constraint firstItem="Qa6-gM-bKK" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="16" id="IGE-tg-5Vu"/>
                                     <constraint firstItem="Isn-9m-6vN" firstAttribute="leading" secondItem="AiG-zq-Tjl" secondAttribute="leading" constant="16" id="MQP-qh-fqr"/>
                                     <constraint firstAttribute="bottom" secondItem="Qa6-gM-bKK" secondAttribute="bottom" constant="10" id="P6J-7T-drr"/>
@@ -985,6 +972,29 @@
                                     <constraint firstItem="8LW-BV-mm7" firstAttribute="top" secondItem="aMp-0Q-dTZ" secondAttribute="bottom" constant="25" id="yq2-L3-SOc"/>
                                 </constraints>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1H-gK-1XT" userLabel="menu_button">
+                                <rect key="frame" x="295" y="577" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="0mG-hC-hu5"/>
+                                    <constraint firstAttribute="height" constant="60" id="DLY-fR-RRd"/>
+                                </constraints>
+                                <state key="normal" title="B" image="menu_circle"/>
+                                <state key="highlighted" image="menu_circle_close"/>
+                                <connections>
+                                    <action selector="manuButton_pressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="wjR-91-rFg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZHz-TI-AQB" userLabel="favorButton">
+                                <rect key="frame" x="303" y="525" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="5Xi-Od-ars"/>
+                                    <constraint firstAttribute="height" constant="44" id="yHC-Nz-83e"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="blue_circle"/>
+                                <connections>
+                                    <action selector="favorButtonPressed:" destination="u1Y-iV-6Jf" eventType="touchUpInside" id="Wnl-wJ-2Qp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -992,8 +1002,12 @@
                             <constraint firstAttribute="trailing" secondItem="K7Z-FC-DtQ" secondAttribute="trailing" id="L8o-56-wgM"/>
                             <constraint firstItem="K7Z-FC-DtQ" firstAttribute="top" secondItem="7fx-Gt-FXP" secondAttribute="bottom" constant="-20" id="Ll1-a7-dp5"/>
                             <constraint firstItem="K7Z-FC-DtQ" firstAttribute="leading" secondItem="bMm-o6-bfn" secondAttribute="leading" id="N2Q-Ky-wOn"/>
+                            <constraint firstItem="dLo-C1-t4C" firstAttribute="top" secondItem="Z1H-gK-1XT" secondAttribute="bottom" constant="30" id="YRc-2j-UDd"/>
+                            <constraint firstAttribute="trailing" secondItem="Z1H-gK-1XT" secondAttribute="trailing" constant="20" id="aj1-It-qXV"/>
                             <constraint firstAttribute="trailing" secondItem="AiG-zq-Tjl" secondAttribute="trailing" id="dUE-Kk-mje"/>
                             <constraint firstItem="AiG-zq-Tjl" firstAttribute="top" secondItem="K7Z-FC-DtQ" secondAttribute="bottom" id="j2t-Bn-wAG"/>
+                            <constraint firstItem="Z1H-gK-1XT" firstAttribute="centerX" secondItem="ZHz-TI-AQB" secondAttribute="centerX" id="mTz-RX-XYJ"/>
+                            <constraint firstItem="Z1H-gK-1XT" firstAttribute="top" secondItem="ZHz-TI-AQB" secondAttribute="bottom" constant="8" id="oJo-Wb-LkX"/>
                             <constraint firstItem="dLo-C1-t4C" firstAttribute="top" secondItem="AiG-zq-Tjl" secondAttribute="bottom" id="uAH-6d-jUG"/>
                         </constraints>
                     </view>
@@ -1001,9 +1015,12 @@
                         <outlet property="favorButton" destination="ZHz-TI-AQB" id="dej-Nz-Cbj"/>
                         <outlet property="loadingActivity" destination="oHh-Ye-dSy" id="oKM-UT-Lfp"/>
                         <outlet property="loadingSign" destination="X1o-Bt-vxQ" id="eTZ-kl-mm4"/>
+                        <outlet property="manuButton" destination="Z1H-gK-1XT" id="2eC-R8-eq7"/>
                         <outlet property="priceTable" destination="hRM-HX-siy" id="aXS-hC-PaM"/>
                         <outlet property="price_trend_background" destination="aMp-0Q-dTZ" id="xpc-gV-fHD"/>
+                        <outlet property="price_trend_label" destination="cWi-SL-9p6" id="XNK-w2-jHP"/>
                         <outlet property="quantity_trend_background" destination="Qa6-gM-bKK" id="jee-A4-3y1"/>
+                        <outlet property="quantity_trend_label" destination="8LW-BV-mm7" id="aKO-kO-noI"/>
                         <outlet property="supplier_label" destination="ule-s3-y9s" id="Z1t-FV-tFb"/>
                         <outlet property="titleTable" destination="qu1-NM-Pyw" id="AdU-bI-xM3"/>
                     </connections>
@@ -1020,5 +1037,7 @@
         <image name="login_44" width="44" height="44"/>
         <image name="logo_120_120" width="120" height="120"/>
         <image name="logo_152_152" width="152" height="152"/>
+        <image name="menu_circle" width="160" height="160"/>
+        <image name="menu_circle_close" width="160" height="160"/>
     </resources>
 </document>
