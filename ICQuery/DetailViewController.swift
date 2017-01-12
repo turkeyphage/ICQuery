@@ -92,10 +92,9 @@ class DetailViewController: UIViewController {
         //print("selectedProduct的資料如下：")
         //print("\(selectedProduct)")
         
-        //數量按鈕（segment slider）的字型大小
-        segmentSlider.labelsFont = UIFont.systemFont(ofSize: 12.0)
-
-
+        
+        
+        
         searchTextField.delegate = self
 
         //autocomplete tableview
@@ -224,6 +223,16 @@ class DetailViewController: UIViewController {
         //取得spec資料
         get_spec_detail()
         
+        
+        
+        //數量按鈕（segment slider）的字型大小
+        segmentSlider.labelsFont = UIFont.systemFont(ofSize: 12.0)
+        segmentSlider.values = [1, 50, 100, 1000, 10000]
+        segmentSlider.labels = ["1", "50", "100", "1000", "10000"]
+        
+        segmentSlider.addTarget(self, action: #selector(self.sliderValueChanged), for: UIControlEvents.valueChanged)
+        segmentSlider.setSelectedItemIndex(0, animated: true)
+        self.sliderValueChanged()
         
     }
 
@@ -406,6 +415,15 @@ class DetailViewController: UIViewController {
     
     
     
+    func sliderValueChanged(){
+        
+        
+        print("\(self.segmentSlider.currentValue)")
+        self.firstTableView.reloadData()
+        
+    }
+    
+    
     
 }
 
@@ -470,22 +488,67 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             
             //stockLabel
             manuCell.stockLabel.text = String(self.allitems[indexPath.row].amount)
-            
-            
-            
+     
             manuCell.keyLabel.text = self.allitems[indexPath.row].sup
 
-            //過濾price的第一個
-            if let firstprice = self.allitems[indexPath.row].price.keys.sorted().first{
-                manuCell.valueLabel.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
-                manuCell.valueLabel.text = self.allitems[indexPath.row].price[firstprice]
-                manuCell.curLabel.text = self.whatCurrencySign(oriStr:self.allitems[indexPath.row].cur)
-            } else {
+            print("\(allitems[indexPath.row].price)")
+            
+            
+//            //過濾price的第一個
+//            if let firstprice = self.allitems[indexPath.row].price.keys.sorted().first{
+//                manuCell.valueLabel.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
+//                manuCell.valueLabel.text = self.allitems[indexPath.row].price[firstprice]
+//                manuCell.curLabel.text = self.whatCurrencySign(oriStr:self.allitems[indexPath.row].cur)
+//            } else {
+//                manuCell.valueLabel.textColor = UIColor.lightGray
+//                manuCell.valueLabel.text = "N/A"
+//                manuCell.curLabel.text = ""
+//            }
+
+            //選擇價錢
+            
+            if self.allitems[indexPath.row].price.isEmpty{
+             
                 manuCell.valueLabel.textColor = UIColor.lightGray
                 manuCell.valueLabel.text = "N/A"
                 manuCell.curLabel.text = ""
+           
+            } else {
+                
+                let segmentSelectedValue = self.segmentSlider.currentValue as! Int
+                let allKeysInRow = self.allitems[indexPath.row].price.keys.sorted()
+                
+                var closest = 0
+                
+                for key in allKeysInRow{
+                    print("key = \(key)")
+                    print("segmentValue = \(segmentSelectedValue)")
+                    if let intKey = Int(key){
+                    
+                        if intKey <= segmentSelectedValue , (intKey-segmentSelectedValue)>=(closest-segmentSelectedValue){
+                            closest = intKey
+                        }
+                    }
+                }
+            
+                if closest == 0 {
+                    manuCell.valueLabel.textColor = UIColor.lightGray
+                    manuCell.valueLabel.text = "N/A"
+                    manuCell.curLabel.text = ""
+                } else {
+                    manuCell.valueLabel.textColor = UIColor(red: 255/255, green: 128/255, blue: 0, alpha: 1)
+                    manuCell.valueLabel.text = self.allitems[indexPath.row].price[String(closest)]
+                    manuCell.curLabel.text = self.whatCurrencySign(oriStr:self.allitems[indexPath.row].cur)
+                }
             }
-
+            
+//            let segmentSelectedValue = self.segmentSlider.currentValue as! Int
+//            let allKeysInRow = self.allitems[indexPath.row].price.keys.sorted()
+            
+            
+            
+            
+            
             
             for item in favorList{
                 let itemInString = String(item)
@@ -735,7 +798,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
                 
                 
                 print("--------------------------------")
-                print("\(price)")
+                print("price = \(price)")
                 
                 
                 let removeSpacePrice = price.replacingOccurrences(of: " ", with: "")
@@ -762,6 +825,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             //print("supplierDetail = \(supplierDetail)")
             //print("-----------------")
         
+            
             allitems.append(supplierDetail)
         }
     }
@@ -899,6 +963,12 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         
     }
 
+    
+    
+    
+    
+    
+    
     
     
     
