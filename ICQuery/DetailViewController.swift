@@ -89,11 +89,16 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("selectedProduct的資料如下：")
+        print("\(selectedProduct)")
+        
+        //數量按鈕（segment slider）的字型大小
         segmentSlider.labelsFont = UIFont.systemFont(ofSize: 12.0)
-            //UIFont(name: "HelveticaNeue-Light", size: 12.0)
+
 
         searchTextField.delegate = self
 
+        //autocomplete tableview
         autocompleteTableView = UITableView(frame: CGRect(), style: UITableViewStyle.plain)
         autocompleteTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         autocompleteTableView.delegate = self
@@ -105,7 +110,7 @@ class DetailViewController: UIViewController {
         autocompleteTableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(autocompleteTableView)
         
-        // constaints:
+        // autocomplete tableview constaints:
         topConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .top, relatedBy: NSLayoutRelation.equal, toItem: searchTextField, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0)
         leadingConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leadingMargin, multiplier: 1.0, constant: 8)
         trailingConstraint = NSLayoutConstraint(item: autocompleteTableView, attribute: .trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailingMargin, multiplier: 1.0, constant: -8)
@@ -117,21 +122,13 @@ class DetailViewController: UIViewController {
         autocompleteTableView.addConstraint(heightConstraint)
         
         
-        
-        
-        
-        
-        //set notification observer
 
+        //set notification observer
         let notificationName = Notification.Name("SegmentWasSelected")
-        
-        
         NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.catchingNotification(notification:)), name: notificationName, object: nil)
         
-        
-        //nc.addObserver(forName: NSNotification.Name.init(rawValue: "SegmentWasSelected"), object: nil, queue: nil, using: catchingNotification)
-        
-        
+
+   
         
         let placeholderStr = NSAttributedString(string: "請輸入查詢資料", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
         searchTextField.attributedPlaceholder = placeholderStr
@@ -139,33 +136,28 @@ class DetailViewController: UIViewController {
         
         //datasheet button outline
         datasheetButton.backgroundColor = .clear
-        
         datasheetButton.layer.cornerRadius = 5
-        
         datasheetButton.layer.borderWidth = 1
-        
         datasheetButton.layer.borderColor = UIColor.lightGray.cgColor
         
         check_datasheet_available()
         
         
-        //顯示內容
+        //產品內容
+        //圖片
         product_imageview.image = UIImage(named: "logo_120_120")
-        
         if let smallURL = URL(string: selectedProduct.picurl) {
             downloadTask = product_imageview.loadImage(url: smallURL)
         }
         
-        
+        //產品名稱，型號，細節內容
         company_label.text = selectedProduct.mfs
         model_label.text =  selectedProduct.pn
         detail_label.text = selectedProduct.desc
 
-        //add custom segment control item
+        
+        //Segment control
         backgroundView4Segment.addSubview(mySegmentedControl)
-        
-        
-        
         let horizonalContraints = NSLayoutConstraint(item: mySegmentedControl, attribute:
             .leadingMargin, relatedBy: .equal, toItem: backgroundView4Segment,
                             attribute: .leading, multiplier: 1.0,
@@ -178,13 +170,14 @@ class DetailViewController: UIViewController {
         let pinTop = NSLayoutConstraint(item: mySegmentedControl, attribute: .top, relatedBy: .equal, toItem: backgroundView4Segment, attribute: .top, multiplier: 1.0, constant: 0)
         
         let pinBottom = NSLayoutConstraint(item: mySegmentedControl, attribute: .bottom, relatedBy: .equal, toItem: backgroundView4Segment, attribute: .bottom, multiplier: 1.0, constant: 0)
-        
-        
+    
         mySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([horizonalContraints, verticalContraints,pinTop,pinBottom])
         
         
+        
+        
+        //兩個tableview的設定
         firstTableView.delegate = self
         secondTableView.delegate = self
         firstTableView.dataSource = self
@@ -195,7 +188,9 @@ class DetailViewController: UIViewController {
         
         
         
-        //為scrollview加上手勢辨識
+        
+        
+        //為scrollview加上手勢辨識，用來切換兩個tableview
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(DetailViewController.swipe(_:)))
         swipeLeft.direction = .left
         swipeLeft.numberOfTouchesRequired = 1
@@ -208,24 +203,25 @@ class DetailViewController: UIViewController {
         theScrollView.addGestureRecognizer(swipeRight)
         
         
-        // cell
-        let manucellNib = UINib(nibName: CellID.manufacturer_cell, bundle: nil)
         
+        // tablewview cell的設定
+        let manucellNib = UINib(nibName: CellID.manufacturer_cell, bundle: nil)
         firstTableView.register(manucellNib, forCellReuseIdentifier: CellID.manufacturer_cell)
         firstTableView.estimatedRowHeight = 50
         firstTableView.rowHeight = UITableViewAutomaticDimension
         
         
         let speccellNib = UINib(nibName: CellID.spec_cell, bundle: nil)
-        
         secondTableView.register(speccellNib, forCellReuseIdentifier: CellID.spec_cell)
-        
         secondTableView.estimatedRowHeight = 50
         secondTableView.rowHeight = UITableViewAutomaticDimension
 
         
-        
+        //取得物件的細部內容資料
         get_item_in_list(wholeList: selectedProduct.list)
+        
+        
+        //取得spec資料
         get_spec_detail()
         
         
@@ -241,8 +237,8 @@ class DetailViewController: UIViewController {
         view.layoutIfNeeded()
         searchTextField.useUnderline()
         
+        //依照segmentcontrol的選擇來判斷那一個tableview需要被呈現
         if mySegmentedControl.selectedIndex == 0{
-        
             offset = 0
         } else {
             offset = self.view.frame.width
@@ -256,8 +252,7 @@ class DetailViewController: UIViewController {
         return .lightContent
     }
     
-    
-    
+
     func catchingNotification(notification:Notification){
         guard let userInfo = notification.userInfo,
             let selectedValue  = userInfo["selected"] as? Int else {
@@ -279,14 +274,12 @@ class DetailViewController: UIViewController {
         let notificationName = Notification.Name("SegmentWasSelected")
         
         NotificationCenter.default.removeObserver(self, name: notificationName, object: nil)
-        
-        
+
         print("deinit of DetailViewController")
     }
     
     
-    //進行新搜尋
-    
+    //search button被按了，進行新搜尋
     @IBAction func searchButtonPressed(_ sender: Any) {
         
         searchTextField.resignFirstResponder()
@@ -298,7 +291,6 @@ class DetailViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
 
         } else {
-        
             self.delegate?.newSearchBegin(searchKey: self.searchTextField.text!, autoComplete: false)
             self.dismiss(animated: true, completion: nil)
         }
@@ -463,6 +455,21 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             tableView.backgroundColor = UIColor.white
             let manuCell:ManufacturerCell = tableView.dequeueReusableCell(withIdentifier: "ManufacturerCell", for: indexPath) as! ManufacturerCell
             
+            //button 顯示或不顯示:
+            manuCell.buyButton.tag = indexPath.row
+            
+            if self.allitems[indexPath.row].url.isEmpty{
+                manuCell.buyButton.isHidden = true
+            } else {
+                manuCell.buyButton.isHidden = false
+            }
+            
+            //button 動作：
+            manuCell.buyButton.addTarget(self, action: #selector(self.buyButtonTap(_:)), for: UIControlEvents.touchUpInside)
+            
+            
+            
+            
             manuCell.keyLabel.text = self.allitems[indexPath.row].sup
 
             //過濾price的第一個
@@ -564,15 +571,20 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             self.dismiss(animated: true, completion: nil)
         
         }
-        
-        
-        
-        
-        
-        
+ 
     }
     
+
     
+    //buy button tap
+    func buyButtonTap(_ sender:UIButton){
+    
+        //print("\(sender.tag)")
+        //print("\(self.allitems[sender.tag].url)")
+        let svc = SFSafariViewController(url: URL(string: self.allitems[sender.tag].url)!)
+        self.present(svc, animated: true, completion: nil)
+    
+    }
     
     
     
@@ -635,7 +647,9 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
     func get_item_in_list(wholeList:[[String:Any]]){
     
         for item in wholeList{
+            
             var supplierDetail = SupplierDetail()
+            
             if let id = item["id"] as? String{
                 supplierDetail.id = id.replacingOccurrences(of: " ", with: "")
             }

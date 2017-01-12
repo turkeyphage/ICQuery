@@ -11,12 +11,26 @@ import UIKit
 class ManufacturerCell: UITableViewCell {
 
     
-    @IBOutlet weak var favorImageView: UIImageView!
+    //@IBOutlet weak var favorImageView: UIImageView!
+    
+    
+    
+    //sup name
     @IBOutlet weak var keyLabel: UILabel!
+    
+    //price
     @IBOutlet weak var valueLabel: UILabel!
+    
+    //currancy sign
     @IBOutlet weak var curLabel: UILabel!
     
+    //favor star imageview
     @IBOutlet weak var favorStar: UIImageView!
+    
+    
+    @IBOutlet weak var stockLabel: UILabel!
+    
+    @IBOutlet weak var buyButton: UIButton!
     
     var favorStatus : Bool = false
     
