@@ -89,8 +89,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("selectedProduct的資料如下：")
-        print("\(selectedProduct)")
+        //print("selectedProduct的資料如下：")
+        //print("\(selectedProduct)")
         
         //數量按鈕（segment slider）的字型大小
         segmentSlider.labelsFont = UIFont.systemFont(ofSize: 12.0)
@@ -468,6 +468,9 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             manuCell.buyButton.addTarget(self, action: #selector(self.buyButtonTap(_:)), for: UIControlEvents.touchUpInside)
             
             
+            //stockLabel
+            manuCell.stockLabel.text = String(self.allitems[indexPath.row].amount)
+            
             
             
             manuCell.keyLabel.text = self.allitems[indexPath.row].sup
@@ -729,6 +732,12 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             //price
             if let price = item["price"] as? String{
                 //去除有的沒的空白
+                
+                
+                print("--------------------------------")
+                print("\(price)")
+                
+                
                 let removeSpacePrice = price.replacingOccurrences(of: " ", with: "")
                 //判別是否為空字串
                 if !removeSpacePrice.isEmpty{
