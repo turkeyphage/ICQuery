@@ -27,7 +27,6 @@
 		DB6409AA1E167A9C0071C322 /* PriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6409A91E167A9C0071C322 /* PriceTableViewCell.swift */; };
 		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
-		DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */; };
 		DB8AD8AD1E23AEF00056882C /* SwiftHTTP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8AD8A01E23AEBF0056882C /* SwiftHTTP.framework */; };
 		DB8AD8AE1E23AEF00056882C /* SwiftHTTP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB8AD8A01E23AEBF0056882C /* SwiftHTTP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DB989DAB1E13684F0055F61B /* ManufacturerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB989DAA1E13684F0055F61B /* ManufacturerCell.xib */; };
@@ -177,7 +176,6 @@
 		DB6409A91E167A9C0071C322 /* PriceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceTableViewCell.swift; sourceTree = "<group>"; };
 		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
-		DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		DB8AD8951E23AEBF0056882C /* SwiftHTTP.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftHTTP.xcodeproj; path = "../../../Downloads/SwiftHTTP-master/SwiftHTTP.xcodeproj"; sourceTree = "<group>"; };
 		DB989DAA1E13684F0055F61B /* ManufacturerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ManufacturerCell.xib; sourceTree = "<group>"; };
 		DB989DAC1E13691D0055F61B /* ManufacturerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManufacturerCell.swift; sourceTree = "<group>"; };
@@ -378,7 +376,6 @@
 				DBA25B3A1DF7B84C00FA9817 /* ListViewController.swift */,
 				DB89BBD01DF66310002EDDDB /* LoginViewController.swift */,
 				DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */,
-				DB89BBD61DF6A46E002EDDDB /* SignInViewController.swift */,
 				DB18FB5C1DF94D670046E44D /* DetailViewController.swift */,
 			);
 			name = Controllers;
@@ -620,7 +617,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB89BBD71DF6A46E002EDDDB /* SignInViewController.swift in Sources */,
 				DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */,
 				DB989DAD1E13691D0055F61B /* ManufacturerCell.swift in Sources */,
 				DBD3604F1E0260F500A08204 /* FMDatabasePool.m in Sources */,

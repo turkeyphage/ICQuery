@@ -73,7 +73,7 @@ class PriceChartViewController: UIViewController {
 
         supplier_label.text = "\(supplier.pn) (\(supplier.sup))"
         //print("\(supplier)")
-        print("id = \(supplier.id)")
+        //print("id = \(supplier.id)")
         
         titleTable.dataSource = self
         priceTable.dataSource = self
@@ -186,7 +186,7 @@ class PriceChartViewController: UIViewController {
         //組裝url-string
         let combinedStr = String(format: "%@?t=c&q=%@", arguments: [searchAPI!, supplier.id])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        print("\(escapedStr)")
+        //print("\(escapedStr)")
         
         //放request
         let url = URL(string: escapedStr)
@@ -549,7 +549,7 @@ class PriceChartViewController: UIViewController {
     
     
     @IBAction func buyButtonPressed(_ sender: Any) {
-        print("\(self.supplier)")
+        //print("\(self.supplier)")
         
         if self.supplier.url.isEmpty || self.supplier.url == " " {
            
@@ -558,7 +558,7 @@ class PriceChartViewController: UIViewController {
             self.present(alert, animated: true, completion:nil)
             
         } else {
-            print("url: \(self.supplier.url)")
+            //print("url: \(self.supplier.url)")
             let svc = SFSafariViewController(url: URL(string: self.supplier.url)!)
             self.present(svc, animated: true, completion: nil)
         }
@@ -586,7 +586,7 @@ class PriceChartViewController: UIViewController {
                         (action: UIAlertAction!) -> Void in
                         
                         //呼叫setPriceAlert
-                        print("\(self.supplier.price)")
+                        //print("\(self.supplier.price)")
                         
                         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                         hud.label.text = "連線中"
@@ -609,7 +609,7 @@ class PriceChartViewController: UIViewController {
                             
                             
                             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                            print("\(escapedStr)")
+                            //print("\(escapedStr)")
                             
                             let url = URL(string:escapedStr)!
                             
@@ -628,7 +628,7 @@ class PriceChartViewController: UIViewController {
                                     if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
                                         if serverTalkBack == "1"{
                                             
-                                            print("成功移除")
+                                            //print("成功移除")
                                             
                                             DispatchQueue.main.async {
                                                 hud.hide(animated: true)
@@ -669,7 +669,7 @@ class PriceChartViewController: UIViewController {
                         (action: UIAlertAction!) -> Void in
                         
                         //呼叫setPriceAlert
-                        print("\(self.supplier.price)")
+                        //print("\(self.supplier.price)")
                         
                         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                         hud.label.text = "連線中"
@@ -692,7 +692,7 @@ class PriceChartViewController: UIViewController {
                             
                             
                             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                            print("\(escapedStr)")
+                            //print("\(escapedStr)")
                             
                             let url = URL(string:escapedStr)!
                             
@@ -711,7 +711,7 @@ class PriceChartViewController: UIViewController {
                                     if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
                                         if serverTalkBack == "1"{
                                             
-                                            print("成功加入")
+                                            //print("成功加入")
                                             
                                             DispatchQueue.main.async {
                                                 hud.hide(animated: true)
@@ -906,15 +906,15 @@ extension PriceChartViewController{
                                     }
                                     return //also notify app of failure as needed
                                 }
-                                print("opt finished: \(response.description)")
+                                //print("opt finished: \(response.description)")
 //
                                 if let jsonDictionary = weakSelf?.parse(json: response.data) {
-                                    print("\(jsonDictionary)")
+                                    //print("\(jsonDictionary)")
                                     if let success = jsonDictionary["success"] as? Bool{
                                         if success == true {
 //
 //                                            
-                                            print("supplier = \(weakSelf?.supplier)")
+                                            //print("supplier = \(weakSelf?.supplier)")
                                             let value = "\(weakSelf?.supplier.pn)+\(weakSelf?.supplier.mfs)+\(weakSelf?.supplier.sup)+1)"
                                             //print("\(value)")
                                             weakSelf?.searchLogSend(searchStr: value, key: "refresh")
@@ -944,7 +944,7 @@ extension PriceChartViewController{
                                                     }
 //
                                                     if let currency = contents["currency"] as? String{
-                                                        print("currency = \(currency)")
+                                                        //print("currency = \(currency)")
                                                         weakSelf?.currency = currency
                                                     }
 //
@@ -976,7 +976,7 @@ extension PriceChartViewController{
                                                 }
                                             }
                                         } else {
-                                            print("supplier = \(weakSelf?.supplier)")
+                                            //print("supplier = \(weakSelf?.supplier)")
                                             let value = "\(weakSelf?.supplier.pn)+\(weakSelf?.supplier.mfs)+\(weakSelf?.supplier.sup)+0)"
                                             weakSelf?.searchLogSend(searchStr: value, key: "refresh")
                                             

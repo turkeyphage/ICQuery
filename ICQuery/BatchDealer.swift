@@ -28,7 +28,7 @@ class BatchDealer: NSObject {
         //取batchID
         let escapedStr = String(format: "%@/get_new_batch?name=%@&pwd=%@&sid=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, "sammy", "sammy123", "0"]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         
-        print("\(escapedStr)")
+        //print("\(escapedStr)")
         
         let url = URL(string:escapedStr)!
         
@@ -48,7 +48,7 @@ class BatchDealer: NSObject {
                     //取batchHTML
                     
                     let getBatchHTMLStr = String(format: "%@/getBatchHtml?deviceid=%@&batch_id=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, DBManager.shared.systemInfo.deviceUUID, batchID]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                    print("\(getBatchHTMLStr)")
+                    //print("\(getBatchHTMLStr)")
                     let url2 = URL(string:getBatchHTMLStr)!
                     
                     var request2 = URLRequest(url: url2)
@@ -61,7 +61,7 @@ class BatchDealer: NSObject {
                             print(error.debugDescription)
                         } else{
                             if let data = data, let jsonDictionary = weakSelf?.parse(json: data) {
-                                print("\(jsonDictionary)")
+                                //print("\(jsonDictionary)")
                                 
                                 if let list = jsonDictionary["list"] as? [Any]{
                                     
@@ -114,7 +114,7 @@ class BatchDealer: NSObject {
             //取batchID
             let escapedStr = String(format: "%@/get_new_batch?name=%@&pwd=%@&sid=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, "sammy", "sammy123", "0"]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             
-            print("\(escapedStr)")
+            //print("\(escapedStr)")
             
             let url = URL(string:escapedStr)!
             
@@ -177,7 +177,7 @@ class BatchDealer: NSObject {
                                                             
                                                             //                                                        print("supplier = \(weakSelf?.supplier)")
                                                             let value = "\(batchID)+\(urlStr)+1"
-                                                            print("\(value)")
+                                                            //print("\(value)")
                                                             weakSelf?.searchLogSend(searchStr: value, key: "batch")
                                                             
                                                             
@@ -186,7 +186,7 @@ class BatchDealer: NSObject {
                                                         } else {
                                                             print("batch failed")
                                                             let value = "\(batchID)+\(urlStr)+0"
-                                                            print("\(value)")
+                                                            //print("\(value)")
                                                             weakSelf?.searchLogSend(searchStr: value, key: "batch")
                                                         }
                                                     }
@@ -245,7 +245,7 @@ class BatchDealer: NSObject {
         
         let combinedStr = String(format: "%@/syslog?deviceid=%@&latitude=%@&longtitude=%@&key=%@&value=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, latitude, longitude, key , searchStr])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        print("\(escapedStr)")
+        //print("\(escapedStr)")
         
         let url = URL(string:escapedStr)!
         
