@@ -272,7 +272,7 @@ class LoginViewController: UIViewController {
             
             let combinedStr = String(format: "%@/reset?email=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, latitude, longitude, name, node])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            print("\(escapedStr)")
+            //print("\(escapedStr)")
             connectToServer(URLString: escapedStr, Type:"Reset")
         } else {
             
@@ -324,7 +324,7 @@ class LoginViewController: UIViewController {
                     
                     let combinedStr = String(format: "%@/signin?email=%@&pwd=%@&latitude=%@&longtitude=%@&name=%@&node=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, email, password, latitude, longitude, name, node])
                     let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                    print("\(escapedStr)")
+                    //print("\(escapedStr)")
                     connectToServer(URLString: escapedStr, Type: "Register")
                 }
                 

@@ -23,7 +23,6 @@ class BatchDealer: NSObject {
     
     
     func getBatchURL(){
-        weak var weakSelf = self
         
         //取batchID
         let escapedStr = String(format: "%@/get_new_batch?name=%@&pwd=%@&sid=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, "sammy", "sammy123", "0"]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
@@ -39,10 +38,19 @@ class BatchDealer: NSObject {
         
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             
-            if error != nil{
-                print(error.debugDescription)
-            } else{
-                if let batchID = String(data: data!, encoding: String.Encoding.utf8){
+            //取batchID
+            let escapedStr = String(format: "%@/get_new_batch?name=%@&pwd=%@&sid=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, "sammy", "sammy123", "0"]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            
+            //print("\(escapedStr)")
+            
+            let url = URL(string:escapedStr)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
                 
                     print("\(batchID)")
                     //取batchHTML
@@ -65,31 +73,35 @@ class BatchDealer: NSObject {
                                 
                                 if let list = jsonDictionary["list"] as? [Any]{
                                     
-                                    var allURL = [String]()
-                                    for item in list {
-                                        if let each = item as? [String:Any]{
-                                            if let eachURL = each["url"] as? String{
-                                                 allURL.append(eachURL)
+                                    if let list = jsonDictionary["list"] as? [Any]{
+                                        
+                                        var allURL = [String]()
+                                        for item in list {
+                                            if let each = item as? [String:Any]{
+                                                if let eachURL = each["url"] as? String{
+                                                    allURL.append(eachURL)
+                                                }
                                             }
                                         }
-                                    }
-                                    //print("\(allURL)")
-                                    weakSelf?.batchURL = allURL
-                                    
-                                    if !(weakSelf?.batchURL.isEmpty)!{
-                                        for eachURL in (weakSelf?.batchURL)!{
-                                            weakSelf?.connectToBatchAPI(urlStr:eachURL)
+                                        //print("\(allURL)")
+                                        weakSelf?.batchURL = allURL
+                                        
+                                        if !(weakSelf?.batchURL.isEmpty)!{
+                                            for eachURL in (weakSelf?.batchURL)!{
+                                                weakSelf?.connectToBatchAPI(urlStr:eachURL)
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+                        task2.resume()
                     }
-                    task2.resume()
                 }
             }
+            task.resume()
+        
         }
-        task.resume()
     }
     
     

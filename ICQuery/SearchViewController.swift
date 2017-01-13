@@ -18,6 +18,7 @@ class SearchViewController: UIViewController{
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var versionLabel: UILabel!
     
     
     var batchDealer : BatchDealer?
@@ -61,6 +62,16 @@ class SearchViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //version
+        
+        var appVersion = ""
+        
+        //CFBundleVersion
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            appVersion = "v \(version)"
+        }
+        self.versionLabel.text = appVersion
         
         
         autocompleteTableView = UITableView(frame: CGRect(), style: UITableViewStyle.plain)
@@ -273,7 +284,7 @@ class SearchViewController: UIViewController{
                 //組裝url-string
                 let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, searchKeyword])
                 let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                print("\(escapedStr)")
+                //print("\(escapedStr)")
                 
                 //放request
                 let url = URL(string: escapedStr)
@@ -546,7 +557,7 @@ class SearchViewController: UIViewController{
         let searchAPI = API_Manager.shared.SEARCH_API_PATH
         let combinedStr = String(format: "%@?t=a&q=%@", arguments: [searchAPI!, searchStr])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        print("\(escapedStr)")
+        //print("\(escapedStr)")
         
         //放request
         let url = URL(string: escapedStr)
@@ -675,7 +686,7 @@ extension SearchViewController:UICollectionViewDelegate{
             let searchAPI = API_Manager.shared.SEARCH_API_PATH
             let combinedStr = String(format: "%@?t=g&p=1&q=%@", arguments: [searchAPI!, String(cell.tag+1)])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            print("\(escapedStr)")
+            //print("\(escapedStr)")
             
             //放request
             let url = URL(string: escapedStr)
@@ -884,7 +895,7 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
             
             let combinedStr = String(format: "%@?t=f&p=1&q=%@", arguments: [searchAPI!, no_space_and_getFirstWord!])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            print("\(escapedStr)")
+            //print("\(escapedStr)")
             //connectToServer(URLString: escapedStr, Type:"Login")
             
             //放request
@@ -975,7 +986,7 @@ extension UIViewController{
         
         let combinedStr = String(format: "%@/syslog?deviceid=%@&latitude=%@&longtitude=%@&key=%@&value=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, latitude, longitude, key , searchStr])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        print("\(escapedStr)")
+        //print("\(escapedStr)")
 
         let url = URL(string:escapedStr)!
         
@@ -989,8 +1000,8 @@ extension UIViewController{
             if error != nil{
                 print(error.debugDescription)
             } else{
-                if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
-                    print("\(serverTalkBack)")
+                if String(data: data!, encoding: String.Encoding.utf8) != nil{
+                    //print("\(serverTalkBack)")
                 } else {
                     print("error")
                 }

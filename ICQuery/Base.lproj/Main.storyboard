@@ -128,6 +128,12 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="dt3-Ax-kMc"/>
                                 </connections>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YEs-Jm-u97">
+                                <rect key="frame" x="328" y="644.5" width="31" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -149,7 +155,9 @@
                             <constraint firstItem="MUa-W1-uiW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="40" id="dwO-N6-zdT"/>
                             <constraint firstItem="sSg-FO-yXc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hos-fp-mfB"/>
                             <constraint firstItem="VI2-KZ-Tuk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kyN-R1-rwx"/>
+                            <constraint firstItem="YEs-Jm-u97" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="pDd-IG-LTN"/>
                             <constraint firstItem="MUa-W1-uiW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="5" id="sDO-TQ-wO2"/>
+                            <constraint firstItem="YEs-Jm-u97" firstAttribute="centerY" secondItem="VI2-KZ-Tuk" secondAttribute="centerY" id="uuO-5i-IzZ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="VI2-KZ-Tuk" secondAttribute="bottom" constant="8" id="vIe-Ym-KgM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bC2-ew-sMz" secondAttribute="trailing" constant="85" id="vYj-m5-5Nz"/>
                             <constraint firstItem="bC2-ew-sMz" firstAttribute="top" secondItem="MUa-W1-uiW" secondAttribute="bottom" constant="-10" id="wea-Qs-cBJ"/>
@@ -185,6 +193,7 @@
                         <outlet property="loginButton" destination="SmM-OT-2Eq" id="drL-G3-58S"/>
                         <outlet property="loginStatusLabel" destination="fG7-7x-Tf8" id="5y8-N4-bY6"/>
                         <outlet property="textField" destination="4nU-rg-wmq" id="u1o-Rf-5tB"/>
+                        <outlet property="versionLabel" destination="YEs-Jm-u97" id="1il-gn-EoX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

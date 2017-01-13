@@ -53,7 +53,7 @@ class DBManager: NSObject {
         
         pathToDatabase = String(format: "%@/%@", arguments: [documentDirectory, databaseFileName])
         //pathToDatabase = documentDirectory.appending("/\(databaseFileName)")
-        print("database path = \(pathToDatabase)")
+        //print("database path = \(pathToDatabase)")
 
         locationManage = CLLocationManager()
         locationManage.requestAlwaysAuthorization()
