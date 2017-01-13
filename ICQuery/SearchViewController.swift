@@ -18,6 +18,7 @@ class SearchViewController: UIViewController{
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var versionLabel: UILabel!
     
     
     var batchDealer : BatchDealer?
@@ -61,6 +62,16 @@ class SearchViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //version
+        
+        var appVersion = ""
+        
+        //CFBundleVersion
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            appVersion = "v \(version)"
+        }
+        self.versionLabel.text = appVersion
         
         
         autocompleteTableView = UITableView(frame: CGRect(), style: UITableViewStyle.plain)
