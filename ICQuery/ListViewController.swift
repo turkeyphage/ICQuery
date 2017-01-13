@@ -560,7 +560,7 @@ extension ListViewController:UITableViewDelegate{
             
             self.present(detailVC, animated: true, completion: nil)
             
-        } else {
+        } else if tableView == autocompleteTableView {
             
             
             self.searchTextField.resignFirstResponder()
