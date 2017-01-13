@@ -105,111 +105,116 @@ class BatchDealer: NSObject {
     
     func connectToBatchAPI(urlStr:String){
         
-        weak var weakSelf = self
         
-        // get batchID
-        
-        //取batchID
-        let escapedStr = String(format: "%@/get_new_batch?name=%@&pwd=%@&sid=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, "sammy", "sammy123", "0"]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        
-        print("\(escapedStr)")
-        
-        let url = URL(string:escapedStr)!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        let session = URLSession.shared
-        
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+        DispatchQueue.global().async {
+            weak var weakSelf = self
             
-            if error != nil{
-                print(error.debugDescription)
-            } else{
+            // get batchID
+            
+            //取batchID
+            let escapedStr = String(format: "%@/get_new_batch?name=%@&pwd=%@&sid=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, "sammy", "sammy123", "0"]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            
+            print("\(escapedStr)")
+            
+            let url = URL(string:escapedStr)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
                 
-                if let batchID = String(data: data!, encoding: String.Encoding.utf8){
-                    //print("\(batchID)")
+                if error != nil{
+                    print(error.debugDescription)
+                } else{
                     
-                    //取得HTML
-                    let htmlURL = URL(string:urlStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)!
-                    let htmlRequest = URLRequest(url: htmlURL)
-                    let htmlSession = URLSession.shared
-                    let task1 = htmlSession.dataTask(with: htmlRequest as URLRequest) { data, response, error in
-                        if error != nil{
-                            print("error happend on getting html: \(error)")
-                        } else {
-                            
-                            if let serverTalkBack1 = String(data: data!, encoding: String.Encoding.utf8){
-                                let webData = serverTalkBack1.data(using: String.Encoding.utf8)
+                    if let batchID = String(data: data!, encoding: String.Encoding.utf8){
+                        //print("\(batchID)")
+                        
+                        //取得HTML
+                        let htmlURL = URL(string:urlStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)!
+                        let htmlRequest = URLRequest(url: htmlURL)
+                        let htmlSession = URLSession.shared
+                        let task1 = htmlSession.dataTask(with: htmlRequest as URLRequest) { data, response, error in
+                            if error != nil{
+                                print("error happend on getting html: \(error)")
+                            } else {
                                 
-                                let web64Encode = webData?.base64EncodedString()
-                                
-                                if DBManager.shared.getIFAddresses().isEmpty{
-                                     print("no-connection")
-                                
-                                } else {
-                                
-                                    //連接Alin API
-                                    //包成一個 json
+                                if let serverTalkBack1 = String(data: data!, encoding: String.Encoding.utf8){
+                                    let webData = serverTalkBack1.data(using: String.Encoding.utf8)
                                     
-                                    let ip = DBManager.shared.getIFAddresses().first
-                                    let dic = ["data":[["url":urlStr, "html":web64Encode]], "ip":ip, "uuid": DBManager.shared.systemInfo.deviceUUID, "batchId": batchID] as [String: Any?]
+                                    let web64Encode = webData?.base64EncodedString()
                                     
-                                    //print("dic = \(dic)")
-                                    
-                                    let batchEscapedStr = String(format: "%@batch/parsers", arguments: [API_Manager.shared.PARSER_API_PATH]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                                    //print("\(batchEscapedStr)")
-
-                                    do {
-                                        let opt = try HTTP.POST(batchEscapedStr, parameters: dic)
-                                        opt.start { response in
-                                            if let err = response.error {
-                                                print("response error: \(err.localizedDescription)")
-                                            }
-                                            
-                                            if let jsonDictionary = weakSelf?.parse(json: response.data) {
+                                    if DBManager.shared.getIFAddresses().isEmpty{
+                                        print("no-connection")
+                                        
+                                    } else {
+                                        
+                                        //連接Alin API
+                                        //包成一個 json
+                                        
+                                        let ip = DBManager.shared.getIFAddresses().first
+                                        let dic = ["data":[["url":urlStr, "html":web64Encode]], "ip":ip, "uuid": DBManager.shared.systemInfo.deviceUUID, "batchId": batchID] as [String: Any?]
+                                        
+                                        //print("dic = \(dic)")
+                                        
+                                        let batchEscapedStr = String(format: "%@batch/parsers", arguments: [API_Manager.shared.PARSER_API_PATH]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                                        //print("\(batchEscapedStr)")
+                                        
+                                        do {
+                                            let opt = try HTTP.POST(batchEscapedStr, parameters: dic)
+                                            opt.start { response in
+                                                if let err = response.error {
+                                                    print("response error: \(err.localizedDescription)")
+                                                }
                                                 
-                                                if let success = jsonDictionary["success"] as? Bool{
-                                                    if success == true{
-                                                        print("URL:\(urlStr), success!")
-
-//                                                        print("supplier = \(weakSelf?.supplier)")
-                                                        let value = "\(batchID)+\(urlStr)+1"
-                                                        print("\(value)")
-                                                        weakSelf?.searchLogSend(searchStr: value, key: "batch")
-                                                        
-                                                        
-                                                        
-                                                        
-                                                    } else {
-                                                        print("batch failed")
-                                                        let value = "\(batchID)+\(urlStr)+0"
-                                                        print("\(value)")
-                                                        weakSelf?.searchLogSend(searchStr: value, key: "batch")
+                                                if let jsonDictionary = weakSelf?.parse(json: response.data) {
+                                                    
+                                                    if let success = jsonDictionary["success"] as? Bool{
+                                                        if success == true{
+                                                            print("URL:\(urlStr), success!")
+                                                            
+                                                            //                                                        print("supplier = \(weakSelf?.supplier)")
+                                                            let value = "\(batchID)+\(urlStr)+1"
+                                                            print("\(value)")
+                                                            weakSelf?.searchLogSend(searchStr: value, key: "batch")
+                                                            
+                                                            
+                                                            
+                                                            
+                                                        } else {
+                                                            print("batch failed")
+                                                            let value = "\(batchID)+\(urlStr)+0"
+                                                            print("\(value)")
+                                                            weakSelf?.searchLogSend(searchStr: value, key: "batch")
+                                                        }
                                                     }
+                                                    
                                                 }
                                                 
                                             }
-                                            
+                                        } catch let error {
+                                            print("got an error creating the request: \(error)")
                                         }
-                                    } catch let error {
-                                        print("got an error creating the request: \(error)")
+                                        
+                                        
                                     }
-
-                                
+                                    
+                                    
                                 }
-
-                                
                             }
                         }
+                        
+                        task1.resume()
                     }
-                    
-                    task1.resume()
                 }
             }
+            task.resume()
+
+        
         }
-        task.resume()
-    
+        
     
     }
     
