@@ -320,7 +320,7 @@ class DetailViewController: UIViewController {
     @IBAction func datasheetButtonPressed(_ sender: Any) {
         
         // get datasheet url string
-        print("\(self.datasheetURLStr)")
+        //print("\(self.datasheetURLStr)")
         
         let svc = SFSafariViewController(url: URL(string: self.datasheetURLStr)!)
         self.present(svc, animated: true, completion: nil)
@@ -418,7 +418,7 @@ class DetailViewController: UIViewController {
     func sliderValueChanged(){
         
         
-        print("\(self.segmentSlider.currentValue)")
+        //print("\(self.segmentSlider.currentValue)")
         self.firstTableView.reloadData()
         
     }
@@ -491,7 +491,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
      
             manuCell.keyLabel.text = self.allitems[indexPath.row].sup
 
-            print("\(allitems[indexPath.row].price)")
+            //print("\(allitems[indexPath.row].price)")
             
             
 //            //過濾price的第一個
@@ -521,8 +521,8 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
                 var closest = 0
                 
                 for key in allKeysInRow{
-                    print("key = \(key)")
-                    print("segmentValue = \(segmentSelectedValue)")
+                    //print("key = \(key)")
+                    //print("segmentValue = \(segmentSelectedValue)")
                     if let intKey = Int(key){
                     
                         if intKey <= segmentSelectedValue , (intKey-segmentSelectedValue)>=(closest-segmentSelectedValue){
@@ -797,8 +797,8 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
                 //去除有的沒的空白
                 
                 
-                print("--------------------------------")
-                print("price = \(price)")
+                //print("--------------------------------")
+                //print("price = \(price)")
                 
                 
                 let removeSpacePrice = price.replacingOccurrences(of: " ", with: "")
@@ -845,7 +845,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
         let searchAPI = API_Manager.shared.SEARCH_API_PATH
         let combinedStr = String(format: "%@?t=a&q=%@", arguments: [searchAPI!, searchStr])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        print("\(escapedStr)")
+        //print("\(escapedStr)")
         
         //放request
         let url = URL(string: escapedStr)
@@ -900,7 +900,7 @@ extension DetailViewController:UITableViewDataSource, UITableViewDelegate{
             let combinedStr = String(format: "%@/selPriceAlert?deviceid=%@&latitude=%@&longtitude=%@&user_id=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, latitude, longitude, self.account!])
             
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            print("\(escapedStr)")
+            //print("\(escapedStr)")
         
             let url = URL(string:escapedStr)!
             

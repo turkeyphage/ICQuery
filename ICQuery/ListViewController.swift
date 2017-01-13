@@ -286,7 +286,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
                 
                 let combinedStr = String(format: "%@?t=%@&p=1&q=%@", arguments: [searchAPI!, self.type, searchKeyword])
                 let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                print("\(escapedStr)")
+                //print("\(escapedStr)")
                 
                 
                 //放request
@@ -369,7 +369,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
         let searchAPI = API_Manager.shared.SEARCH_API_PATH
         let combinedStr = String(format: "%@?t=a&q=%@", arguments: [searchAPI!, searchStr])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        print("\(escapedStr)")
+        //print("\(escapedStr)")
         
         //放request
         let url = URL(string: escapedStr)
@@ -426,7 +426,7 @@ class ListViewController: UIViewController, DetailViewControllerDelegate{
             
             let combinedStr = String(format: "%@?t=%@&p=%@&q=%@", arguments: [searchAPI!, self.type,"\(self.currentPage!)",no_space_and_getFirstWord!])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            print("\(escapedStr)")
+            //print("\(escapedStr)")
             
             
             // 放request
@@ -591,7 +591,7 @@ extension ListViewController:UITableViewDelegate{
                 //組裝url-string
                 let combinedStr = String(format: "%@?t=%@&p=1&q=%@", arguments: [searchAPI!, self.type, searchKeyword])
                 let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                print("\(escapedStr)")
+                //print("\(escapedStr)")
                 
                 //放request
                 let url = URL(string: escapedStr)
@@ -765,7 +765,7 @@ extension ListViewController{
             
             let combinedStr = String(format: "%@?t=%@&p=1&q=%@", arguments: [searchAPI!, self.type, searchKeyword])
             let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            print("\(escapedStr)")
+            //print("\(escapedStr)")
             
             //放request
             let url = URL(string: escapedStr)
