@@ -29,8 +29,6 @@
 		DB783E4D1E288CDC003EB7BA /* SwiftHTTP.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DB783E3F1E288CBF003EB7BA /* SwiftHTTP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DB89BBD11DF66310002EDDDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD01DF66310002EDDDB /* LoginViewController.swift */; };
 		DB89BBD31DF67366002EDDDB /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */; };
-		DB8AD8AD1E23AEF00056882C /* SwiftHTTP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8AD8A01E23AEBF0056882C /* SwiftHTTP.framework */; };
-		DB8AD8AE1E23AEF00056882C /* SwiftHTTP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB8AD8A01E23AEBF0056882C /* SwiftHTTP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DB989DAB1E13684F0055F61B /* ManufacturerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB989DAA1E13684F0055F61B /* ManufacturerCell.xib */; };
 		DB989DAD1E13691D0055F61B /* ManufacturerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB989DAC1E13691D0055F61B /* ManufacturerCell.swift */; };
 		DB9EF9141E08EE480066E8C5 /* API_Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9EF9131E08EE480066E8C5 /* API_Manager.swift */; };
@@ -179,7 +177,6 @@
 		DB783E341E288CBF003EB7BA /* SwiftHTTP.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftHTTP.xcodeproj; path = "SwiftHTTP-master/SwiftHTTP.xcodeproj"; sourceTree = "<group>"; };
 		DB89BBD01DF66310002EDDDB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB89BBD21DF67366002EDDDB /* DimmingPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
-		DB8AD8951E23AEBF0056882C /* SwiftHTTP.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftHTTP.xcodeproj; path = "../../../Downloads/SwiftHTTP-master/SwiftHTTP.xcodeproj"; sourceTree = "<group>"; };
 		DB989DAA1E13684F0055F61B /* ManufacturerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ManufacturerCell.xib; sourceTree = "<group>"; };
 		DB989DAC1E13691D0055F61B /* ManufacturerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManufacturerCell.swift; sourceTree = "<group>"; };
 		DB9EF9131E08EE480066E8C5 /* API_Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API_Manager.swift; sourceTree = "<group>"; };

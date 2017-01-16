@@ -24,19 +24,8 @@ class BatchDealer: NSObject {
     
     func getBatchURL(){
         
-        //取batchID
-        let escapedStr = String(format: "%@/get_new_batch?name=%@&pwd=%@&sid=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, "sammy", "sammy123", "0"]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-        
-        //print("\(escapedStr)")
-        
-        let url = URL(string:escapedStr)!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        let session = URLSession.shared
-        
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+        DispatchQueue.global().async {
+            weak var weakSelf = self
             
             //取batchID
             let escapedStr = String(format: "%@/get_new_batch?name=%@&pwd=%@&sid=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, "sammy", "sammy123", "0"]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
@@ -52,26 +41,29 @@ class BatchDealer: NSObject {
             
             let task = session.dataTask(with: request as URLRequest) { data, response, error in
                 
-                    print("\(batchID)")
-                    //取batchHTML
-                    
-                    let getBatchHTMLStr = String(format: "%@/getBatchHtml?deviceid=%@&batch_id=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, DBManager.shared.systemInfo.deviceUUID, batchID]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                    //print("\(getBatchHTMLStr)")
-                    let url2 = URL(string:getBatchHTMLStr)!
-                    
-                    var request2 = URLRequest(url: url2)
-                    request2.httpMethod = "POST"
-                    
-                    let session2 = URLSession.shared
-                    let task2 = session2.dataTask(with: request2 as URLRequest) { data, response, error in
+                if error != nil{
+                    print(error.debugDescription)
+                } else{
+                    if let batchID = String(data: data!, encoding: String.Encoding.utf8){
                         
-                        if error != nil{
-                            print(error.debugDescription)
-                        } else{
-                            if let data = data, let jsonDictionary = weakSelf?.parse(json: data) {
-                                //print("\(jsonDictionary)")
-                                
-                                if let list = jsonDictionary["list"] as? [Any]{
+                        //print("\(batchID)")
+                        //取batchHTML
+                        
+                        let getBatchHTMLStr = String(format: "%@/getBatchHtml?deviceid=%@&batch_id=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, DBManager.shared.systemInfo.deviceUUID, batchID]).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                        //print("\(getBatchHTMLStr)")
+                        let url2 = URL(string:getBatchHTMLStr)!
+                        
+                        var request2 = URLRequest(url: url2)
+                        request2.httpMethod = "POST"
+                        
+                        let session2 = URLSession.shared
+                        let task2 = session2.dataTask(with: request2 as URLRequest) { data, response, error in
+                            
+                            if error != nil{
+                                print(error.debugDescription)
+                            } else{
+                                if let data = data, let jsonDictionary = weakSelf?.parse(json: data) {
+                                    //print("\(jsonDictionary)")
                                     
                                     if let list = jsonDictionary["list"] as? [Any]{
                                         
