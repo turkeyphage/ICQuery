@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import UserNotifications
+import SafariServices
 
 class SearchViewController: UIViewController{
     
@@ -21,8 +23,11 @@ class SearchViewController: UIViewController{
     @IBOutlet weak var versionLabel: UILabel!
     
     
+    var myTimer : Timer?
+    
     var batchDealer : BatchDealer?
     
+    let requestIdentifier = "icquery.priceUpdate"
     
     var userID : String?
     
@@ -46,6 +51,7 @@ class SearchViewController: UIViewController{
     var loginStatus:Bool = false {
         didSet {
             change_login_label(login: loginStatus)
+            
         }
     }
     
@@ -57,14 +63,25 @@ class SearchViewController: UIViewController{
     
     deinit {
         print("deinit of SearchViewController")
+        myTimer?.invalidate()
+    
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //version
+        //clear all notification
+        if #available(iOS 10.0, *) {
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [requestIdentifier])
+        } else {
+            // Fallback on earlier versions
+        }
         
+        
+        
+        //version
         var appVersion = ""
         
         //CFBundleVersion
@@ -107,6 +124,8 @@ class SearchViewController: UIViewController{
         
         
         auto_login()
+        
+        //prepareNotification()
         
         
     }
@@ -192,13 +211,13 @@ class SearchViewController: UIViewController{
         
         if loginStatus {
             //self.loginButton.isEnabled = false
-
-        
+            
+            
             let alert = UIAlertController(title: "你目前已經登入囉", message:nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style:.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
- 
-        
+            
+            
             //return
         } else {
             UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
@@ -366,8 +385,8 @@ class SearchViewController: UIViewController{
                                     hud.removeFromSuperview()
                                 })
                             }
-                        
-                        
+                            
+                            
                         }
                     }
                 }
@@ -384,17 +403,28 @@ class SearchViewController: UIViewController{
         } catch{
             print("JSON Error:\(error)")
             
-//            DispatchQueue.main.async {
-//                let alert = UIAlertController(title: "查無資料", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
-//                self.present(alert, animated: true, completion:nil)
-//            }
-//            
-            
+            //            DispatchQueue.main.async {
+            //                let alert = UIAlertController(title: "查無資料", message: "請再嘗試用其他關鍵字進行搜尋", preferredStyle: .alert)
+            //                alert.addAction(UIAlertAction(title: "OK", style:.default, handler:nil))
+            //                self.present(alert, animated: true, completion:nil)
+            //            }
+            //
             return nil
         }
-        
     }
+    
+    
+    func parseToJSONArray(json data:Data) -> [[String : Any]]? {
+        
+        do {
+            return try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String: Any]]
+        } catch{
+            print("JSON Error:\(error)")
+            return nil
+        }
+    }
+    
+    
     
     
     func get_total(dictionary:[String:Any]) -> Int{
@@ -456,6 +486,7 @@ class SearchViewController: UIViewController{
     func change_login_label(login:Bool){
         if login {
             self.loginStatusLabel.text = self.account
+            prepareNotification()
         } else {
             self.loginStatusLabel.text = "未登入"
         }
@@ -494,7 +525,7 @@ class SearchViewController: UIViewController{
             let task = session.dataTask(with: request as URLRequest) { data, response, error in
                 
                 if error != nil{
-                
+                    
                     print(error.debugDescription)
                 } else {
                     if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
@@ -502,7 +533,7 @@ class SearchViewController: UIViewController{
                             //資料有誤！
                             DispatchQueue.main.async {
                                 self.loginStatus = false
-                            }  
+                            }
                         } else {
                             
                             
@@ -519,21 +550,21 @@ class SearchViewController: UIViewController{
                             
                             //更換account table資料
                             DBManager.shared.update_data(inTable: "accountinfo", column_name: DBManager.shared.field_LoginDate, new_Data: formatter.string(from: date), withReference: DBManager.shared.field_ServerLog, referValue: syslog)
-
+                            
                             // 更換登入狀態
                             DispatchQueue.main.async {
                                 self.account = email
                                 self.loginStatus = true
-
+                                
                             }
- 
+                            
                         }
                     }
                 }
             }
             task.resume()
         }
-
+        
     }
     
     
@@ -550,7 +581,7 @@ class SearchViewController: UIViewController{
             self.autoCompleteTask.cancel()
         }
         
-
+        
         autocompleteCacheItems = []
         
         // 呼叫API
@@ -593,6 +624,196 @@ class SearchViewController: UIViewController{
     }
     
     
+    func prepareNotification(){
+        // 確認serverLog值存在
+        let availableAccount = DBManager.shared.checkAccountTable()
+        
+        print("\(availableAccount)")
+        
+        if let serverlog = availableAccount?.serverLog{
+            print("\(serverlog)")
+            
+            myTimer = Timer.scheduledTimer(timeInterval: 60*30, target: self, selector: #selector(self.setPriceNotification(timer:)), userInfo: serverlog, repeats: true)
+            
+        } else {
+            
+        }
+        
+    }
+    
+    
+    func setPriceNotification(timer:Timer){
+        //print("\(serverLog)")
+        
+        
+        let serverLog = timer.userInfo as! String
+        
+        if #available(iOS 10.0, *) {
+            let deviceAPI = API_Manager.shared.DEVICE_API_PATH
+            //"latitude", "longitude"
+            let latitude = DBManager.shared.get_device_position()["latitude"]!
+            let longitude = DBManager.shared.get_device_position()["longitude"]!
+            
+            //name=UUID
+            let deviceid = DBManager.shared.systemInfo.deviceUUID
+            
+            
+            let combinedStr = String(format: "%@/getPriceAlert?deviceid=%@&latitude=%@&longtitude=%@&user_id=%@", arguments: [deviceAPI!, deviceid, latitude, longitude, serverLog])
+            let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+            
+            
+            print("\(escapedStr)")
+            
+            //放request
+            let url = URL(string: escapedStr)
+            var request = URLRequest(url: url!)
+            request.httpMethod = "POST"
+            
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                if error != nil{
+                    print("\(error)")
+                    
+                } else {
+                    
+                    if let data = data, let jsonArray = self.parseToJSONArray(json: data) {
+                        print("\(jsonArray)")
+                        
+                        if !jsonArray.isEmpty {
+                            var contentString = ""
+                            var countIndex = 0
+                            //var allItem = [[String:String?]]()
+                            
+                            for item in jsonArray {
+                                
+                                if let pn = item["pn"] as? String {
+                                    //allItem.append(["id": String(id), "url":url, "pn":pn])
+                                    if countIndex == jsonArray.count-1{
+                                        contentString += pn
+                                    } else {
+                                        contentString = contentString + pn + ", "
+                                    }
+                                }
+                                countIndex += 1
+                            }
+                            print("\(contentString)")
+                            
+                            
+                            if let topController = UIApplication.topViewController() {
+                                
+                                print("topController = \(topController)")
+                                
+                                
+                                let alert = UIAlertController(title: "<價格更新通知>", message: "以下產品價格有更動：\(contentString)", preferredStyle: .alert)
+                                
+                                
+                                
+                                
+                                
+                                for item in jsonArray {
+                                    
+                                    if let pn = item["pn"] as? String, let id = item["id"] as? Int, let url = item["url"] as? String{
+                                        let action = UIAlertAction(title: "查看 \(pn)", style: UIAlertActionStyle.default, handler: { (alertaction) in
+                                            
+                                            let svc = SFSafariViewController(url: URL(string: url)!)
+                                            topController.present(svc, animated: true, completion: {
+                                                
+                                                
+                                                let pid = "\(id)"
+                                                let name = DBManager.shared.systemInfo.deviceUUID
+                                                let latitude = DBManager.shared.get_device_position()["latitude"]!
+                                                let longitude = DBManager.shared.get_device_position()["longitude"]!
+                                                let userid = self.account
+                                                let action = "d"
+                                                let stock = "0"
+                                                let price = ""
+                                                let purl = url
+                                                
+                                                let combinedStr = String(format: "%@/setPriceAlert?pid=%@&deviceid=%@&latitude=%@&longtitude=%@&user_id=%@&action=%@&stock=%@&price=%@&url=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, pid, name, latitude, longitude, userid!, action, stock, price, purl])
+                                                
+                                                
+                                                let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                                                print("\(escapedStr)")
+                                                
+                                                let url = URL(string:escapedStr)!
+                                                
+                                                var request = URLRequest(url: url)
+                                                request.httpMethod = "POST"
+                                                
+                                                let session = URLSession.shared
+                                                
+                                                let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                                                    
+                                                    
+                                                    if error != nil{
+                                                        
+                                                        print(error.debugDescription)
+                                                    } else {
+                                                        if let serverTalkBack = String(data: data!, encoding: String.Encoding.utf8){
+                                                            if serverTalkBack == "1"{
+                                                                print("成功移除")
+                                                            } else {
+                                                                print("失敗")
+                                                            }
+                                                            
+                                                        }
+                                                    }
+                                                }
+                                                task.resume()
+                                                
+                                            })
+                                            
+                                            //(svc, animated: true, completion: nil)
+                                        })
+                                        
+                                        alert.addAction(action)
+                                        
+                                    }
+                                }
+                                
+                                
+                                
+                                
+                                alert.addAction(UIAlertAction(title: "返回", style:.cancel, handler:nil))
+                                topController.present(alert, animated: true, completion:nil)
+                                
+                            }
+                            
+                            
+                            //                            let content = UNMutableNotificationContent()
+                            //                            content.title = "<價格更新通知>"
+                            //                            content.subtitle = "以下產品價格有更動："
+                            //                            content.body = contentString
+                            //
+                            //                            content.sound = UNNotificationSound.default()
+                            //                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+                            //                            let notificationRequest = UNNotificationRequest(identifier: "icquery.priceUpdate", content: content, trigger: trigger)
+                            //                            UNUserNotificationCenter.current().delegate = self
+                            //                            UNUserNotificationCenter.current().add(notificationRequest, withCompletionHandler: nil)
+                            //
+                        }
+                        
+                    } else {
+                        print("not a array")
+                        print("\(data)")
+                    }
+                }
+            }
+            task.resume()
+            
+            
+        } else {
+            // Fallback on earlier versions
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
     
     
     //****************************************//
@@ -623,7 +844,7 @@ extension SearchViewController:UITextFieldDelegate{
     
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
+        
         //增加的時候
         let newLength = (textField.text?.characters.count)! + string.characters.count - range.length
         if newLength >= 3 {
@@ -666,7 +887,7 @@ extension SearchViewController:UIGestureRecognizerDelegate{
 extension SearchViewController:UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        
         let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionCell
         
         //print("cell selected: \(cell.tag)")
@@ -770,7 +991,7 @@ extension SearchViewController:UICollectionViewDelegate{
             }
             
             task.resume()
-
+            
         }
         
         
@@ -974,7 +1195,7 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
 
 // syslog
 extension UIViewController{
-
+    
     func searchLogSend(searchStr: String, key: String){
         //要用post
         //"latitude", "longitude"
@@ -987,7 +1208,7 @@ extension UIViewController{
         let combinedStr = String(format: "%@/syslog?deviceid=%@&latitude=%@&longtitude=%@&key=%@&value=%@", arguments: [API_Manager.shared.DEVICE_API_PATH, name, latitude, longitude, key , searchStr])
         let escapedStr = combinedStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         //print("\(escapedStr)")
-
+        
         let url = URL(string:escapedStr)!
         
         var request = URLRequest(url: url)
@@ -1009,9 +1230,35 @@ extension UIViewController{
         }
         task.resume()
     }
-
-
+    
+    
 }
+
+
+//extension SearchViewController:UNUserNotificationCenterDelegate{
+//
+//    @available(iOS 10.0, *)
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//
+//        print("Tapped in notification")
+//    }
+//
+//    //This is key callback to present notification while the app is in foreground
+//    @available(iOS 10.0, *)
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//
+//        print("Notification being triggered")
+//        //You can either present alert ,sound or increase badge while the app is in foreground too with ios 10
+//        //to distinguish between notifications
+//        if notification.request.identifier == requestIdentifier{
+//
+//            completionHandler( [.alert,.sound,.badge])
+//
+//        }
+//    }
+//}
+
+
 
 
 

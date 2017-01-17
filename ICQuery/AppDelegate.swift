@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import UserNotifications
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +19,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+//        if #available(iOS 10.0, *){
+//            UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert], completionHandler: { (granted, error) in
+//                if (granted){
+//                    UIApplication.shared.registerForRemoteNotifications()
+//                    print("allowed")
+//                } else {
+//                    print("not allowed")
+//                }
+//            })
+//            
+//        }else{ //If user is not on iOS 10 use the old methods we've been using
+//            let type: UIUserNotificationType = [UIUserNotificationType.badge, UIUserNotificationType.alert, UIUserNotificationType.sound]
+//            let setting = UIUserNotificationSettings(types: type, categories: nil)
+//            UIApplication.shared.registerUserNotificationSettings(setting)
+//            UIApplication.shared.registerForRemoteNotifications()
+//        }
+
         
+        
+      
         
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore  {
@@ -75,11 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             task.resume()
 
         }
-        
- 
-        
-        
-        
+
         
         //sleep(2)
         return true
@@ -93,6 +110,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        
+        
+        
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -111,10 +132,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         //self.saveContext()
+//        if #available(iOS 10.0, *) {
+//            let center = UNUserNotificationCenter.current()
+//            center.removePendingNotificationRequests(withIdentifiers: ["icquery.priceUpdate"])
+//        } else {
+//            // Fallback on earlier versions
+//        }
     }
 
     
     
+    func registerForPushNotifications(application: UIApplication) {
+        
+        
+    }
+    
+    
+    
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
+        let token = String(format: "%@", deviceToken as CVarArg)
+        print("\(token)")
+    }
     
     /*
     // MARK: - Core Data stack
@@ -164,3 +203,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      */
 }
 
+
+
+extension UIApplication {
+    class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let navigationController = controller as? UINavigationController {
+            return topViewController(controller: navigationController.visibleViewController)
+        }
+        if let tabController = controller as? UITabBarController {
+            if let selected = tabController.selectedViewController {
+                return topViewController(controller: selected)
+            }
+        }
+        if let presented = controller?.presentedViewController {
+            return topViewController(controller: presented)
+        }
+        return controller
+    }
+}
